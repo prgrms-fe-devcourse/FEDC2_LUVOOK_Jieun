@@ -16,7 +16,7 @@ const DefaultButton = styled.button`
 const Button = ({ buttonStyle, children, onClick, ...props }) => {
   return (
     <DefaultButton
-      className={buttonStyle ? buttonStyle : 'button--default'}
+      className={buttonStyle ? buttonStyle : undefined}
       onClick={onClick}
       style={{ ...props.style }}
       {...props}
