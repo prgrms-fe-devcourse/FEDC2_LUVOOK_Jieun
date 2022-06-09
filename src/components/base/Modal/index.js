@@ -30,9 +30,26 @@ const ModalContainer = styled.div`
   border-radius: 8px;
 `
 
-const Modal = ({ children, width, height, visible = false, onClose, ...props }) => {
-  const ref = useClickAway(() => {
-    onClose && onClose()
+const ModalCloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  &::after {
+    content: 'X';
+  }
+`
+
+const Modal = ({
+  children,
+  width,
+  height,
+  visible = false,
+  onClose,
+  activeWrapper = true,
+  ...props
+}) => {
+  const onClickModalWrapper = useClickAway(() => {
+    activeWrapper && onClose && onClose()
   })
 
   const containerStyle = useMemo(
@@ -53,7 +70,12 @@ const Modal = ({ children, width, height, visible = false, onClose, ...props }) 
 
   return ReactDOM.createPortal(
     <BackgroundDim style={{ display: visible ? 'block' : 'none' }}>
-      <ModalContainer ref={ref} {...props} style={{ ...props.style, ...containerStyle }}>
+      <ModalContainer
+        ref={onClickModalWrapper}
+        {...props}
+        style={{ ...props.style, ...containerStyle }}
+      >
+        <ModalCloseButton onClick={onClose} />
         {children}
       </ModalContainer>
     </BackgroundDim>,
@@ -61,12 +83,17 @@ const Modal = ({ children, width, height, visible = false, onClose, ...props }) 
   )
 }
 
+Modal.defaultProps = {
+  activeWrapper: true,
+}
+
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   visible: PropTypes.bool,
-  onClose: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
+  activeWrapper: PropTypes.bool,
 }
 
 export default Modal

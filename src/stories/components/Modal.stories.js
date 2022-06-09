@@ -6,25 +6,30 @@ export default {
   component: Modal,
 }
 
-const SampleComponent = ({ onClose }) => {
+export const Default = () => {
+  const [showModal, setShowModal] = useState(false)
+
   return (
     <div>
-      <h1>모달이 쨘!</h1>
-      <button onClick={onClose}>X</button>
+      <Modal visible={showModal} onClose={() => setShowModal(false)}>
+        <h1>모달이 쨘!</h1>
+      </Modal>
+      <h1>여기는 메인 화면이에요</h1>
+      <button onClick={() => setShowModal(true)}>모달을 띄우는 버튼</button>
     </div>
   )
 }
 
-export const Default = () => {
-  const [visible, setVisible] = useState(false)
+export const NotActiveWrapper = () => {
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <div>
-      <Modal visible={visible} onClose={() => setVisible(false)}>
-        <SampleComponent onClose={() => setVisible(false)} />
+      <Modal visible={showModal} onClose={() => setShowModal(false)} activeWrapper={false}>
+        <h1>이 모달은 바깥을 눌러도 닫히지 않아요</h1>
       </Modal>
       <h1>여기는 메인 화면이에요</h1>
-      <button onClick={() => setVisible(true)}>모달을 띄우는 버튼</button>
+      <button onClick={() => setShowModal(true)}>모달을 띄우는 버튼</button>
     </div>
   )
 }
