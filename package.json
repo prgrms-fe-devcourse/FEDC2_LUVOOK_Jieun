@@ -1,0 +1,77 @@
+{
+  "name": "fedc2_luvook_jieun",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^6.4.3",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.27.2",
+    "craco": "^0.0.3",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@emotion/babel-plugin": "^11.9.2",
+    "@storybook/addon-actions": "^6.5.7",
+    "@storybook/addon-essentials": "^6.5.7",
+    "@storybook/addon-interactions": "^6.5.7",
+    "@storybook/addon-links": "^6.5.7",
+    "@storybook/builder-webpack5": "^6.5.7",
+    "@storybook/manager-webpack5": "^6.5.7",
+    "@storybook/node-logger": "^6.5.7",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.7",
+    "@storybook/testing-library": "^0.0.11",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "prettier": "2.6.2",
+    "prop-types": "^15.8.1",
+    "webpack": "^5.73.0"
+  }
+}
