@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 
 const Line = styled.hr`
   border: none;
-  background-color: #aaa;
+  background-color: #743737;
 
   &.vertical {
     position: relative;
