@@ -22,20 +22,27 @@ const ModalContainer = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   padding: 8px;
+  transform: translate(-50%, -50%);
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   box-sizing: border-box;
   border-radius: 8px;
 `
 
+// Todo
+// 1. 버튼 안에 'X'를 아이콘으로 변경
+// 2. 임시로 최소 스타일링만 해놓았습니다, color같은 부분은 추후 디자인할때 다시 수정하면 좋을 것 같아요.
 const ModalCloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
-  &::after {
-    content: 'X';
+  top: 8px;
+  right: 8px;
+  background-color: #fafafa;
+  border: 0.5px solid gray;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: gray;
   }
 `
 
