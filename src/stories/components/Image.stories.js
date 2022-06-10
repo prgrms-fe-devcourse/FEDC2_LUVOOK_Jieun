@@ -56,6 +56,9 @@ export const Default = (args) => {
 export const Lazy = (args) => {
   return (
     <div>
+      <h1>Lazy Loding 예시</h1>
+      <h2>이미지 크기를 키우면 확인이 쉽습니다</h2>
+
       {Array.from(new Array(20), (_, k) => k).map((i) => (
         <Image {...args} lazy block src={`${args.src}?${i}`} key={i} />
       ))}
