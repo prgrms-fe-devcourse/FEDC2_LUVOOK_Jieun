@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 const Wrapper = styled.div`
   display: ${({ block }) => (block ? 'block' : 'inline-block')};
@@ -60,22 +60,22 @@ const Select = ({
 }
 
 Select.propTypes = {
-  data: propTypes.arrayOf(
-    propTypes.oneOfType([
-      propTypes.string,
-      propTypes.shape({
-        label: propTypes.string,
-        value: propTypes.string,
+  data: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string,
       }),
     ])
   ),
-  label: propTypes.string,
-  placeholder: propTypes.string,
-  block: propTypes.bool,
-  invalid: propTypes.bool,
-  required: propTypes.bool,
-  disabled: propTypes.bool,
-  wrapperProps: propTypes.object,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  block: PropTypes.bool,
+  invalid: PropTypes.bool,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  wrapperProps: PropTypes.object,
 }
 
 export default Select
