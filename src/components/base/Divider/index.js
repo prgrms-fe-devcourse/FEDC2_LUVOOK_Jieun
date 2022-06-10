@@ -16,22 +16,24 @@ const Line = styled.hr`
 
   &.horizontal {
     display: block;
-    width: 100%;
     height: 1px;
   }
 `
 
-const Divider = ({ type = 'horizontal', size = 8, ...props }) => {
+const Divider = ({ type = 'horizontal', width = '100%', size = 8, ...props }) => {
   const dividerStyle = {
     margin: type === 'vertical' ? `0 ${size}px` : `${size}px 0`,
   }
 
-  return <Line {...props} className={type} style={{ ...dividerStyle, ...props.style }} />
+  return (
+    <Line {...props} width={width} className={type} style={{ ...dividerStyle, ...props.style }} />
+  )
 }
 
 Divider.propTypes = {
   type: PropTypes.oneOf(['horizontal', 'vertical']),
   size: PropTypes.number,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export default Divider
