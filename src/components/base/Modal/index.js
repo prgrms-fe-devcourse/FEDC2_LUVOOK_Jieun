@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import ReactDOM from 'react-dom'
 import { useEffect, useMemo } from 'react'
-import useClickAway from '@hooks/useClickAway'
+import { useClickAway } from '@hooks'
 
 const BackgroundDim = styled.div`
   box-sizing: border-box;
