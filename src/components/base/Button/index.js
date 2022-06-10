@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import './Button.css'
 import PropTypes from 'prop-types'
 
 const DefaultButton = styled.button`
