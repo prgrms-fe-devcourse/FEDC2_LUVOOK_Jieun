@@ -13,14 +13,9 @@ const DefaultButton = styled.button`
   }
 `
 
-const Button = ({ buttonStyle, children, onClick, ...props }) => {
+const Button = ({ children, onClick, ...props }) => {
   return (
-    <DefaultButton
-      className={buttonStyle ? buttonStyle : undefined}
-      onClick={onClick}
-      style={{ ...props.style }}
-      {...props}
-    >
+    <DefaultButton onClick={onClick} style={{ ...props.style }} {...props}>
       {children}
     </DefaultButton>
   )
@@ -28,7 +23,6 @@ const Button = ({ buttonStyle, children, onClick, ...props }) => {
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  buttonStyle: PropTypes.string,
   onClick: PropTypes.func,
 }
 
