@@ -1,4 +1,4 @@
-import Image from '@components/base/Image'
+import { Image } from '@components'
 
 export default {
   title: 'Component/Image',
