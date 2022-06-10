@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import ReactDOM from 'react-dom'
 import { useEffect, useMemo } from 'react'
-import useClickAway from '../../../hooks/useClickAway'
+import useClickAway from '@hooks/useClickAway'
 
 const BackgroundDim = styled.div`
   box-sizing: border-box;
@@ -45,11 +45,11 @@ const Modal = ({
   height,
   visible = false,
   onClose,
-  activeWrapper = true,
+  closeOnClickOutside = true,
   ...props
 }) => {
   const onClickModalWrapper = useClickAway(() => {
-    activeWrapper && onClose && onClose()
+    closeOnClickOutside && onClose && onClose()
   })
 
   const containerStyle = useMemo(
@@ -75,7 +75,7 @@ const Modal = ({
         {...props}
         style={{ ...props.style, ...containerStyle }}
       >
-        <ModalCloseButton onClick={onClose} />
+        <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
         {children}
       </ModalContainer>
     </BackgroundDim>,
@@ -84,7 +84,7 @@ const Modal = ({
 }
 
 Modal.defaultProps = {
-  activeWrapper: true,
+  closeOnClickOutside: true,
 }
 
 Modal.propTypes = {
@@ -93,7 +93,7 @@ Modal.propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   visible: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  activeWrapper: PropTypes.bool,
+  closeOnClickOutside: PropTypes.bool,
 }
 
 export default Modal
