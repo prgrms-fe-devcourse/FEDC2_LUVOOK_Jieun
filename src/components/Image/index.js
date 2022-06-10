@@ -34,9 +34,6 @@ const Image = ({
     width,
     height,
     objectFit: mode,
-    filter: loaded ? 'none' : 'blur(10px)',
-    'clip-path': loaded ? 'none' : 'inset(0)',
-    transition: loaded ? 'filter 0.5s linear' : undefined,
   }
 
   useEffect(() => {
