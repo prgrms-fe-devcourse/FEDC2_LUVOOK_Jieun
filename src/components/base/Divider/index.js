@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import PropTypes from 'prop-types'
 
 const Line = styled.hr`
   border: none;
@@ -26,6 +27,11 @@ const Divider = ({ type = 'horizontal', size = 8, ...props }) => {
   }
 
   return <Line {...props} className={type} style={{ ...dividerStyle, ...props.style }} />
+}
+
+Divider.propTypes = {
+  type: PropTypes.oneOf(['horizontal', 'vertical']),
+  size: PropTypes.number,
 }
 
 export default Divider
