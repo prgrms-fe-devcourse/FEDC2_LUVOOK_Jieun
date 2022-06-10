@@ -6,7 +6,7 @@ const fontSizeMap = {
   large: 20,
 }
 
-const calculateFontSize = (size) => {
+const formattedSize = (size) => {
   if (fontSizeMap[size]) return fontSizeMap[size]
 
   if (typeof size === 'number') return size
@@ -19,7 +19,7 @@ const Text = ({ children, size, color, block, paragraph, strong, ...props }) => 
 
   const fontStyle = {
     fontWeight: strong ? 'bold' : undefined,
-    fontSize: calculateFontSize(size),
+    fontSize: formattedSize(size),
     color,
   }
 
