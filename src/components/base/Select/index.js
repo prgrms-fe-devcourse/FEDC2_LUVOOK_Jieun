@@ -1,11 +1,12 @@
 import styled from '@emotion/styled'
+import propTypes from 'prop-types'
 
 const Wrapper = styled.div`
-  display: ${({ block }) => (block ? 'block' : 'inline=block')};
+  display: ${({ block }) => (block ? 'block' : 'inline-block')};
 `
 
 const Label = styled.label`
-  display: block;
+  display: none;
   font-size: 16px;
   color: #743737;
   margin-bottom: 5px;
@@ -56,6 +57,25 @@ const Select = ({
       </StyledSelect>
     </Wrapper>
   )
+}
+
+Select.propTypes = {
+  data: propTypes.arrayOf(
+    propTypes.oneOfType([
+      propTypes.string,
+      propTypes.shape({
+        label: propTypes.string,
+        value: propTypes.string,
+      }),
+    ])
+  ),
+  label: propTypes.string,
+  placeholder: propTypes.string,
+  block: propTypes.bool,
+  invalid: propTypes.bool,
+  required: propTypes.bool,
+  disabled: propTypes.bool,
+  wrapperProps: propTypes.object,
 }
 
 export default Select
