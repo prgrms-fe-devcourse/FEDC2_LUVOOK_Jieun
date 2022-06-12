@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { SET_USER, RESET_USER, SET_LOADING } from './constants'
+import { SET_USER, RESET_USER, SET_LOADING, SET_LOADING_DONE } from './constants'
 
 export const initialUserData = {
   currentUser: {
@@ -34,6 +34,11 @@ export const reducer = (state, { type, payload }) => {
       return {
         ...state,
         isLoading: true,
+      }
+    case SET_LOADING_DONE:
+      return {
+        ...state,
+        isLoading: false,
       }
     default:
       throw new Error(`Unknown action type: ${type}`)

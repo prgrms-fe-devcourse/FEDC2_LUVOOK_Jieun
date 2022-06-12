@@ -27,6 +27,8 @@ const Pages = () => {
       <Button onClick={() => onLogin(loginInfo)}>로그인 버튼</Button>
       <Button onClick={() => onLogout()}>로그아웃 버튼</Button>
 
+      {currentUserState.isLoading && <Text>로딩중...</Text>}
+
       {isAuth && (
         <div>
           <Title level={2}>로그인 인증 완료</Title>

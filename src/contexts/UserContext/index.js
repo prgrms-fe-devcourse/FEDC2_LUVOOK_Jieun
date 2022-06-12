@@ -1,16 +1,14 @@
 import React, { createContext, useContext, useState, useReducer, useCallback } from 'react'
 import { reducer, initialUserData } from './reducer'
-import { SET_USER, RESET_USER, SET_LOADING } from './constants'
+import { SET_USER, RESET_USER, SET_LOADING, SET_LOADING_DONE } from './constants'
 // 동작 테스트를 위한 더미데이터, api 구현 후 대체할 부분
 import { handleLogin, handleLogout, handleAuth } from './test'
 
 export const useUserContext = () => {
   const context = useContext(UserContext)
-
   if (context === undefined) {
     throw new Error('useUserContext was used outside of its Provider')
   }
-
   return context
 }
 
@@ -23,11 +21,12 @@ export const UserContextProvider = ({ children }) => {
   const onAuth = useCallback(
     // TODO: api 통신을 통해 사용자가 인증이 되었는지 확인합니다.
     async (token) => {
+      dispatch({ type: SET_LOADING })
       const userData = await handleAuth(token)
-
       if (userData.user) {
         setIsAuth(true)
       }
+      dispatch({ type: SET_LOADING_DONE })
     },
     [handleAuth]
   )
@@ -38,9 +37,9 @@ export const UserContextProvider = ({ children }) => {
       dispatch({ type: SET_LOADING })
       const userData = await handleLogin(loginInfo)
       const { user, token } = userData
+      // 인증 후 로그인
+      await onAuth(token)
       dispatch({ type: SET_USER, payload: user })
-      // 로그인 후 인증
-      onAuth(token)
     },
     [handleLogin]
   )
