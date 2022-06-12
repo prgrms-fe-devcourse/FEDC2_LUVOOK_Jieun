@@ -17,7 +17,7 @@ export const useUserContext = () => {
 const UserContext = createContext()
 
 export const UserContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialUserData)
+  const [currentUserState, dispatch] = useReducer(reducer, initialUserData)
   const [isAuth, setIsAuth] = useState(false) // 현재 사용자의 auth 정보
 
   const onAuth = useCallback(
@@ -54,7 +54,7 @@ export const UserContextProvider = ({ children }) => {
   }, [handleLogout])
 
   return (
-    <UserContext.Provider value={{ state, isAuth, onAuth, onLogin, onLogout }}>
+    <UserContext.Provider value={{ currentUserState, isAuth, onAuth, onLogin, onLogout }}>
       {children}
     </UserContext.Provider>
   )

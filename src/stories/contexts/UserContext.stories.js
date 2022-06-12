@@ -20,7 +20,7 @@ const App = () => {
 }
 
 const Pages = () => {
-  const { state, isAuth, onAuth, onLogin, onLogout } = useUserContext()
+  const { currentUserState, isAuth, onAuth, onLogin, onLogout } = useUserContext()
 
   return (
     <div>
@@ -31,10 +31,10 @@ const Pages = () => {
         <div>
           <Title level={2}>로그인 인증 완료</Title>
           <div>
-            <Avatar src={state.currentUser.image} />
-            <Title level={2}>{state.currentUser.fullName}</Title>
-            <Title level={3}>{state.currentUser.fullName}의 문구</Title>
-            <Text size="normal">{state.currentUser.role.quote}</Text>
+            <Avatar src={currentUserState.currentUser.image} />
+            <Title level={2}>{currentUserState.currentUser.fullName}</Title>
+            <Title level={3}>{currentUserState.currentUser.fullName}의 문구</Title>
+            <Text size="normal">{currentUserState.currentUser.role.quote}</Text>
           </div>
         </div>
       )}
