@@ -3,13 +3,6 @@ import PropTypes from 'prop-types'
 
 const DefaultButton = styled.button`
   cursor: pointer;
-  border: none;
-  transition-duration: 0.2s;
-  transition-property: transform;
-
-  &:hover {
-    transform: scale(1.05);
-  }
 `
 
 const Button = ({ children, onClick, ...props }) => {
