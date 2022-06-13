@@ -1,22 +1,19 @@
-import axios from 'axios'
-import { getItem } from '@utils/storage'
+export { login, logout, signUp, getAuthUser } from './api/auth'
+export { getChannelInfo, getChannelList } from './api/channel'
+export { getNotificationList, createNotification } from './api/notification'
+export {
+  getPostListInChannel,
+  getPostListInUser,
+  createPost,
+  readPost,
+  updatePost,
+  deletePost,
+  createLikeInPost,
+  deleteLikeInPost,
+  createCommentInPost,
+  deleteCommentInPost,
+} from './api/post'
+export { getSearchedUserList, getSearchedBookList } from './api/search'
+export { getUserInfo, updateUserProfileImg, updateUserName, updateUserPassword } from './api/user'
 
-const { REACT_APP_BASE_URL } = process.env
-
-const baseAPI = (url, options) => {
-  return axios.create({ baseURL: url, ...options })
-}
-
-const authAPI = (url, options) => {
-  const token = getItem('jwt_token')
-  return axios.create({
-    baseURL: url,
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-    ...options,
-  })
-}
-
-export const baseInstance = baseAPI(REACT_APP_BASE_URL)
-export const authInstance = authAPI(REACT_APP_BASE_URL)
+export { getCleanUserInfo } from './services/user'
