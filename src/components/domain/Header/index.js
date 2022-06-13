@@ -83,7 +83,7 @@ const Header = () => {
               <Icon name={'search'} size={35} />
             </button>
           </div>
-          <Badge count={1} maxCount={99} showZero={false}>
+          <Badge count={0} maxCount={99} showZero={false}>
             <Notification />
           </Badge>
           <User />

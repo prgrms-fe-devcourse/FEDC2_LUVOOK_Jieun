@@ -1,4 +1,5 @@
 import styled from '@emotion/styled'
+import PropTypes from 'prop-types'
 
 const BadgeContainer = styled.div`
   position: relative;
@@ -30,6 +31,13 @@ const Badge = ({ children, count, maxCount, showZero, ...props }) => {
       ) : null}
     </BadgeContainer>
   )
+}
+
+Badge.propTypes = {
+  children: PropTypes.node.isRequired,
+  count: PropTypes.number,
+  maxCount: PropTypes.number,
+  showZero: PropTypes.bool,
 }
 
 export default Badge
