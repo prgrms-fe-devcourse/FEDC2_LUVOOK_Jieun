@@ -28,22 +28,37 @@ const Bookmark = styled.button`
 `
 
 /**************** PostHeader *****************/
-const PostHeaderContainer = styled.div`
+const PostHeaderUserContainer = styled.div`
   display: flex;
   align-items: center;
+`
+
+const AuthorizedButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `
 
 const PostHeader = ({ author, createdAt }) => {
   const { _id: userId, image, fullName: username } = author
 
+  // TODO
+  // 1. AuthorizedButtons 컴포넌트는 UserContext가 필요하다.
+  // 2. 현재 포스트의 author.userId가 로그인된 유저와 동일할 때만 보여준다.
+
   return (
-    <PostHeaderContainer>
-      <Avatar src={image || defaultImage} />
-      <div>
-        <Text block>{username}</Text>
-        <Text block>{formatTime(createdAt)}</Text>
-      </div>
-    </PostHeaderContainer>
+    <>
+      <PostHeaderUserContainer>
+        <Avatar src={image || defaultImage} />
+        <div>
+          <Text block>{username}</Text>
+          <Text block>{formatTime(createdAt)}</Text>
+        </div>
+      </PostHeaderUserContainer>
+      <AuthorizedButtons>
+        <Button>수정</Button>
+        <Button>삭제</Button>
+      </AuthorizedButtons>
+    </>
   )
 }
 
