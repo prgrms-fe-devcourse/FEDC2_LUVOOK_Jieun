@@ -9,3 +9,6 @@ export { default as Icon } from './base/Icon'
 export { default as Text } from './base/Text'
 export { default as Divider } from './base/Divider'
 export { default as Avatar } from './base/Avatar'
+
+export { default as Login } from './domain/Form/Login'
+export { default as SignUp } from './domain/Form/SignUp'
