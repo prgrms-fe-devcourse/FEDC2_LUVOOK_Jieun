@@ -16,10 +16,12 @@ module.exports = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, '../src/'),
+      '@apis': path.resolve(__dirname, '../src/apis'),
       '@components': path.resolve(__dirname, '../src/components'),
       '@hooks': path.resolve(__dirname, '../src/hooks'),
       '@contexts': path.resolve(__dirname, '../src/contexts'),
       '@pages': path.resolve(__dirname, '../src/pages'),
+      '@utils': path.resolve(__dirname, '../src/utils'),
     }
     return config
   },
