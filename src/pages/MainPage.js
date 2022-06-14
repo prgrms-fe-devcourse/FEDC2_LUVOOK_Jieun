@@ -1,4 +1,4 @@
-import Header from '../components/domain/Header'
+import { Header } from '@components'
 
 const MainPage = () => {
   return (
