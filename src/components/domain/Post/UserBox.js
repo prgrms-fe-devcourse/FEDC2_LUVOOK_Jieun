@@ -1,6 +1,6 @@
 import { Avatar } from '@components'
 
-const defaultImageUrl = 'https://source.unsplash.com/random'
+const DEFAULT_IMAGE_URL = 'https://source.unsplash.com/random'
 
 const tagMap = {
   li: 'li',
@@ -17,7 +17,7 @@ const UserBox = ({ children, image, tag = 'div', avatarSize, ...props }) => {
 
   return (
     <Tag style={{ ...defaultStyle, ...props.style }} {...props}>
-      <Avatar size={avatarSize} src={image || defaultImageUrl} />
+      <Avatar size={avatarSize} src={image || DEFAULT_IMAGE_URL} />
       <div>{children}</div>
     </Tag>
   )
