@@ -93,22 +93,22 @@ const DUMMY_POST = {
 }
 
 export const Default = () => {
-  const [data, setData] = useState(null)
+  const [post, setpost] = useState(null)
 
   const handleOnClick = (post) => {
     console.log(post)
-    setData(post)
+    setpost(post)
   }
 
   return (
     <>
       <BookCard post={DUMMY_POST} handleOnClick={handleOnClick} />
 
-      {data && (
+      {post && (
         <div>
-          <h1>title : {data.title.bookTitle}</h1>
-          <h2>author : {data.author.fullName}</h2>
-          <p>한 구절 : {data.title.postQuote}</p>
+          <h1>title : {post.title.bookTitle}</h1>
+          <h2>author : {post.author.fullName}</h2>
+          <p>한 구절 : {post.title.postQuote}</p>
         </div>
       )}
     </>
