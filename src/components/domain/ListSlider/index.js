@@ -1,18 +1,14 @@
-import styled from '@emotion/styled'
 import PropTypes from 'prop-types'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/grid'
-import { Image, BookCard } from '@components'
+import { BookCard } from '@components'
 import { Navigation, Grid } from 'swiper'
 
 const slideContextCenterStyle = {
   width: 'fit-content',
-  display: '-webkit-box',
-  display: '-ms-flexbox',
-  display: '-webkit-flex',
   display: 'flex',
   justifyContent: 'space-between',
   '-webkit-box-pack': 'center',
