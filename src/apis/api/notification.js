@@ -16,4 +16,12 @@ const createNotification = async (notification) => {
   }
 }
 
-export { getNotificationList, createNotification }
+const checkSeenNotification = async () => {
+  try {
+    await authInstance.get(`/notifications/seen`)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export { getNotificationList, createNotification, checkSeenNotification }
