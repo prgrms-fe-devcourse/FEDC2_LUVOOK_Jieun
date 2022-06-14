@@ -22,7 +22,7 @@ const handleOnClick = (post) => {
   console.log(post)
 }
 export const Default = (args) => {
-  return <ListSlider posts={posts} handleOnClick={handleOnClick} />
+  return <ListSlider posts={posts} handleClick={handleOnClick} />
 }
 
 export const MultiRows = (args) => {
@@ -31,7 +31,7 @@ export const MultiRows = (args) => {
       posts={posts}
       slidesPerView={4}
       grid={{ fill: 'row', rows: 2 }}
-      handleOnClick={handleOnClick}
+      handleClick={handleOnClick}
     />
   )
 }

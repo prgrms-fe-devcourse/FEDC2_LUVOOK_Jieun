@@ -8,8 +8,6 @@ import 'swiper/css/grid'
 import { Image } from '@components'
 import { Navigation, Grid } from 'swiper'
 
-// 이 속성이 없으면, 스크롤 시 보이는 이미지가
-// 무조건 왼쪽으로 감
 const slideContextCenterStyle = {
   width: 'fit-content',
   display: '-webkit-box',
@@ -45,7 +43,7 @@ const ListSlider = ({
   slidesPerGroup = 4,
   slideStyle,
   grid,
-  handleOnClick,
+  handleClick,
   swiperStyle,
   ...props
 }) => {
@@ -64,7 +62,7 @@ const ListSlider = ({
       >
         {posts.map((post) => (
           <SwiperSlide style={{ ...slideContextCenterStyle, ...slideStyle }} key={post._id}>
-            <ListSliderItems onClick={() => handleOnClick(post)}>
+            <ListSliderItems onClick={() => handleClick(post)}>
               <Image width={167} height={200} src={post.image} alt={post.title.bookTitle} />
               <h1>{post.title.bookTitle}</h1>
             </ListSliderItems>
