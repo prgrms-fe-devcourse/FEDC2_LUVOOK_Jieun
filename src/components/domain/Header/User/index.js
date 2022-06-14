@@ -27,7 +27,7 @@ const UserElement = styled.div`
 `
 
 const User = () => {
-  const [userpop, setUserpop] = useState(false)
+  const [userPop, setUserPop] = useState(false)
 
   return (
     <div>
@@ -35,9 +35,9 @@ const User = () => {
         src={'https://picsum.photos/200'}
         size={40}
         id="user"
-        onClick={() => setUserpop(true)}
+        onClick={() => setUserPop(true)}
       />
-      <Popover show={userpop} targetId="user" onClose={() => setUserpop(false)}>
+      <Popover show={userPop} targetId="user" onClose={() => setUserPop(false)}>
         <UserElement>
           <Link to="/users/:username">
             <li>마이 페이지</li>

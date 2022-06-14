@@ -24,15 +24,15 @@ const NotificationElement = styled.div`
 `
 
 const Notification = () => {
-  const [notificationpop, setNotificationpop] = useState(false)
+  const [notificationPop, setNotificationPop] = useState(false)
   const [showPost, setShowPost] = useState(false)
   return (
     <div>
-      <Icon name={'bell'} size={40} id="notification" onClick={() => setNotificationpop(true)} />
+      <Icon name={'bell'} size={40} id="notification" onClick={() => setNotificationPop(true)} />
       <Popover
-        show={notificationpop}
+        show={notificationPop}
         targetId="notification"
-        onClose={() => setNotificationpop(false)}
+        onClose={() => setNotificationPop(false)}
       >
         <NotificationElement>
           <Modal visible={showPost} onClose={() => setShowPost(false)}>
