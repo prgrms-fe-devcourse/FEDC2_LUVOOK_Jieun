@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { getBookListByKeyword } from '../../utils/api/getBookListByKeyword'
+import { getBookList } from '@utils/api/getBookList'
 
 export default {
   title: 'API/getBooks',
@@ -9,7 +9,7 @@ export const Default = () => {
   const [state, setState] = useState([])
 
   const handleGetBookList = useCallback(async (keyword) => {
-    const books = await getBookListByKeyword(keyword)
+    const books = await getBookList(keyword)
     setState([...books.documents])
   }, [])
 
