@@ -1,4 +1,4 @@
-import Banner from '../components/domain/Banner'
+import { Banner } from '@components'
 
 const MainPage = () => {
   return (
