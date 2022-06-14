@@ -5,7 +5,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/grid'
-import { Image } from '@components'
+import { Image, BookCard } from '@components'
 import { Navigation, Grid } from 'swiper'
 
 const slideContextCenterStyle = {
@@ -24,18 +24,6 @@ const slideContextCenterStyle = {
   '-webkit-align-items': 'center',
   'align-items': 'center',
 }
-
-// 임시 값
-const ListSliderItems = styled.div`
-  width: 167px;
-  height: 300px;
-  border: 1px solid #dadada;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`
 
 const ListSlider = ({
   posts,
@@ -60,14 +48,21 @@ const ListSlider = ({
         grid={grid}
         {...props}
       >
-        {posts.map((post) => (
-          <SwiperSlide style={{ ...slideContextCenterStyle, ...slideStyle }} key={post._id}>
-            <ListSliderItems onClick={() => handleClick(post)}>
-              <Image width={167} height={200} src={post.image} alt={post.title.bookTitle} />
-              <h1>{post.title.bookTitle}</h1>
-            </ListSliderItems>
-          </SwiperSlide>
-        ))}
+        {posts.map((post) => {
+          return (
+            <SwiperSlide
+              style={{
+                ...slideContextCenterStyle,
+                ...slideStyle,
+                width: 'fit-content',
+                height: 'fit-content',
+              }}
+              key={post._id}
+            >
+              <BookCard post={post} handleOnClick={handleClick} />
+            </SwiperSlide>
+          )
+        })}
       </Swiper>
     </>
   )
