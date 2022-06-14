@@ -9,8 +9,8 @@ const CommentsContainer = styled.ul`
 const CommentList = ({ comments }) => {
   return (
     <CommentsContainer>
-      {comments?.map(({ _id, comment, author, createdAt }, index) => (
-        <Comment key={index} author={author} comment={comment} createdAt={createdAt} />
+      {comments?.map(({ _id, comment, author, createdAt }) => (
+        <Comment key={_id} author={author} comment={comment} createdAt={createdAt} />
       ))}
     </CommentsContainer>
   )
