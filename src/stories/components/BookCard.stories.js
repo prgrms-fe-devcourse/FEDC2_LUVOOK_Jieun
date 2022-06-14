@@ -19,9 +19,9 @@ export const Default = () => {
   }
 
   return (
+    // TODO: 추후에 더미데이터 연결
     <>
       <BookCard post={null} handleOnClick={handleOnClick} />
-
       {post && (
         <div>
           <h1>title : {post.title.bookTitle}</h1>
