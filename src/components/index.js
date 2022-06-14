@@ -12,3 +12,7 @@ export { default as Avatar } from './base/Avatar'
 
 export { default as Login } from './domain/Form/Login'
 export { default as SignUp } from './domain/Form/SignUp'
+export { default as Post } from './domain/Post'
+export { default as ListSlider } from './domain/ListSlider'
+export { default as BookCard } from './domain/BookCard'
+export { default as Header } from './domain/Header'
