@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import './style.scss'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -10,7 +11,6 @@ import { Navigation, Grid } from 'swiper'
 const slideContextCenterStyle = {
   width: 'fit-content',
   display: 'flex',
-  justifyContent: 'space-between',
   '-webkit-box-pack': 'center',
   '-ms-flex-pack': 'center',
   '-webkit-justify-content': 'center',
