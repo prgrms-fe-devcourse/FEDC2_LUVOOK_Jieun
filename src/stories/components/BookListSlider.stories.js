@@ -1,4 +1,4 @@
-import { ListSlider } from '@components'
+import { BookListSlider } from '@components'
 
 const DUMMY_USER = {
   image: 'https://source.unsplash.com/random',
@@ -42,8 +42,8 @@ const posts = Array.from({ length: 30 }).map((_, index) => ({
 }))
 
 export default {
-  title: 'Component/ListSlider',
-  component: ListSlider,
+  title: 'Component/BookListSlider',
+  component: BookListSlider,
   argTypes: {
     posts: { defaultValue: posts },
   },
@@ -53,12 +53,12 @@ const handleOnClick = (post) => {
   console.log(post)
 }
 export const Default = (args) => {
-  return <ListSlider posts={posts} handleClick={handleOnClick} />
+  return <BookListSlider posts={posts} handleClick={handleOnClick} />
 }
 
 export const MultiRows = (args) => {
   return (
-    <ListSlider
+    <BookListSlider
       posts={posts}
       slidesPerView={4}
       grid={{ fill: 'row', rows: 2 }}

@@ -11,11 +11,11 @@ export default {
 }
 
 export const Default = () => {
-  const [post, setpost] = useState(null)
+  const [post, setPost] = useState(null)
 
   const handleOnClick = (post) => {
     console.log(post)
-    setpost(post)
+    setPost(post)
   }
 
   return (

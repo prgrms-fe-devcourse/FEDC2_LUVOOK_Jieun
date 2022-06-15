@@ -9,5 +9,6 @@ export { default as Icon } from './base/Icon'
 export { default as Text } from './base/Text'
 export { default as Divider } from './base/Divider'
 export { default as Avatar } from './base/Avatar'
-export { default as ListSlider } from './domain/ListSlider'
-export { default as BookCard } from './domain/BookCard'
+
+export { default as BookCard } from './domain/BookCardView/BookCard'
+export { default as BookListSlider } from './domain/BookCardView/BookListSlider'
