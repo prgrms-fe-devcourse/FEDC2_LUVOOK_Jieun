@@ -2,7 +2,8 @@ import { baseInstance, authInstance } from '../utils/instance'
 
 const getChannelInfo = async (channelName) => {
   try {
-    await baseInstance.get(`/channels/${channelName}`)
+    const { data } = await baseInstance.get(`/channels/${channelName}`)
+    return data
   } catch (error) {
     console.error(error)
   }
@@ -10,7 +11,8 @@ const getChannelInfo = async (channelName) => {
 
 const getChannelList = async () => {
   try {
-    await baseInstance.get(`/channels`)
+    const { data } = await baseInstance.get(`/channels`)
+    return data
   } catch (error) {
     console.error(error)
   }

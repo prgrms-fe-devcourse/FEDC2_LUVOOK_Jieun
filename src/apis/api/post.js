@@ -2,7 +2,8 @@ import { baseInstance, authInstance } from '../utils/instance'
 
 const getPostListInChannel = async (channelId, params) => {
   try {
-    await baseInstance.get(`/posts/channel/${channelId}`, { params })
+    const { data } = await baseInstance.get(`/posts/channel/${channelId}`, { params })
+    return data
   } catch (error) {
     console.error(error)
   }
