@@ -55,7 +55,11 @@ const MainPage = () => {
     <div>
       <Header />
       <Banner />
-      <BookListSlider posts={postList} handleClick={handleOnClick} />
+      <BookListSlider
+        posts={postList}
+        grid={{ fill: 'row', rows: 2 }}
+        handleClick={handleOnClick}
+      />
     </div>
   )
 }
