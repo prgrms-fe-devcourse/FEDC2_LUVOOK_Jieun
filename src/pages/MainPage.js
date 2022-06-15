@@ -1,9 +1,10 @@
-import Header from '../components/domain/Header'
+import { Header, Banner } from '@components'
 
 const MainPage = () => {
   return (
     <div>
       <Header />
+      <Banner />
     </div>
   )
 }

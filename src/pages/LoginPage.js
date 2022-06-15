@@ -1,5 +1,12 @@
-const Login = () => {
-  return <div>Login</div>
+import { Login as LoginForm } from '@components'
+import { Fragment } from 'react'
+
+const LoginPage = () => {
+  return (
+    <Fragment>
+      <LoginForm />
+    </Fragment>
+  )
 }
 
-export default Login
+export default LoginPage
