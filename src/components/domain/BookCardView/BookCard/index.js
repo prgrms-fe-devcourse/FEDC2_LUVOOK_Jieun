@@ -28,7 +28,7 @@ const BookmarkContainer = styled.div`
   height: 18px;
   position: absolute;
   top: 0;
-  right: 0;
+  right: 8px;
   display: flex;
   align-items: center;
 `

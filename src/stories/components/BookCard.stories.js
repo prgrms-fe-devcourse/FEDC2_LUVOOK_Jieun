@@ -11,17 +11,17 @@ export default {
 }
 
 export const Default = () => {
-  const [post, setpost] = useState(null)
+  const [post, setPost] = useState(null)
 
   const handleOnClick = (post) => {
     console.log(post)
-    setpost(post)
+    setPost(post)
   }
 
   return (
+    // TODO: 추후에 더미데이터 연결
     <>
       <BookCard post={null} handleOnClick={handleOnClick} />
-
       {post && (
         <div>
           <h1>title : {post.title.bookTitle}</h1>
