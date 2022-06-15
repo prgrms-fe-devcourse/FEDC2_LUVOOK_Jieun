@@ -10,7 +10,7 @@ const validateSignUp = ({ email, fullName, password, passwordConfirm }) => {
   }
 
   if ((password && password.length < 8) || password.length > 15) {
-    errors.fullName = '비밀번호를 입력해 주세요(8~15자)'
+    errors.password = '비밀번호를 입력해 주세요(8~15자)'
   }
 
   if (passwordConfirm && password !== passwordConfirm) {
