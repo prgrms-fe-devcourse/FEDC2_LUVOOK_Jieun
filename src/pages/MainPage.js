@@ -68,6 +68,7 @@ const MainPage = () => {
     const searchResult = await getSearchedBookList(searchKeyword)
     const searchBookResult = searchResult.filter((result) => !result.role)
     setPostList(searchBookResult)
+    setCategoryName(ALL_CATEGORY)
   }
 
   return (
