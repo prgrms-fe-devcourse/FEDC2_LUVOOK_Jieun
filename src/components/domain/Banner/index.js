@@ -48,18 +48,18 @@ const quotes = [
 ]
 
 const Banner = () => {
-  const [idx, setIdx] = useState(0)
-  const idxRef = useRef(0)
+  const [quoteIdx, setQuoteIdx] = useState(0)
+  const quoteRef = useRef(0)
   useEffect(() => {
     setInterval(() => {
-      idxRef.current = (idxRef.current + 1) % quotes.length
-      setIdx(idxRef.current)
+      quoteRef.current = (quoteRef.current + 1) % quotes.length
+      setQuoteIdx(quoteRef.current)
     }, 10000)
   }, [])
 
   return (
     <BannerContainer>
-      <div className="banner" style={{ transform: `translateY(-${50 * idx}px)` }}>
+      <div className="banner" style={{ transform: `translateY(-${50 * quoteIdx}px)` }}>
         {quotes.map(({ id, quote }) => {
           return (
             <li className="banner-content" key={id}>
