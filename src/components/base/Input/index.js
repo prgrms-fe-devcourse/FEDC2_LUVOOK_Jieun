@@ -8,12 +8,13 @@ const Wrapper = styled.div`
 `
 
 const Label = styled.label`
-  display: block;
+  display: none;
   font-size: 12px;
 `
 
 const StyledInput = styled.input`
   width: 100%;
+  height: 40px;
   padding: 6px 8px;
   border: 1px solid ${({ invalid }) => (invalid ? 'red' : PRIMARY_COLOR)};
   border-radius: 4px;
