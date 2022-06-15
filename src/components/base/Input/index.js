@@ -22,8 +22,12 @@ const StyledInput = styled.input`
 `
 
 const Input = ({
+  type,
+  name,
   label,
+  value,
   placeholder,
+  onChange,
   block = false,
   invalid = false,
   required = false,
@@ -36,7 +40,11 @@ const Input = ({
     <Wrapper block={block} {...wrapperProps}>
       <Label>{label}</Label>
       <StyledInput
+        type={type}
+        name={name}
+        value={value}
         placeholder={placeholder}
+        onChange={onChange}
         invalid={invalid}
         required={required}
         disabled={disabled}
@@ -48,8 +56,12 @@ const Input = ({
 }
 
 Input.propTypes = {
+  type: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   label: PropTypes.string,
   placeholder: PropTypes.string,
+  onChange: PropTypes.func,
   block: PropTypes.bool,
   invalid: PropTypes.bool,
   required: PropTypes.bool,
