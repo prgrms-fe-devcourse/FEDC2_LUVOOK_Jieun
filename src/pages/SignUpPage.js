@@ -1,5 +1,12 @@
-const SignUp = () => {
-  return <div>SignUp</div>
+import { SignUp as SignUpForm } from '@components'
+import { Fragment } from 'react'
+
+const SignUpPage = () => {
+  return (
+    <Fragment>
+      <SignUpForm />
+    </Fragment>
+  )
 }
 
-export default SignUp
+export default SignUpPage

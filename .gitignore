@@ -26,6 +26,3 @@ yarn-error.log*
 
 # dummy data
 data.json
-
-# env
-.env

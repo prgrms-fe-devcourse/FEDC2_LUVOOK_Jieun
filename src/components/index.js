@@ -12,3 +12,8 @@ export { default as Avatar } from './base/Avatar'
 
 export { default as BookCard } from './domain/BookCardView/BookCard'
 export { default as BookListSlider } from './domain/BookCardView/BookListSlider'
+export { default as Banner } from './domain/Banner'
+export { default as Login } from './domain/Form/Login'
+export { default as SignUp } from './domain/Form/SignUp'
+export { default as Post } from './domain/Post'
+export { default as Header } from './domain/Header'
