@@ -8,20 +8,22 @@ import 'swiper/css/grid'
 import { BookCard } from '@components'
 import { Navigation, Grid } from 'swiper'
 
+import React from 'react'
+
 const slideContextCenterStyle = {
   width: 'fit-content',
   display: 'flex',
-  '-webkit-box-pack': 'center',
-  '-ms-flex-pack': 'center',
-  '-webkit-justify-content': 'center',
-  'justify-content': 'center',
-  '-webkit-box-align': 'center',
-  '-ms-flex-align': 'center',
-  '-webkit-align-items': 'center',
-  'align-items': 'center',
+  WebkitBoxPack: 'center',
+  msFlexPack: 'center',
+  WebkitJustifyContent: 'center',
+  justifyContent: 'center',
+  WebkitBoxAlign: 'center',
+  msFlexAlign: 'center',
+  WebkitAlignItems: 'center',
+  alignItems: 'center',
 }
 
-const ListSlider = ({
+const BookListSlider = ({
   posts,
   slidesPerView = 4,
   slidesPerGroup = 4,
@@ -64,7 +66,7 @@ const ListSlider = ({
   )
 }
 
-ListSlider.propTypes = {
+BookListSlider.propTypes = {
   posts: PropTypes.array,
   slidesPerView: PropTypes.number,
   slidesPerGroup: PropTypes.number,
@@ -75,4 +77,4 @@ ListSlider.propTypes = {
   handleOnClick: PropTypes.func,
 }
 
-export default ListSlider
+export default BookListSlider
