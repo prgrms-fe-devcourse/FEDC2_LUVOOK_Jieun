@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { Input, Button, Title, Image } from '@components'
 import { useState } from 'react'
 import { getBookList } from '@utils/api/getBookList'
+import uuid from 'react-uuid'
 
 const DEFAULT_IMAGE_URL = 'https://source.unsplash.com/random'
 
@@ -64,8 +65,8 @@ const BookSearch = () => {
             <Button onClick={onSearch}>검색</Button>
           </SearchBar>
           <BookList>
-            {bookList.map((book, index) => (
-              <li key={index}>
+            {bookList.map((book) => (
+              <li key={uuid()}>
                 <label>
                   <input
                     type="radio"
