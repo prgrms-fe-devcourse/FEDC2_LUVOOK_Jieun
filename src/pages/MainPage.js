@@ -1,14 +1,22 @@
+import styled from '@emotion/styled'
 import { Header, Banner } from '@components'
 import { useState, useEffect } from 'react'
-import { getChannelList, getPostListInChannel, getChannelInfo } from '@apis'
-import { BookListSlider } from '@components'
+import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
+import { BookListSlider, Input, Button, Select } from '@components'
 
 const ALL_CATEGORY = 'all'
 const DEFAULT_CATEGORY = '소설'
 
+const SearchBar = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
 const MainPage = () => {
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(ALL_CATEGORY)
+
+  const [searchKeyword, setSearchKeyword] = useState('')
 
   const fetchAllPost = async () => {
     const channelList = await getChannelList()
@@ -51,10 +59,39 @@ const MainPage = () => {
     fetchAllPost()
   }, [])
 
+  const onChangeSearchKeyword = (e) => {
+    setSearchKeyword(e.target.value)
+  }
+
+  const onSearch = async (e) => {
+    if (!searchKeyword) return
+    const searchResult = await getSearchedBookList(searchKeyword)
+    const searchBookResult = searchResult.filter((result) => !result.role)
+    setPostList(searchBookResult)
+  }
+
   return (
     <div>
       <Header />
       <Banner />
+
+      <SearchBar>
+        <Select data={[]} />
+        <Input
+          placeholder="포스트를 검색해주세요."
+          block
+          required
+          onChange={onChangeSearchKeyword}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              setSearchKeyword(e.target.value)
+              onSearch()
+            }
+          }}
+        />
+        <Button onClick={onSearch}>검색</Button>
+      </SearchBar>
+
       <BookListSlider
         posts={postList}
         grid={{ fill: 'row', rows: 2 }}

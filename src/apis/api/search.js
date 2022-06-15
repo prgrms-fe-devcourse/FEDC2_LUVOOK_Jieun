@@ -10,7 +10,8 @@ const getSearchedUserList = async (userId) => {
 
 const getSearchedBookList = async (query) => {
   try {
-    await baseInstance.get(`/search/all/${query}`)
+    const { data } = await baseInstance.get(`/search/all/${query}`)
+    return data
   } catch (error) {
     console.error(error)
   }
