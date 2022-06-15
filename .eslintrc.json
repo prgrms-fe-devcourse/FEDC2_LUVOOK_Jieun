@@ -1,31 +1,24 @@
 {
   "env": {
-      "browser": true,
-      "node": true,
-      "es6": true,
-      "commonjs": true
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "commonjs": true
   },
-  "extends": [
-      "eslint:recommended",
-      "react-app",
-      "plugin:prettier/recommended"
-  ],
+  "extends": ["eslint:recommended", "react-app", "plugin:prettier/recommended"],
   "parserOptions": {
-      "sourceType": "module",
-      "ecmaFeatures": { "jsx": true }
+    "sourceType": "module",
+    "ecmaFeatures": { "jsx": true }
   },
   "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
       }
+    }
   ],
   "rules": {
-      "no-console": "warn",
-      "no-alert": "warn"
+    "no-alert": "warn"
   }
-} 
+}
