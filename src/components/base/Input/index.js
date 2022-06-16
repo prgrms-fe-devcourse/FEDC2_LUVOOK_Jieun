@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const PRIMARY_COLOR = '#743737'
 
-const Wrapper = styled.div`
+const InputWrapper = styled.div`
   display: ${({ block }) => (block ? 'block' : 'inline-block')};
 `
 
@@ -37,7 +37,7 @@ const Input = ({
   ...props
 }) => {
   return (
-    <Wrapper block={block} {...wrapperProps}>
+    <InputWrapper block={block} {...wrapperProps}>
       <Label>{label}</Label>
       <StyledInput
         type={type}
@@ -51,7 +51,7 @@ const Input = ({
         readOnly={readonly}
         {...props}
       />
-    </Wrapper>
+    </InputWrapper>
   )
 }
 
