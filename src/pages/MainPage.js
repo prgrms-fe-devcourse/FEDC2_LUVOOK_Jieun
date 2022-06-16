@@ -1,8 +1,7 @@
 import styled from '@emotion/styled'
-import { Header, Banner } from '@components'
+import { Header, Banner, BookListSlider, Input, Button, Select } from '@components'
 import { useState, useEffect } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
-import { BookListSlider, Input, Button, Select } from '@components'
 
 const ALL_CATEGORY = 'all'
 const DEFAULT_CATEGORY = '소설'
@@ -15,14 +14,14 @@ const SearchBar = styled.div`
 const MainPage = () => {
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(ALL_CATEGORY)
+  const [searchedKeyword, setSearchedKeyword] = useState('')
 
-  const [searchKeyword, setSearchKeyword] = useState('')
-
-  const fetchAllPost = async () => {
+  const getAllPost = async () => {
     const channelList = await getChannelList()
-    const totalPostList = await Promise.all(
-      channelList.map(async (channel) => await getPostListInChannel(channel._id))
-    ).then((res) => res.flat())
+
+    const totalPostList = (
+      await Promise.all(channelList.map(async (channel) => await getPostListInChannel(channel._id)))
+    ).flat()
 
     totalPostList.sort((post1, post2) => {
       return Date.parse(post2.createdAt) - Date.parse(post1.createdAt)
@@ -31,24 +30,24 @@ const MainPage = () => {
     setPostList(totalPostList)
   }
 
-  const fetchChannelPost = async (channelName) => {
+  const getChannelPost = async (channelName) => {
     const channelInfo = await getChannelInfo(channelName)
     const channelPostList = await getPostListInChannel(channelInfo._id)
     setPostList(channelPostList)
   }
 
   // TODO: 상세 포스트 모달 띄우는 로직
-  const handleOnClick = (post) => {
+  const handleClickPost = (post) => {
     console.log(post)
   }
 
   useEffect(() => {
     switch (categoryName) {
       case ALL_CATEGORY:
-        fetchAllPost()
+        getAllPost()
         break
       case DEFAULT_CATEGORY:
-        fetchChannelPost(DEFAULT_CATEGORY)
+        getChannelPost(DEFAULT_CATEGORY)
         break
       default:
         setPostList([])
@@ -56,16 +55,16 @@ const MainPage = () => {
   }, [categoryName])
 
   useEffect(() => {
-    fetchAllPost()
+    getAllPost()
   }, [])
 
-  const onChangeSearchKeyword = (e) => {
-    setSearchKeyword(e.target.value)
+  const onChangeSearchedKeyword = (e) => {
+    setSearchedKeyword(e.target.value)
   }
 
   const onSearch = async (e) => {
-    if (!searchKeyword) return
-    const searchResult = await getSearchedBookList(searchKeyword)
+    if (!searchedKeyword) return
+    const searchResult = await getSearchedBookList(searchedKeyword)
     const searchBookResult = searchResult.filter((result) => !result.role)
     setPostList(searchBookResult)
     setCategoryName(ALL_CATEGORY)
@@ -82,10 +81,10 @@ const MainPage = () => {
           placeholder="포스트를 검색해주세요."
           block
           required
-          onChange={onChangeSearchKeyword}
+          onChange={onChangeSearchedKeyword}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              setSearchKeyword(e.target.value)
+              setSearchedKeyword(e.target.value)
               onSearch()
             }
           }}
@@ -96,7 +95,7 @@ const MainPage = () => {
       <BookListSlider
         posts={postList}
         grid={{ fill: 'row', rows: 2 }}
-        handleClick={handleOnClick}
+        handleClick={handleClickPost}
       />
     </div>
   )
