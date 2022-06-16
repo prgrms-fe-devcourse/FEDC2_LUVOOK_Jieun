@@ -5,6 +5,7 @@ import styled from '@emotion/styled'
 import Notification from './Notification'
 import Badge from './Badge'
 import User from './User'
+import UserSearch from './UserSearch'
 
 const HeaderMain = styled.div`
   width: 100%;
@@ -75,8 +76,8 @@ const Header = () => {
 
         <HeaderNav>
           <div className="user-search">
-            <Modal visible={showModal} onClose={() => setShowModal(false)}>
-              <h1>사용자 검색 모달</h1>
+            <Modal hasCloseButton={false} visible={showModal} onClose={() => setShowModal(false)}>
+              <UserSearch />
             </Modal>
             <button onClick={() => setShowModal(true)}>
               Search for Users
