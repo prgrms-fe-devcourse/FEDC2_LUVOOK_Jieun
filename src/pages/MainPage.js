@@ -114,9 +114,7 @@ const MainPage = () => {
             post.title.postQuote.includes(searchedKeyword)
         )
       case SEARCH_TYPE['TITLE']:
-        return searchedResult.filter((post) => {
-          return post.title.bookTitle.includes(searchedKeyword)
-        })
+        return searchedResult.filter((post) => post.title.bookTitle.includes(searchedKeyword))
       case SEARCH_TYPE['CONTENT']:
         return searchedResult.filter((post) => post.title.postContent.includes(searchedKeyword))
       case SEARCH_TYPE['QUOTE']:
