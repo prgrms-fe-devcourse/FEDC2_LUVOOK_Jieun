@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <Input
-        type="text"
+        type="email"
         name="email"
         placeholder="이메일을 입력해주세요"
         onChange={handleChange}
