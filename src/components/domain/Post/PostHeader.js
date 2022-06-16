@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import styled from '@emotion/styled'
 import { Text, Button } from '@components'
 import { formatTime } from './index'
@@ -14,7 +15,7 @@ const PostHeader = ({ author, createdAt }) => {
   const { image, fullName } = author
 
   return (
-    <>
+    <Fragment>
       <UserBox image={image}>
         <Text block>{fullName}</Text>
         <Text block>{formatTime(createdAt)}</Text>
@@ -23,7 +24,7 @@ const PostHeader = ({ author, createdAt }) => {
         <Button>수정</Button>
         <Button>삭제</Button>
       </AuthorizedButtons>
-    </>
+    </Fragment>
   )
 }
 
