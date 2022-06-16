@@ -12,6 +12,7 @@ export default {
       defaultValue: '',
       control: 'text',
     },
+    onChange: { action: 'typing' },
     block: {
       defaultValue: false,
       control: 'boolean',
