@@ -3,8 +3,11 @@ import { Header, Banner, BookListSlider, Input, Button, Select } from '@componen
 import { useState, useEffect } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
 
-const ALL_CATEGORY = 'all'
-const DEFAULT_CATEGORY = '소설'
+const CATEGORY = {
+  ALL: 'all',
+  NOVEL: '소설',
+  POET: '시',
+}
 
 const SearchBar = styled.div`
   display: flex;
@@ -13,7 +16,7 @@ const SearchBar = styled.div`
 
 const MainPage = () => {
   const [postList, setPostList] = useState([])
-  const [categoryName, setCategoryName] = useState(ALL_CATEGORY)
+  const [categoryName, setCategoryName] = useState(CATEGORY['ALL'])
   const [searchedKeyword, setSearchedKeyword] = useState('')
 
   const getAllPost = async () => {
@@ -28,6 +31,7 @@ const MainPage = () => {
     })
 
     setPostList(totalPostList)
+    // console.log(totalPostList)
   }
 
   const getChannelPost = async (channelName) => {
@@ -43,11 +47,14 @@ const MainPage = () => {
 
   useEffect(() => {
     switch (categoryName) {
-      case ALL_CATEGORY:
+      case CATEGORY['ALL']:
         getAllPost()
         break
-      case DEFAULT_CATEGORY:
-        getChannelPost(DEFAULT_CATEGORY)
+      case CATEGORY['NOVEL']:
+        getChannelPost(CATEGORY['NOVEL'])
+        break
+      case CATEGORY['POET']:
+        getChannelPost(CATEGORY['POET'])
         break
       default:
         setPostList([])
@@ -64,19 +71,30 @@ const MainPage = () => {
 
   const onSearch = async (e) => {
     if (!searchedKeyword) return
-    const searchResult = await getSearchedBookList(searchedKeyword)
-    const searchBookResult = searchResult.filter((result) => !result.role)
-    setPostList(searchBookResult)
-    setCategoryName(ALL_CATEGORY)
+    const searchedResult = await getSearchedBookList(searchedKeyword)
+    const searchedBookResult = searchedResult.filter((result) => !result.role)
+
+    if (categoryName === CATEGORY['ALL']) {
+      setPostList(searchedBookResult)
+      return
+    } else {
+      const { _id } = await getChannelInfo(categoryName)
+      setPostList(searchedBookResult.filter((result) => result.channel === _id))
+    }
   }
 
   return (
     <div>
       <Header />
       <Banner />
-
       <SearchBar>
-        <Select data={[]} />
+        <Select
+          data={Object.values(CATEGORY)}
+          categories={CATEGORY}
+          onChange={(e) => {
+            setCategoryName(e.target.value)
+          }}
+        />
         <Input
           placeholder="포스트를 검색해주세요."
           block
