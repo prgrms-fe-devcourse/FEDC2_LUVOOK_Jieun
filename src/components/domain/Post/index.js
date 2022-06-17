@@ -5,6 +5,9 @@ import CommentList from './CommentList'
 import PostContents from './PostContents'
 import PostHeader from './PostHeader'
 
+//TODO 상수로 옮겨야 한다.
+const PLACEHOLDER_IMAGE_SRC = 'https://via.placeholder.com/200?text=LUVOOK'
+
 // TODO
 // utils로 옮겨야 할 것 같다.
 export const formatTime = (unFormattedTime) => {
@@ -22,10 +25,35 @@ const PostContainer = styled.article`
   overflow: auto;
 `
 
-const Post = ({ post, ...props }) => {
-  if (!post) return
+const defaultPostProps = {
+  likes: [],
+  comments: [],
+  _id: 'default',
+  image: PLACEHOLDER_IMAGE_SRC,
+  title: {
+    bookTitle: '',
+    postContent: '',
+    postQuote: '',
+  },
+  channel: '',
+  author: {
+    image: '',
+    fullName: '',
+  },
+  createdAt: '',
+}
 
-  const { likes, comments, _id: postId, image, title, channel, author, createdAt } = post
+const Post = ({ post, ...props }) => {
+  const {
+    likes,
+    comments,
+    _id: postId,
+    image,
+    title,
+    channel,
+    author,
+    createdAt,
+  } = { ...defaultPostProps, ...post }
 
   return (
     <PostContainer>
