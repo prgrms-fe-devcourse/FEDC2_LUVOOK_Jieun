@@ -1,5 +1,4 @@
-const getCleanUserInfo = (rawUserInfo) => {
-  const { role, email, fullName, notifications, likes, posts, createdAt } = rawUserInfo.user
+const getCleanUserInfo = ({ role, email, fullName, notifications, likes, posts, createdAt }) => {
   return {
     quote: role,
     email,

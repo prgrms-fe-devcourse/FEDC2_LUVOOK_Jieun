@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Header, Banner, BookListSlider, Input, Button, Select } from '@components'
+import { Header, Banner, BookListSlider, Input, Button, Select, Modal, Post } from '@components'
 import { useState, useEffect } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
 
@@ -41,6 +41,13 @@ const MainPage = () => {
   const [searchedKeyword, setSearchedKeyword] = useState('')
   const [searchType, setSearchType] = useState(SEARCH_TYPE['ALL'])
   const [allCategories, setAllCategories] = useState([])
+  const [showPostModal, setShowPostModal] = useState(false)
+  const [post, setPost] = useState(null)
+
+  const closePostModal = () => {
+    setShowPostModal(false)
+    setPost(null)
+  }
 
   const getAllChannels = async () => {
     const channelList = await getChannelList()
@@ -66,9 +73,9 @@ const MainPage = () => {
     setPostList(parseListTitle(channelPostList))
   }
 
-  // TODO: 상세 포스트 모달 띄우는 로직
   const handleClickPost = (post) => {
-    console.log(post)
+    setPost(post)
+    setShowPostModal(true)
   }
 
   useEffect(() => {
@@ -163,6 +170,10 @@ const MainPage = () => {
         grid={{ fill: 'row', rows: 2 }}
         handleClick={handleClickPost}
       />
+
+      <Modal visible={showPostModal} onClose={closePostModal}>
+        <Post post={post} />
+      </Modal>
     </div>
   )
 }
