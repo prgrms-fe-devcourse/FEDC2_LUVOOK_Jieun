@@ -1,5 +1,15 @@
 import styled from '@emotion/styled'
-import { Header, Banner, BookListSlider, Input, Button, Select, Modal, Post } from '@components'
+import {
+  Header,
+  Banner,
+  BookListSlider,
+  Input,
+  Button,
+  Select,
+  Modal,
+  Post,
+  Navbar,
+} from '@components'
 import { useState, useEffect } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
 
@@ -134,21 +144,13 @@ const MainPage = () => {
     <div>
       <Header />
       <Banner />
+      <Navbar items={allCategories} handleClick={(category) => setCategoryName(category.name)} />
       <SearchBar>
         <Select
           data={Object.values(SEARCH_TYPE)}
           placeholder={'검색 옵션 지정'}
           onChange={(e) => {
             setSearchType(e.target.value)
-          }}
-        />
-        {/* TODO: category 설정 방식 navBar로 변경 */}
-        <Select
-          data={allCategories.map((category) => {
-            return category.name
-          })}
-          onChange={(e) => {
-            setCategoryName(e.target.value)
           }}
         />
         <Input
