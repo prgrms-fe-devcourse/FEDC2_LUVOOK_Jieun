@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { Input, Button, Title, Image } from '@components'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { getBookList } from '@utils/api/getBookList'
 import uuid from 'react-uuid'
 
@@ -51,7 +51,7 @@ const BookSearch = () => {
   const onChangeImage = (e) => setImgUrl(e.target.value)
 
   return (
-    <>
+    <Fragment>
       <BookSearchContainer>
         <LeftBox>
           <Title level={2} style={{ margin: 0 }}>
@@ -81,7 +81,7 @@ const BookSearch = () => {
           </BookList>
         </RightBox>
       </BookSearchContainer>
-    </>
+    </Fragment>
   )
 }
 
