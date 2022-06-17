@@ -25,6 +25,8 @@ const Card = styled.div`
   text-align: center;
   color: white;
   cursor: pointer;
+  // TODO: constant에 선언된 회색으로 변경
+  box-shadow: 0 0 1rem rgba(33, 33, 33, 0.5);
 `
 
 const BookmarkContainer = styled.div`
@@ -45,9 +47,28 @@ const NamePlate = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
   margin-top: 10px;
-  padding: 5px;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 #ffffff;
+  box-shadow: 2px 2px 0.5em rgba(122, 122, 122, 0.55), inset 1px 1px 0 rgba(255, 255, 255, 0.9),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.34);
+  border: 1px solid #dedede;
+  background: linear-gradient(
+    -72deg,
+    #dedede,
+    #ffffff 16%,
+    #dedede 21%,
+    #ffffff 24%,
+    #dedede 36%,
+    #ffffff 45%,
+    #ffffff 60%,
+    #dedede 72%,
+    #ffffff 80%,
+    #dedede 84%,
+    #a1a1a1
+  );
 `
 
 const BookCard = ({ post, handleOnClick }) => {
