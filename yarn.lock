@@ -13974,13 +13974,6 @@ svgo@^2.7.0:
     picocolors "^1.0.0"
     stable "^0.1.8"
 
-swiper@^8.2.3:
-  version "8.2.3"
-  resolved "https://registry.yarnpkg.com/swiper/-/swiper-8.2.3.tgz#fc7254d268f1b7ee6c9a83c7defff3cb18ed877d"
-  integrity sha512-TTLvWH52732JnQZiCCF8VXRG1HrdOdttpvcxM0kgS46GHvuXle7/1jyPek3DNtl76TUwCcnkOadONcXXEbymFQ==
-  dependencies:
-    dom7 "^4.0.4"
-    ssr-window "^4.0.2"
 
 symbol-tree@^3.2.4:
   version "3.2.4"
