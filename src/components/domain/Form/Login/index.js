@@ -1,22 +1,26 @@
 import SubmitButton from '../SubmitButton'
 import Form from '../index'
 import { Input } from '@components'
-import { login, getCleanUserInfo } from '@apis'
+import { useUserContext } from '@contexts/UserContext'
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+  const { onLogin } = useUserContext()
+  const navigate = useNavigate()
+
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     onSubmit: async (userInfo) => {
-      const { user, token } = await login(userInfo)
-      const cleanUserInfo = getCleanUserInfo(user)
-      // TODO
-      // cleanUserInfo userContext 유저에 적용하기
-      // token, localStorage에 적용
-      // 로그인 성공 시 main 이동
+      try {
+        await onLogin(userInfo)
+        navigate('/')
+      } catch (e) {
+        alert('로그인에 실패하였습니다.')
+      }
     },
   })
 
