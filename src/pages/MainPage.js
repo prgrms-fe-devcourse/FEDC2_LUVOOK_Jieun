@@ -21,21 +21,6 @@ const SearchBar = styled.div`
   justify-content: center;
 `
 
-// type FormData = {
-//   title: String,
-//   image: Binary | null,
-//   channelId: String
-// }
-
-const PLACEHOLDER_IMAGE_SRC = 'https://via.placeholder.com/200?text=LUVOOK'
-const DEFAULT_CHANNEL_ID = '소설'
-
-const initialFormData = {
-  title: '',
-  image: PLACEHOLDER_IMAGE_SRC,
-  channelId: DEFAULT_CHANNEL_ID,
-}
-
 const MainPage = () => {
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(ALL_CATEGORY)
@@ -43,19 +28,20 @@ const MainPage = () => {
   const [showPostModal, setShowPostModal] = useState(false)
   const [post, setPost] = useState(null)
   const [showNewPostFormModal, setShowNewPostFormModal] = useState(false)
-  const [formData, setFormData] = useState({ ...initialFormData })
 
   const closePostModal = () => {
     setShowPostModal(false)
     setPost(null)
   }
 
-  const openNewPostFormModal = () => setShowNewPostFormModal(true)
+  const closeNewPostFormModal = (type = 'cancel') => {
+    const messageMap = {
+      cancel: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
+      submit: '글을 작성할까요?',
+    }
 
-  const closeNewPostFormModal = () => {
-    if (window.confirm('작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?')) {
+    if (window.confirm(messageMap[type])) {
       setShowNewPostFormModal(false)
-      setFormData({ ...initialFormData })
     }
   }
 
@@ -118,7 +104,7 @@ const MainPage = () => {
       <Header />
       <Banner />
 
-      <Button onClick={openNewPostFormModal}>새로운 글 작성하기</Button>
+      <Button onClick={() => setShowNewPostFormModal(true)}>새로운 글 작성하기</Button>
 
       <SearchBar>
         <Select data={[]} />
@@ -149,10 +135,10 @@ const MainPage = () => {
 
       <Modal
         visible={showNewPostFormModal}
-        onClose={closeNewPostFormModal}
+        onClose={() => closeNewPostFormModal()}
         closeOnClickOutside={false}
       >
-        <NewPostForm data={formData} />
+        <NewPostForm showModal={showNewPostFormModal} onClose={closeNewPostFormModal} />
       </Modal>
     </div>
   )
