@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router'
 import { LoginPage, MainPage, NotFoundPage, SignUpPage, UsersPage } from '@pages'
+import UserContextProvider from '@contexts/UserContext'
 
 function App() {
   return (
