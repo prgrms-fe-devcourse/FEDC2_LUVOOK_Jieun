@@ -27,12 +27,12 @@ const UserSearch = () => {
   const [searchedUserList, setSearchedUserList] = useState([])
 
   const updateChange = async (e) => {
-    const data = e.target.value
-    if (!data) {
+    const userName = e.target.value
+    if (!userName) {
       setSearchedUserList([])
       return
     }
-    const userList = await getSearchedUserList(data)
+    const userList = await getSearchedUserList(userName)
     setSearchedUserList(userList)
   }
 
@@ -50,7 +50,7 @@ const UserSearch = () => {
             border: 'none',
             outline: 'none',
           }}
-          onChange={(e) => updateChange(e)}
+          onChange={updateChange}
         ></Input>
       </UserSearchInput>
 
