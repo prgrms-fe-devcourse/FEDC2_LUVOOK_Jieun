@@ -10,16 +10,19 @@ const useActions = (dispatch) => {
     const user = await getAuthUser()
 
     dispatch({ type: SET_USER, payload: { user } })
-  }, [])
+  }, [dispatch])
 
-  const onLogin = useCallback(async (userInfo) => {
-    dispatch({ type: SET_LOADING })
+  const onLogin = useCallback(
+    async (userInfo) => {
+      dispatch({ type: SET_LOADING })
 
-    const { user, token } = await login(userInfo)
-    setItem('jwt_token', token)
+      const { user, token } = await login(userInfo)
+      setItem('jwt_token', token)
 
-    dispatch({ type: SET_USER, payload: { user, token } })
-  }, [])
+      dispatch({ type: SET_USER, payload: { user, token } })
+    },
+    [dispatch]
+  )
 
   const onLogout = useCallback(async () => {
     dispatch({ type: SET_LOADING })
@@ -28,7 +31,7 @@ const useActions = (dispatch) => {
     await logout()
 
     dispatch({ type: RESET_USER })
-  }, [])
+  }, [dispatch])
 
   return {
     onAuth,
