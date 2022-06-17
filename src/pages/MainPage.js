@@ -11,6 +11,7 @@ const SEARCH_TYPE = {
   CONTENT: '내용',
   QUOTE: '구절',
 }
+
 const SearchBar = styled.div`
   display: flex;
   justify-content: center;
@@ -71,7 +72,6 @@ const MainPage = () => {
   }
 
   useEffect(() => {
-    console.log(categoryName)
     if (categoryName === 'ALL') {
       getAllPost()
     } else {
