@@ -28,7 +28,8 @@ const signUp = async (userInfo) => {
 
 const getAuthUser = async () => {
   try {
-    await authInstance.get(`/auth-user`)
+    const { data } = await authInstance.get(`/auth-user`)
+    return data
   } catch (error) {
     console.error(error)
   }
