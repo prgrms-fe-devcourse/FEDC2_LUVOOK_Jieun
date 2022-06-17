@@ -1,9 +1,17 @@
 import { useCallback } from 'react'
 import { SET_USER, RESET_USER, SET_LOADING } from './constants'
-import { login, logout } from '@apis'
+import { login, logout, getAuthUser } from '@apis'
 import { setItem } from '@utils/storage'
 
 const useActions = (dispatch) => {
+  const onAuth = useCallback(async () => {
+    dispatch({ type: SET_LOADING })
+
+    const user = await getAuthUser()
+
+    dispatch({ type: SET_USER, payload: { user } })
+  }, [])
+
   const onLogin = useCallback(async (userInfo) => {
     dispatch({ type: SET_LOADING })
 
@@ -20,6 +28,7 @@ const useActions = (dispatch) => {
   }, [])
 
   return {
+    onAuth,
     onLogin,
     onLogout,
   }
