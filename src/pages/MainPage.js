@@ -20,6 +20,7 @@ const MainPage = () => {
 
   const closePostModal = () => {
     setShowPostModal(false)
+    setPost(null)
   }
 
   const getAllPost = async () => {
