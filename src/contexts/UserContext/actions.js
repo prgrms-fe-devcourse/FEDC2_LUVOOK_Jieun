@@ -26,7 +26,7 @@ const useActions = (dispatch) => {
 
     removeItem('jwt_token')
     await logout()
-    
+
     dispatch({ type: RESET_USER })
   }, [])
 
