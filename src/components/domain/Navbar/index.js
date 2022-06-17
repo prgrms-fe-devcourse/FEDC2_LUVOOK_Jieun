@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import uuid from 'react-uuid'
 
-const NavbarWrapper = styled.ul`
+const NavbarWrapper = styled.nav``
+
+const NavbarList = styled.ul`
   list-style: none;
   display: flex;
   align-items: center;
@@ -23,6 +25,7 @@ const Navbar = ({
   activeIndex = 0,
   handleClick,
   navbarWrapperStyle,
+  navbarListStyle,
   navbarItemStyle,
   activeItemStyle,
   ...props
@@ -31,31 +34,33 @@ const Navbar = ({
 
   return (
     <NavbarWrapper {...navbarWrapperStyle} {...props}>
-      {items?.map((item, index) =>
-        index === currentActiveIndex ? (
-          <NavbarActiveItem
-            {...activeItemStyle}
-            key={item.id ? item.id : uuid()}
-            onClick={() => {
-              setCurrentActiveIndex(index)
-              handleClick(item)
-            }}
-          >
-            {item.name}
-          </NavbarActiveItem>
-        ) : (
-          <NavbarItem
-            {...navbarItemStyle}
-            key={item.id ? item.id : uuid()}
-            onClick={() => {
-              setCurrentActiveIndex(index)
-              handleClick(item)
-            }}
-          >
-            {item.name}
-          </NavbarItem>
-        )
-      )}
+      <NavbarList {...navbarListStyle}>
+        {items?.map((item, index) =>
+          index === currentActiveIndex ? (
+            <NavbarActiveItem
+              {...activeItemStyle}
+              key={item.id ? item.id : uuid()}
+              onClick={() => {
+                setCurrentActiveIndex(index)
+                handleClick(item)
+              }}
+            >
+              {item.name}
+            </NavbarActiveItem>
+          ) : (
+            <NavbarItem
+              {...navbarItemStyle}
+              key={item.id ? item.id : uuid()}
+              onClick={() => {
+                setCurrentActiveIndex(index)
+                handleClick(item)
+              }}
+            >
+              {item.name}
+            </NavbarItem>
+          )
+        )}
+      </NavbarList>
     </NavbarWrapper>
   )
 }
