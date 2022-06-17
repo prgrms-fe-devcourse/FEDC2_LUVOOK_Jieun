@@ -3,11 +3,7 @@ import { Header, Banner, BookListSlider, Input, Button, Select } from '@componen
 import { useState, useEffect } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
 
-const CATEGORY = {
-  ALL: 'all',
-  NOVEL: '소설',
-  POET: '시',
-}
+const CATEGORY_ALL = { id: 0, name: 'ALL' }
 
 const SEARCH_TYPE = {
   ALL: '전체 검색',
@@ -40,11 +36,20 @@ const parseListTitle = (postList) => {
 }
 const MainPage = () => {
   const [postList, setPostList] = useState([])
-  const [categoryName, setCategoryName] = useState(CATEGORY['ALL'])
+  const [categoryName, setCategoryName] = useState(CATEGORY_ALL.name)
   const [searchedKeyword, setSearchedKeyword] = useState('')
   const [searchType, setSearchType] = useState(SEARCH_TYPE['ALL'])
+  const [allCategories, setAllCategories] = useState([])
+
+  const getAllChannels = async () => {
+    const channelList = await getChannelList()
+    const categories = channelList.map((channel) => ({ id: channel._id, name: channel.name }))
+    categories.unshift(CATEGORY_ALL)
+    setAllCategories(categories)
+  }
 
   const getAllPost = async () => {
+    // TODO: 후에 API 준비가 완료되면 로직 교체
     const channelList = await getChannelList()
     const totalPostList = (
       await Promise.all(channelList.map(async (channel) => await getPostListInChannel(channel._id)))
@@ -66,22 +71,16 @@ const MainPage = () => {
   }
 
   useEffect(() => {
-    switch (categoryName) {
-      case CATEGORY['ALL']:
-        getAllPost()
-        break
-      case CATEGORY['NOVEL']:
-        getChannelPost(CATEGORY['NOVEL'])
-        break
-      case CATEGORY['POET']:
-        getChannelPost(CATEGORY['POET'])
-        break
-      default:
-        setPostList([])
+    console.log(categoryName)
+    if (categoryName === 'ALL') {
+      getAllPost()
+    } else {
+      getChannelPost(categoryName)
     }
   }, [categoryName])
 
   useEffect(() => {
+    getAllChannels()
     getAllPost()
   }, [])
 
@@ -94,7 +93,7 @@ const MainPage = () => {
     const searchedResult = await getSearchedBookList(searchedKeyword)
     const searchedBookResult = searchedResult.filter((result) => !result.role)
 
-    if (categoryName === CATEGORY['ALL']) {
+    if (categoryName === CATEGORY_ALL.name) {
       setPostList(parseListTitle(searchedBookResult).sort(sortByLatest))
       return
     } else {
@@ -136,8 +135,11 @@ const MainPage = () => {
             setSearchType(e.target.value)
           }}
         />
+        {/* TODO: category 설정 방식 navBar로 변경 */}
         <Select
-          data={Object.values(CATEGORY)}
+          data={allCategories.map((category) => {
+            return category.name
+          })}
           onChange={(e) => {
             setCategoryName(e.target.value)
           }}
