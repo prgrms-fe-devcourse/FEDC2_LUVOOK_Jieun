@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 // TODO
 // utils로 옮겨야 한다.
 const CHANNEL_CATEGORY_MAP = {
-  ALL: 'all',
+  DEFAULT: '장르 선택',
   NOVEL: '소설',
   POETRY: '시',
 }
@@ -38,11 +38,11 @@ const SubmitButtons = styled.div`
 `
 
 const initialValues = {
-  bookTitle: '',
+  channel: '',
   bookImage: DEFAULT_IMAGE_URL,
-  channel: CHANNEL_CATEGORY_MAP.ALL,
-  quote: '',
-  contents: '',
+  bookTitle: '',
+  postQuote: '',
+  postContent: '',
 }
 
 const NewPostForm = ({ showModal, onClose }) => {
@@ -50,6 +50,8 @@ const NewPostForm = ({ showModal, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    // TODO
+    // state를 통해 submit을 수행해야 한다. (formik + api)
     console.log(state)
     onClose('submit')
     setState(initialValues)
@@ -79,6 +81,7 @@ const NewPostForm = ({ showModal, onClose }) => {
         <Select
           data={Object.values(CHANNEL_CATEGORY_MAP)}
           value={state.channel}
+          placeholder="장르 선택"
           onChange={(e) => setState({ ...state, channel: e.target.value })}
         />
       </div>
@@ -89,8 +92,8 @@ const NewPostForm = ({ showModal, onClose }) => {
         <Input
           placeholder="문구를 입력해주세요"
           block
-          value={state.quote}
-          onChange={(e) => setState({ ...state, quote: e.target.value })}
+          value={state.postQuote}
+          onChange={(e) => setState({ ...state, postQuote: e.target.value })}
         />
       </div>
       <div>
@@ -100,8 +103,8 @@ const NewPostForm = ({ showModal, onClose }) => {
         <Textarea
           placeholder="내용을 입력해주세요"
           rows={10}
-          value={state.contents}
-          onChange={(e) => setState({ ...state, contents: e.target.value })}
+          value={state.postContent}
+          onChange={(e) => setState({ ...state, postContent: e.target.value })}
         />
       </div>
       <SubmitButtons>
