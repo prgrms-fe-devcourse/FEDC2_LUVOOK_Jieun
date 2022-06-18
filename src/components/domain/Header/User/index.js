@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
 import { getItem } from '@utils/storage'
+import ProfileImage from '../../../../images/profile_default.png'
 
 const UserElement = styled.div`
   position: absolute;
@@ -58,12 +59,7 @@ const User = () => {
 
   return isLogin ? (
     <div>
-      <Avatar
-        src={'https://picsum.photos/200'}
-        size={40}
-        id="user"
-        onClick={() => setUserPop(true)}
-      />
+      <Avatar src={ProfileImage} size={40} id="user" onClick={() => setUserPop(true)} />
       <Popover show={userPop} targetId="user" onClose={() => setUserPop(false)}>
         <UserElement>
           <Link to="/users/:username">
