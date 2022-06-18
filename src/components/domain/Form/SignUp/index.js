@@ -5,8 +5,13 @@ import { Input } from '@components'
 import { signUp } from '@apis'
 import { validateSignUp } from '@utils/validation/signUp'
 import { useFormik } from 'formik'
+import { useUserContext } from '@contexts/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
+  const { onSignUp } = useUserContext()
+  const navigate = useNavigate()
+
   const { values, errors, handleSubmit, handleChange } = useFormik({
     initialValues: {
       email: '',
@@ -20,11 +25,12 @@ const SignUp = () => {
         fullName,
         password,
       }
-      const { user, token } = await signUp(userInfo)
-      // TODO
-      // 바로 Login 적용하여 토큰 localStorage에 적용시키고
-      // userContext에 연결
-      // 회원가입 성공 시 로그인 후 main 이동
+      try {
+        await onSignUp(userInfo)
+        navigate('/')
+      } catch (e) {
+        alert('회원가입에 실패하였습니다.')
+      }
     },
     validate: validateSignUp,
   })
