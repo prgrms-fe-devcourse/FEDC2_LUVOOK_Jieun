@@ -40,7 +40,6 @@ const Login = () => {
         placeholder="비밀번호를 입력해주세요"
         onChange={handleChange}
         value={values.password}
-        style={{ marginBottom: 10 }}
       />
       <SubmitButton>로그인</SubmitButton>
     </Form>
