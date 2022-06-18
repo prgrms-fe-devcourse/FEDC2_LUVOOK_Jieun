@@ -9,6 +9,7 @@ const SubmitButton = ({ children }) => {
     border: 'none',
     backgroundColor: '#9e7373',
     color: 'white',
+    marginTop: '10px',
   }
 
   return <Button style={submitButtonStyle}>{children}</Button>
