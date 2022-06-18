@@ -1,6 +1,17 @@
 import styled from '@emotion/styled'
-import { Header, Banner, BookListSlider, Input, Button, Select, Modal, Post } from '@components'
-import { useState, useEffect } from 'react'
+import {
+  Header,
+  Banner,
+  BookListSlider,
+  Input,
+  Button,
+  Select,
+  Modal,
+  Post,
+  Navbar,
+  Icon,
+} from '@components'
+import { useState, useEffect, Fragment } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
 
 const CATEGORY_ALL = { id: 0, name: 'ALL' }
@@ -13,10 +24,30 @@ const SEARCH_TYPE = {
 }
 
 const SearchBar = styled.div`
+  padding: 8px;
   display: flex;
   justify-content: center;
+  margin-bottom: 24px;
 `
 
+const MainPageInput = styled(Input)`
+  width: 400px;
+  height: 50px;
+  // TODO: 이 후 변수로 사용
+  border: 1px solid rgba(116, 55, 55, 0.7);
+`
+
+const MainPageButton = styled(Button)`
+  width: 80px;
+  border: none;
+  // TODO: 이 후 변수로 사용
+  background-color: rgba(116, 55, 55, 0.7);
+  color: white;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 const sortByLatest = (post1, post2) => {
   return Date.parse(post2.createdAt) - Date.parse(post1.createdAt)
 }
@@ -35,6 +66,30 @@ const parseListTitle = (postList) => {
     return postList
   }
 }
+
+const MainPageSection = styled.section`
+  margin-top: 32px;
+`
+
+const MainPageNav = styled(Navbar)`
+  font-size: 24px;
+`
+
+const SliderWrapper = styled.div`
+  background-size: cover;
+`
+
+const MainPageSelect = styled(Select)`
+  width: 120px;
+  height: 50px;
+  margin-right: 10px;
+  border: none;
+  // TODO: 이 후 상수로 대체할 부분
+  color: rgba(116, 55, 55, 0.7);
+  border: 1px solid rgba(116, 55, 55, 0.7);
+  font-size: 16px;
+`
+
 const MainPage = () => {
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(CATEGORY_ALL.name)
@@ -76,6 +131,11 @@ const MainPage = () => {
   const handleClickPost = (post) => {
     setPost(post)
     setShowPostModal(true)
+  }
+
+  const activeItemStyle = {
+    fontWeight: 'bold',
+    color: '#743737',
   }
 
   useEffect(() => {
@@ -131,50 +191,60 @@ const MainPage = () => {
   }
 
   return (
-    <div>
+    <Fragment>
       <Header />
       <Banner />
-      <SearchBar>
-        <Select
-          data={Object.values(SEARCH_TYPE)}
-          placeholder={'검색 옵션 지정'}
-          onChange={(e) => {
-            setSearchType(e.target.value)
+      <MainPageSection>
+        <MainPageNav
+          navbarListStyle={{
+            width: '89%',
+            paddingBottom: '24px',
+            borderBottom: '1px solid #d9d9d9',
           }}
+          activeItemStyle={{ ...activeItemStyle }}
+          items={allCategories}
+          handleClick={(category) => setCategoryName(category.name)}
+          style={{ margin: '0 200px' }}
         />
-        {/* TODO: category 설정 방식 navBar로 변경 */}
-        <Select
-          data={allCategories.map((category) => {
-            return category.name
-          })}
-          onChange={(e) => {
-            setCategoryName(e.target.value)
-          }}
-        />
-        <Input
-          placeholder="포스트를 검색해주세요."
-          block
-          required
-          onChange={onChangeSearchedKeyword}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              setSearchedKeyword(e.target.value)
-              onSearch()
-            }
-          }}
-        />
-        <Button onClick={onSearch}>검색</Button>
-      </SearchBar>
-      <BookListSlider
-        posts={postList}
-        grid={{ fill: 'row', rows: 2 }}
-        handleClick={handleClickPost}
-      />
+        <SearchBar>
+          <MainPageSelect
+            data={Object.values(SEARCH_TYPE)}
+            placeholder={'제목+내용'}
+            onChange={(e) => {
+              setSearchType(e.target.value)
+            }}
+          />
+          <MainPageInput
+            placeholder="포스트를 검색해주세요."
+            block
+            required
+            onChange={onChangeSearchedKeyword}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                setSearchedKeyword(e.target.value)
+                onSearch()
+              }
+            }}
+          ></MainPageInput>
+          <MainPageButton onClick={onSearch}>
+            <Icon name="search" color="white" size={24} />
+          </MainPageButton>
+        </SearchBar>
 
-      <Modal visible={showPostModal} onClose={closePostModal}>
-        <Post post={post} />
-      </Modal>
-    </div>
+        <SliderWrapper>
+          <BookListSlider
+            style={{ width: '1200px', height: '520px' }}
+            posts={postList}
+            grid={{ fill: 'row', rows: 2 }}
+            handleClick={handleClickPost}
+          />
+        </SliderWrapper>
+
+        <Modal visible={showPostModal} onClose={closePostModal}>
+          <Post post={post} />
+        </Modal>
+      </MainPageSection>
+    </Fragment>
   )
 }
 
