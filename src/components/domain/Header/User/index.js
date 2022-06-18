@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
 import { getItem } from '@utils/storage'
-import ProfileImage from '../../../../images/profile_default.png'
+import ProfileImage from '@images/profile_default.png'
 
 const UserElement = styled.div`
   position: absolute;
