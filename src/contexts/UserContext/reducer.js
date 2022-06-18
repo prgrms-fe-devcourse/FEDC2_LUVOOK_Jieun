@@ -6,7 +6,7 @@ export const reducer = (state, { type, payload }) => {
     case SET_USER:
       return {
         ...state,
-        currentUser: payload.currentUser,
+        currentUser: payload.user,
         isLoading: false,
         token: payload.token,
       }
