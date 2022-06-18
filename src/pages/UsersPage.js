@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect } from 'react'
 import { Header, Avatar, Icon } from '@components'
 import styled from '@emotion/styled'
 import { getUserInfo, updateUserProfileImg, updateUserName, updateUserPassword } from '@apis'
@@ -58,7 +58,6 @@ const ProfileEdit = styled.div`
 
 const UserContent = styled.div`
   display: flex;
-  align-items: center;
   width: 60%;
   height: 19vh;
   padding: 0 20px;
@@ -80,6 +79,7 @@ const UserContent = styled.div`
     vertical-align: top;
     white-space: normal;
     font-size: 24px;
+    padding: 22px 0;
   }
   > textarea:focus {
     outline: none;
@@ -98,6 +98,18 @@ const UserEditButton = styled.button`
   left: 490px;
 `
 
+const PasswordEditButton = styled.button`
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: #a5a3af;
+  cursor: pointer;
+  position: relative;
+  bottom: 142px;
+  left: 350px;
+`
+
 const dummy = {
   id: '1',
   fullName: {
@@ -107,28 +119,29 @@ const dummy = {
   },
 }
 
-const UserEdit = () => {
-  const [user, setUser] = useState(dummy)
-  const [isNameEdit, setIsNameEdit] = useState(dummy.fullName.fullName)
-  const [isQuoteEdit, setIsQuoteEdit] = useState(dummy.fullName.quote)
+const UserEdit = ({ onChange }) => {
+  const [userId, setUserId] = useState(dummy.id)
+  const [user, setUser] = useState(dummy.fullName)
 
   const handleNameChange = (e) => {
-    setIsNameEdit(e.target.value)
+    setUser({ ...user, fullName: e.target.value })
+    onChange({ ...user })
   }
   const handleQuoteChange = (e) => {
-    setIsQuoteEdit(e.target.value)
+    setUser({ ...user, quote: e.target.value })
+    onChange({ ...user })
   }
 
   return (
     <UserInfoContainer key={user.id}>
       <ProfileEdit>
         <Avatar src={'https://picsum.photos/200'} size={196} />
-        <input type="text" value={isNameEdit} onChange={handleNameChange} maxlength="12" />
+        <input type="text" value={user.fullName} onChange={handleNameChange} maxlength="12" />
       </ProfileEdit>
       <UserContent>
         <textarea
           type="textarea"
-          value={isQuoteEdit}
+          value={user.quote}
           onChange={handleQuoteChange}
           autoFocus
           maxlength="300"
@@ -139,35 +152,48 @@ const UserEdit = () => {
 }
 
 const UsersPage = () => {
-  const [user, setUser] = useState(dummy)
+  const [user, setUser] = useState(dummy.fullName)
   const [isUser, setIsUser] = useState(false)
+  const [isNameEdit, setIsNameEdit] = useState(dummy.fullName.fullName)
+  const [isQuoteEdit, setIsQuoteEdit] = useState(dummy.fullName.quote)
   const clickedToggle = () => {
     setIsUser((isUser) => !isUser)
   }
   const handleChange = (e) => {
-    setIsUser(e.target.value)
+    setIsNameEdit(e.target.value)
+    setIsQuoteEdit(e.target.value)
   }
 
   return (
     <UserPageContainer>
       <Header />
       {isUser ? (
-        <UserEdit />
+        <UserEdit onChange={({ fullName, quote }) => setUser({ fullName, quote })} />
       ) : (
         <UserInfoContainer key={user.id}>
           <Profile>
             <Avatar src={'https://picsum.photos/200'} size={196} />
-            <p className="user-name">{user.fullName.fullName}</p>
+            <p className="user-name" value={isNameEdit}>
+              {user.fullName}
+            </p>
           </Profile>
           <UserContent>
-            <p>{user.fullName.quote}</p>
+            <p value={isQuoteEdit}>{user.quote}</p>
           </UserContent>
         </UserInfoContainer>
       )}
       <UserEditButton onClick={clickedToggle} onChange={handleChange}>
-        {!isUser ? <Icon name={'tool'} size={20} rotate={'270'} /> : ''}
-        {!isUser ? '회원 정보 수정' : '완료'}
+        {!isUser ? (
+          <Icon name={'tool'} size={20} rotate={'270'} />
+        ) : (
+          <Icon name={'save'} size={20} />
+        )}
+        {!isUser ? '회원 정보 수정' : '변경사항 저장'}
       </UserEditButton>
+      <PasswordEditButton>
+        <Icon name={'feather'} size={20} />
+        비밀번호 변경
+      </PasswordEditButton>
     </UserPageContainer>
   )
 }
