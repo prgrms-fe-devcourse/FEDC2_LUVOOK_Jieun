@@ -15,6 +15,11 @@ import {
 import { useState, useEffect, Fragment } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
 
+const CONFIRM_MESSAGE = {
+  CANCEL: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
+  SUBMIT: '글을 작성할까요?',
+}
+
 const CATEGORY_ALL = { id: 0, name: 'ALL' }
 
 const SEARCH_TYPE = {
@@ -106,13 +111,11 @@ const MainPage = () => {
     setPost(null)
   }
 
-  const closeNewPostFormModal = (type = 'cancel') => {
-    const messageMap = {
-      cancel: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
-      submit: '글을 작성할까요?',
-    }
-
-    if (window.confirm(messageMap[type])) {
+  const closeNewPostFormModal = async (action = 'CANCEL', callbackFn) => {
+    if (window.confirm(CONFIRM_MESSAGE[action])) {
+      if (callbackFn) {
+        await callbackFn()
+      }
       setShowNewPostFormModal(false)
     }
   }

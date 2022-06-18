@@ -1,12 +1,12 @@
 import styled from '@emotion/styled'
 import { Input, Button, Title, Select } from '@components'
 import BookSearch from './BookSearch'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useFormik } from 'formik'
 
 // TODO
 // utils로 옮겨야 한다.
 const CHANNEL_CATEGORY_MAP = {
-  DEFAULT: '장르 선택',
   NOVEL: '소설',
   POETRY: '시',
 }
@@ -46,43 +46,47 @@ const initialValues = {
 }
 
 const NewPostForm = ({ showModal, onClose }) => {
-  const [state, setState] = useState(initialValues)
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // TODO
-    // state를 통해 submit을 수행해야 한다. (formik + api)
-    console.log(state)
-    onClose('submit')
-    setState(initialValues)
-  }
+  const { values, setValues, handleSubmit, handleChange, handleReset } = useFormik({
+    initialValues,
+    onSubmit: async (formData) => {
+      if (Object.values(values).some((item) => item.length === 0)) {
+        window.alert('내용을 모두 입력해주세요.')
+        return
+      }
+      const submitData = async () => {
+        await console.log(formData)
+        handleReset()
+      }
+      onClose && onClose('SUBMIT', submitData)
+    },
+  })
 
   const handleCancel = (e) => {
     e.preventDefault()
-    onClose && onClose('cancel')
-    setState(initialValues)
+    onClose && onClose('CANCEL', handleReset)
   }
 
-  const handleChange = ({ bookTitle, bookImage }) => {
-    setState({ ...state, bookTitle, bookImage })
+  const onChangeBookSearchValues = ({ bookTitle, bookImage }) => {
+    setValues({ ...values, bookTitle, bookImage })
   }
 
   useEffect(() => {
-    setState(initialValues)
+    handleReset()
   }, [showModal])
 
   return (
     <PostContainerForm onSubmit={handleSubmit}>
-      <BookSearch showModal={showModal} onChange={handleChange} />
+      <BookSearch showModal={showModal} onChange={onChangeBookSearchValues} />
       <div>
         <Title level={2} style={{ margin: 0 }}>
           책의 장르를 선택해주세요.
         </Title>
         <Select
+          name="channel"
           data={Object.values(CHANNEL_CATEGORY_MAP)}
-          value={state.channel}
+          value={values.channel}
           placeholder="장르 선택"
-          onChange={(e) => setState({ ...state, channel: e.target.value })}
+          onChange={handleChange}
         />
       </div>
       <div>
@@ -90,10 +94,12 @@ const NewPostForm = ({ showModal, onClose }) => {
           문구를 입력해주세요!
         </Title>
         <Input
+          name="postQuote"
           placeholder="문구를 입력해주세요"
           block
-          value={state.postQuote}
-          onChange={(e) => setState({ ...state, postQuote: e.target.value })}
+          value={values.postQuote}
+          onChange={handleChange}
+          autoComplete="off"
         />
       </div>
       <div>
@@ -101,10 +107,11 @@ const NewPostForm = ({ showModal, onClose }) => {
           내용을 입력해주세요!
         </Title>
         <Textarea
+          name="postContent"
           placeholder="내용을 입력해주세요"
           rows={10}
-          value={state.postContent}
-          onChange={(e) => setState({ ...state, postContent: e.target.value })}
+          value={values.postContent}
+          onChange={handleChange}
         />
       </div>
       <SubmitButtons>
