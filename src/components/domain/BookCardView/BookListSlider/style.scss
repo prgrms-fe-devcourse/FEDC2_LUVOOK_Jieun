@@ -1,10 +1,13 @@
+:root {
+  --swiper-navigation-color: #743737;
+}
+
+.swiper-container {
+}
+
+.swiper-slide {
+}
+
 .swiper-grid > .swiper-wrapper {
-  // width : TODO: 이 부분은 변수로 지정해야 합니다
   align-content: space-between;
-}
-
-.swiper-button-prev {
-}
-
-.swiper-button-next {
 }

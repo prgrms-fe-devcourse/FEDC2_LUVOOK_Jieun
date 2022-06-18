@@ -2,13 +2,18 @@ import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import uuid from 'react-uuid'
 
-const NavbarWrapper = styled.nav``
+const NavbarWrapper = styled.nav`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const NavbarList = styled.ul`
+  width: 89%;
   list-style: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 `
 
 const NavbarItem = styled.li`
@@ -17,7 +22,6 @@ const NavbarItem = styled.li`
 
 const NavbarActiveItem = styled.li`
   cursor: pointer;
-  background-color: red;
 `
 
 const Navbar = ({
@@ -33,12 +37,12 @@ const Navbar = ({
   const [currentActiveIndex, setCurrentActiveIndex] = useState(activeIndex)
 
   return (
-    <NavbarWrapper {...navbarWrapperStyle} {...props}>
-      <NavbarList {...navbarListStyle}>
+    <NavbarWrapper style={{ ...navbarWrapperStyle }} {...props}>
+      <NavbarList style={{ ...navbarListStyle }}>
         {items?.map((item, index) =>
           index === currentActiveIndex ? (
             <NavbarActiveItem
-              {...activeItemStyle}
+              style={{ ...activeItemStyle }}
               key={item.id ? item.id : uuid()}
               onClick={() => {
                 setCurrentActiveIndex(index)
@@ -49,7 +53,7 @@ const Navbar = ({
             </NavbarActiveItem>
           ) : (
             <NavbarItem
-              {...navbarItemStyle}
+              style={{ ...navbarItemStyle }}
               key={item.id ? item.id : uuid()}
               onClick={() => {
                 setCurrentActiveIndex(index)

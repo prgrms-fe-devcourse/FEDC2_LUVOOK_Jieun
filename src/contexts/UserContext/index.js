@@ -15,10 +15,10 @@ const UserContext = createContext()
 
 const UserContextProvider = ({ children }) => {
   const [currentUserState, dispatch] = useReducer(reducer, initialUserData)
-  const { onAuth, onLogin, onLogout } = useActions(dispatch)
+  const { onAuth, onLogin, onLogout, onSignUp } = useActions(dispatch)
 
   return (
-    <UserContext.Provider value={{ currentUserState, onAuth, onLogin, onLogout }}>
+    <UserContext.Provider value={{ currentUserState, onAuth, onLogin, onLogout, onSignUp }}>
       {children}
     </UserContext.Provider>
   )
