@@ -44,6 +44,8 @@ const defaultPostProps = {
 }
 
 const Post = ({ post, ...props }) => {
+  if (!post) return
+
   const {
     likes,
     comments,

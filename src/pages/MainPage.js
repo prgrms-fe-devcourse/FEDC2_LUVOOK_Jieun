@@ -7,6 +7,7 @@ import {
   Button,
   Select,
   Modal,
+  NewPostForm,
   Post,
   Navbar,
   Icon,
@@ -98,10 +99,22 @@ const MainPage = () => {
   const [allCategories, setAllCategories] = useState([])
   const [showPostModal, setShowPostModal] = useState(false)
   const [post, setPost] = useState(null)
+  const [showNewPostFormModal, setShowNewPostFormModal] = useState(false)
 
   const closePostModal = () => {
     setShowPostModal(false)
     setPost(null)
+  }
+
+  const closeNewPostFormModal = (type = 'cancel') => {
+    const messageMap = {
+      cancel: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
+      submit: '글을 작성할까요?',
+    }
+
+    if (window.confirm(messageMap[type])) {
+      setShowNewPostFormModal(false)
+    }
   }
 
   const getAllChannels = async () => {
@@ -194,6 +207,7 @@ const MainPage = () => {
     <Fragment>
       <Header />
       <Banner />
+      <Button onClick={() => setShowNewPostFormModal(true)}>새로운 글 작성하기</Button>
       <MainPageSection>
         <MainPageNav
           navbarListStyle={{
@@ -239,11 +253,19 @@ const MainPage = () => {
             handleClick={handleClickPost}
           />
         </SliderWrapper>
-
-        <Modal visible={showPostModal} onClose={closePostModal}>
-          <Post post={post} />
-        </Modal>
       </MainPageSection>
+
+      <Modal visible={showPostModal} onClose={closePostModal}>
+        <Post post={post} />
+      </Modal>
+
+      <Modal
+        visible={showNewPostFormModal}
+        onClose={() => closeNewPostFormModal()}
+        closeOnClickOutside={false}
+      >
+        <NewPostForm showModal={showNewPostFormModal} onClose={closeNewPostFormModal} />
+      </Modal>
     </Fragment>
   )
 }
