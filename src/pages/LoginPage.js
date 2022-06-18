@@ -4,8 +4,8 @@ import { useUserContext } from '@contexts/UserContext'
 import { Login as LoginForm, Image, Title, Text } from '@components'
 import { getItem } from '@utils/storage'
 import styled from '@emotion/styled'
-import LoginBackgroundImage from '../images/login_background.jpeg'
-import LuvookLogo from '../images/luvook_transparent_medium.png'
+import LoginBackgroundImage from '@images/login_background.jpeg'
+import LuvookLogo from '@images/luvook_transparent_medium.png'
 
 const LoginPageContainer = styled.section`
   display: grid;

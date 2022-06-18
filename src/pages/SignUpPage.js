@@ -4,9 +4,9 @@ import { useUserContext } from '@contexts/UserContext'
 import { SignUp as SignUpForm, Image, Title, Text, Input } from '@components'
 import { getItem } from '@utils/storage'
 import styled from '@emotion/styled'
-import QuoteBackgroundImage from '../images/signup_quote_background.png'
-import SignUpBackgroundImage from '../images/signup_background.jpeg'
-import LuvookLogo from '../images/luvook_transparent_medium.png'
+import QuoteBackgroundImage from '@images/signup_quote_background.png'
+import SignUpBackgroundImage from '@images/signup_background.jpeg'
+import LuvookLogo from '@images/luvook_transparent_medium.png'
 
 const QuoteWrappper = styled.section`
   width: 100%;
