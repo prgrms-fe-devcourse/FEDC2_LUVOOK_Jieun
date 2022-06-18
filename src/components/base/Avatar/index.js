@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react'
 import ImageComponent from '../Image'
 import PropTypes from 'prop-types'
 
+// TODO
+// 여기에는 Avatar 디폴트 이미지가 들어가야 합니다. 임시로 url을 넣어놓았습니다.
+const DEFAULT_AVATAR_IMG_URL = 'https://pic.onlinewebfonts.com/svg/img_312847.png'
+
 const ShapeToCssValue = {
   circle: '50%',
   round: '40px',
@@ -24,7 +28,7 @@ const AvatarWrapper = styled.div`
 const Avatar = ({
   lazy,
   threshold,
-  src,
+  src = DEFAULT_AVATAR_IMG_URL,
   size = 70,
   shape = 'circle',
   placeholder,
@@ -62,7 +66,7 @@ Avatar.propTypes = {
   lazy: PropTypes.bool,
   threshold: PropTypes.number,
   placeholder: PropTypes.string,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
   size: PropTypes.number,
   shape: PropTypes.oneOf(['circle', 'round', 'square']),
   alt: PropTypes.string,

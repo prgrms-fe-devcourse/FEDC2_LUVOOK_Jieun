@@ -54,6 +54,7 @@ const Modal = ({
   visible = false,
   onClose,
   closeOnClickOutside = true,
+  hasCloseButton = true,
   ...props
 }) => {
   const onClickModalWrapper = useClickAway(() => {
@@ -83,7 +84,7 @@ const Modal = ({
         {...props}
         style={{ ...props.style, ...containerStyle }}
       >
-        <ModalCloseButton onClick={onClose}>X</ModalCloseButton>
+        {hasCloseButton && <ModalCloseButton onClick={onClose}>X</ModalCloseButton>}
         {children}
       </ModalContainer>
     </BackgroundDim>,
