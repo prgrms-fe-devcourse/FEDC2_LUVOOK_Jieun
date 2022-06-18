@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { Popover, Avatar } from '@components'
+import { useState, useEffect } from 'react'
+import { Popover, Avatar, SubmitButton } from '@components'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
+import { getItem } from '@utils/storage'
 
 const UserElement = styled.div`
   position: absolute;
@@ -28,20 +29,34 @@ const UserElement = styled.div`
 `
 
 const User = () => {
+  const [isLogin, setIsLogin] = useState(false)
   const [userPop, setUserPop] = useState(false)
-  const { onLogout } = useUserContext()
+  const { onLogout, onAuth } = useUserContext()
   const navigate = useNavigate()
 
   const logout = async () => {
     try {
       await onLogout()
-      navigate('/login')
+      navigate('/')
     } catch (e) {
       alert('로그아웃에 실패하였습니다.')
     }
   }
 
-  return (
+  const checkUserAuth = async () => {
+    if (getItem('jwt_token')) {
+      await onAuth()
+      setIsLogin(true)
+    } else {
+      setIsLogin(false)
+    }
+  }
+
+  useEffect(() => {
+    checkUserAuth()
+  }, [])
+
+  return isLogin ? (
     <div>
       <Avatar
         src={'https://picsum.photos/200'}
@@ -60,6 +75,10 @@ const User = () => {
         </UserElement>
       </Popover>
     </div>
+  ) : (
+    <SubmitButton type="button" onClick={() => navigate('/login')}>
+      로그인
+    </SubmitButton>
   )
 }
 
