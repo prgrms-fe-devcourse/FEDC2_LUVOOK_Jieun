@@ -2,7 +2,8 @@ import { baseInstance } from '../utils/instance'
 
 const getSearchedUserList = async (userId) => {
   try {
-    await baseInstance.get(`/search/users/${userId}`)
+    const { data } = await baseInstance.get(`/search/users/${userId}`)
+    return data
   } catch (error) {
     console.error(error)
   }

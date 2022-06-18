@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Popover, Avatar } from '@components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
+import { useUserContext } from '@contexts/UserContext'
 
 const UserElement = styled.div`
   position: absolute;
@@ -28,6 +29,17 @@ const UserElement = styled.div`
 
 const User = () => {
   const [userPop, setUserPop] = useState(false)
+  const { onLogout } = useUserContext()
+  const navigate = useNavigate()
+
+  const logout = async () => {
+    try {
+      await onLogout()
+      navigate('/login')
+    } catch (e) {
+      alert('로그아웃에 실패하였습니다.')
+    }
+  }
 
   return (
     <div>
@@ -43,7 +55,7 @@ const User = () => {
             <li>마이 페이지</li>
           </Link>
           <Link to="/login">
-            <li>로그아웃</li>
+            <li onClick={logout}>로그아웃</li>
           </Link>
         </UserElement>
       </Popover>

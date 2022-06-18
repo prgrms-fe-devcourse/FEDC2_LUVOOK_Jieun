@@ -1,24 +1,5 @@
-import { createContext } from 'react'
 import { SET_USER, RESET_USER, SET_LOADING, SET_LOADING_DONE } from './constants'
-
-export const initialUserData = {
-  currentUser: {
-    image: null, // 프로필 이미지
-    role: null, // 문구로 사용되는 부분
-    posts: [],
-    likes: [],
-    comments: null,
-    notifications: null,
-    _id: null,
-    fullName: null,
-    email: null,
-    createdAt: null,
-    updatedAt: null,
-  },
-  isLoading: false,
-}
-
-export const UserContext = createContext(initialUserData)
+import { initialUserData } from './initialUserState'
 
 export const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -27,6 +8,7 @@ export const reducer = (state, { type, payload }) => {
         ...state,
         currentUser: payload.currentUser,
         isLoading: false,
+        token: payload.token,
       }
     case RESET_USER:
       return initialUserData

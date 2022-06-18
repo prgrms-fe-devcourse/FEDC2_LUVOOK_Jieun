@@ -9,22 +9,94 @@ import {
   Modal,
   NewPostForm,
   Post,
+  Navbar,
+  Icon,
 } from '@components'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
 
-const ALL_CATEGORY = 'all'
-const DEFAULT_CATEGORY = '소설'
+const CATEGORY_ALL = { id: 0, name: 'ALL' }
+
+const SEARCH_TYPE = {
+  ALL: '전체 검색',
+  TITLE: '책 제목',
+  CONTENT: '내용',
+  QUOTE: '구절',
+}
 
 const SearchBar = styled.div`
+  padding: 8px;
   display: flex;
   justify-content: center;
+  margin-bottom: 24px;
+`
+
+const MainPageInput = styled(Input)`
+  width: 400px;
+  height: 50px;
+  // TODO: 이 후 변수로 사용
+  border: 1px solid rgba(116, 55, 55, 0.7);
+`
+
+const MainPageButton = styled(Button)`
+  width: 80px;
+  border: none;
+  // TODO: 이 후 변수로 사용
+  background-color: rgba(116, 55, 55, 0.7);
+  color: white;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const sortByLatest = (post1, post2) => {
+  return Date.parse(post2.createdAt) - Date.parse(post1.createdAt)
+}
+
+const parseListTitle = (postList) => {
+  try {
+    return postList.map((post) => {
+      return {
+        ...post,
+        title: JSON.parse(post.title),
+      }
+    })
+  } catch (e) {
+    // TODO: 현재 api 데이터의 title이 JSON.stringify 형태가 아니기 때문에,
+    // 오류가 발생하므로, try-catch 사용
+    return postList
+  }
+}
+
+const MainPageSection = styled.section`
+  margin-top: 32px;
+`
+
+const MainPageNav = styled(Navbar)`
+  font-size: 24px;
+`
+
+const SliderWrapper = styled.div`
+  background-size: cover;
+`
+
+const MainPageSelect = styled(Select)`
+  width: 120px;
+  height: 50px;
+  margin-right: 10px;
+  border: none;
+  // TODO: 이 후 상수로 대체할 부분
+  color: rgba(116, 55, 55, 0.7);
+  border: 1px solid rgba(116, 55, 55, 0.7);
+  font-size: 16px;
 `
 
 const MainPage = () => {
   const [postList, setPostList] = useState([])
-  const [categoryName, setCategoryName] = useState(ALL_CATEGORY)
+  const [categoryName, setCategoryName] = useState(CATEGORY_ALL.name)
   const [searchedKeyword, setSearchedKeyword] = useState('')
+  const [searchType, setSearchType] = useState(SEARCH_TYPE['ALL'])
+  const [allCategories, setAllCategories] = useState([])
   const [showPostModal, setShowPostModal] = useState(false)
   const [post, setPost] = useState(null)
   const [showNewPostFormModal, setShowNewPostFormModal] = useState(false)
@@ -45,24 +117,28 @@ const MainPage = () => {
     }
   }
 
-  const getAllPost = async () => {
+  const getAllChannels = async () => {
     const channelList = await getChannelList()
+    const categories = channelList.map((channel) => ({ id: channel._id, name: channel.name }))
+    categories.unshift(CATEGORY_ALL)
+    setAllCategories(categories)
+  }
 
+  const getAllPost = async () => {
+    // TODO: 후에 API 준비가 완료되면 로직 교체
+    const channelList = await getChannelList()
     const totalPostList = (
       await Promise.all(channelList.map(async (channel) => await getPostListInChannel(channel._id)))
     ).flat()
 
-    totalPostList.sort((post1, post2) => {
-      return Date.parse(post2.createdAt) - Date.parse(post1.createdAt)
-    })
-
-    setPostList(totalPostList)
+    totalPostList.sort(sortByLatest)
+    setPostList(parseListTitle(totalPostList))
   }
 
   const getChannelPost = async (channelName) => {
     const channelInfo = await getChannelInfo(channelName)
     const channelPostList = await getPostListInChannel(channelInfo._id)
-    setPostList(channelPostList)
+    setPostList(parseListTitle(channelPostList))
   }
 
   const handleClickPost = (post) => {
@@ -70,20 +146,21 @@ const MainPage = () => {
     setShowPostModal(true)
   }
 
+  const activeItemStyle = {
+    fontWeight: 'bold',
+    color: '#743737',
+  }
+
   useEffect(() => {
-    switch (categoryName) {
-      case ALL_CATEGORY:
-        getAllPost()
-        break
-      case DEFAULT_CATEGORY:
-        getChannelPost(DEFAULT_CATEGORY)
-        break
-      default:
-        setPostList([])
+    if (categoryName === 'ALL') {
+      getAllPost()
+    } else {
+      getChannelPost(categoryName)
     }
   }, [categoryName])
 
   useEffect(() => {
+    getAllChannels()
     getAllPost()
   }, [])
 
@@ -93,41 +170,90 @@ const MainPage = () => {
 
   const onSearch = async (e) => {
     if (!searchedKeyword) return
-    const searchResult = await getSearchedBookList(searchedKeyword)
-    const searchBookResult = searchResult.filter((result) => !result.role)
-    setPostList(searchBookResult)
-    setCategoryName(ALL_CATEGORY)
+    const searchedResult = await getSearchedBookList(searchedKeyword)
+    const searchedBookResult = searchedResult.filter((result) => !result.role)
+
+    if (categoryName === CATEGORY_ALL.name) {
+      setPostList(parseListTitle(searchedBookResult).sort(sortByLatest))
+      return
+    } else {
+      const { _id } = await getChannelInfo(categoryName)
+      const filteredResult = searchedBookResult.filter((result) => result.channel === _id)
+      setPostList(parseListTitle(filteredResult))
+    }
+  }
+
+  const searchByType = (searchedResult) => {
+    switch (searchType) {
+      case SEARCH_TYPE['ALL']:
+        return searchedResult.filter(
+          (post) =>
+            post.title.bookTitle.includes(searchedKeyword) ||
+            post.title.postContent.includes(searchedKeyword) ||
+            post.title.postQuote.includes(searchedKeyword)
+        )
+      case SEARCH_TYPE['TITLE']:
+        return searchedResult.filter((post) => post.title.bookTitle.includes(searchedKeyword))
+      case SEARCH_TYPE['CONTENT']:
+        return searchedResult.filter((post) => post.title.postContent.includes(searchedKeyword))
+      case SEARCH_TYPE['QUOTE']:
+        return searchedResult.filter((post) => post.title.postQuote.includes(searchedKeyword))
+      default:
+        return searchedResult
+    }
   }
 
   return (
-    <div>
+    <Fragment>
       <Header />
       <Banner />
-
       <Button onClick={() => setShowNewPostFormModal(true)}>새로운 글 작성하기</Button>
-
-      <SearchBar>
-        <Select data={[]} />
-        <Input
-          placeholder="포스트를 검색해주세요."
-          block
-          required
-          onChange={onChangeSearchedKeyword}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              setSearchedKeyword(e.target.value)
-              onSearch()
-            }
+      <MainPageSection>
+        <MainPageNav
+          navbarListStyle={{
+            width: '89%',
+            paddingBottom: '24px',
+            borderBottom: '1px solid #d9d9d9',
           }}
+          activeItemStyle={{ ...activeItemStyle }}
+          items={allCategories}
+          handleClick={(category) => setCategoryName(category.name)}
+          style={{ margin: '0 200px' }}
         />
-        <Button onClick={onSearch}>검색</Button>
-      </SearchBar>
+        <SearchBar>
+          <MainPageSelect
+            data={Object.values(SEARCH_TYPE)}
+            placeholder={'제목+내용'}
+            onChange={(e) => {
+              setSearchType(e.target.value)
+            }}
+          />
+          <MainPageInput
+            placeholder="포스트를 검색해주세요."
+            block
+            required
+            onChange={onChangeSearchedKeyword}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                setSearchedKeyword(e.target.value)
+                onSearch()
+              }
+            }}
+          ></MainPageInput>
+          <MainPageButton onClick={onSearch}>
+            <Icon name="search" color="white" size={24} />
+          </MainPageButton>
+        </SearchBar>
 
-      <BookListSlider
-        posts={postList}
-        grid={{ fill: 'row', rows: 2 }}
-        handleClick={handleClickPost}
-      />
+        <SliderWrapper>
+          <BookListSlider
+            style={{ width: '1200px', height: '520px' }}
+            posts={postList}
+            grid={{ fill: 'row', rows: 2 }}
+            handleClick={handleClickPost}
+          />
+        </SliderWrapper>
+      </MainPageSection>
 
       <Modal visible={showPostModal} onClose={closePostModal}>
         <Post post={post} />
@@ -140,7 +266,7 @@ const MainPage = () => {
       >
         <NewPostForm showModal={showNewPostFormModal} onClose={closeNewPostFormModal} />
       </Modal>
-    </div>
+    </Fragment>
   )
 }
 
