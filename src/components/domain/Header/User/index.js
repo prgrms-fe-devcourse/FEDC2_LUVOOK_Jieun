@@ -72,7 +72,7 @@ const User = () => {
       </Popover>
     </div>
   ) : (
-    <SubmitButton type="button" onClick={() => navigate('/login')}>
+    <SubmitButton isLoginButton type="button" onClick={() => navigate('/login')}>
       로그인
     </SubmitButton>
   )

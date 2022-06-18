@@ -1,6 +1,6 @@
 import { Button } from '@components'
 
-const SubmitButton = ({ children, onClick }) => {
+const SubmitButton = ({ children, onClick, isLoginButton }) => {
   const submitButtonStyle = {
     fontSize: '16px',
     height: '40px',
@@ -9,7 +9,7 @@ const SubmitButton = ({ children, onClick }) => {
     border: 'none',
     backgroundColor: '#9e7373',
     color: 'white',
-    marginTop: '10px',
+    marginTop: isLoginButton ? 0 : '10px',
   }
 
   return (
