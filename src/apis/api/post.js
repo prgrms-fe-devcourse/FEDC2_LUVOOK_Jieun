@@ -17,9 +17,13 @@ const getPostListInUser = async (userId, params) => {
   }
 }
 
-const createPost = async (post) => {
+const createPost = async ({ channelId, title }) => {
   try {
-    await authInstance.post(`/posts/create`, post)
+    return await authInstance.post(`/posts/create`, {
+      channelId,
+      image: null,
+      title,
+    })
   } catch (error) {
     console.error(error)
   }

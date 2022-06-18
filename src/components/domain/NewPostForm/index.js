@@ -1,16 +1,14 @@
 import styled from '@emotion/styled'
 import { Input, Button, Title, Select } from '@components'
-import BookSearch from './BookSearch'
 import { useEffect, useState } from 'react'
+import { useAsync } from '@hooks'
 import { useFormik } from 'formik'
+import { getChannelList } from '@apis/api/channel'
+import { createPost } from '@apis/api/post'
+import BookSearch from './BookSearch'
 
 // TODO
 // utils로 옮겨야 한다.
-const CHANNEL_CATEGORY_MAP = {
-  NOVEL: '소설',
-  POETRY: '시',
-}
-
 const DEFAULT_IMAGE_URL = 'https://via.placeholder.com/200?text=LUVOOK'
 
 const PRIMARY_COLOR = '#743737'
@@ -38,7 +36,7 @@ const SubmitButtons = styled.div`
 `
 
 const initialValues = {
-  channel: '',
+  channelName: '',
   bookImage: DEFAULT_IMAGE_URL,
   bookTitle: '',
   postQuote: '',
@@ -46,6 +44,10 @@ const initialValues = {
 }
 
 const NewPostForm = ({ showModal, onClose }) => {
+  const { isLoading, value: channelList } = useAsync(async () => {
+    return await getChannelList()
+  }, [])
+
   const { values, setValues, handleSubmit, handleChange, handleReset } = useFormik({
     initialValues,
     onSubmit: async (formData) => {
@@ -54,7 +56,17 @@ const NewPostForm = ({ showModal, onClose }) => {
         return
       }
       const submitData = async () => {
-        await console.log(formData)
+        const { channelName, bookImage, bookTitle, postQuote, postContent } = formData
+        const channelId = channelList.filter((item) => item.name === channelName)[0]._id
+        await createPost({
+          title: JSON.stringify({
+            bookTitle,
+            bookImage,
+            postQuote,
+            postContent,
+          }),
+          channelId,
+        })
         handleReset()
       }
       onClose && onClose('SUBMIT', submitData)
@@ -72,6 +84,7 @@ const NewPostForm = ({ showModal, onClose }) => {
 
   useEffect(() => {
     handleReset()
+    // eslint-disable-next-line
   }, [showModal])
 
   return (
@@ -82,10 +95,11 @@ const NewPostForm = ({ showModal, onClose }) => {
           책의 장르를 선택해주세요.
         </Title>
         <Select
-          name="channel"
-          data={Object.values(CHANNEL_CATEGORY_MAP)}
-          value={values.channel}
+          name="channelName"
+          data={channelList?.map((item) => item.name) || []}
+          value={values.channelName}
           placeholder="장르 선택"
+          _id={values.channelName}
           onChange={handleChange}
         />
       </div>
