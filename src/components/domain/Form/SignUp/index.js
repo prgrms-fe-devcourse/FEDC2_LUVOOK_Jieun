@@ -2,13 +2,12 @@ import SubmitButton from '../SubmitButton'
 import ErrorText from '../ErrorText'
 import Form from '../index'
 import { Input } from '@components'
-import { signUp } from '@apis'
 import { validateSignUp } from '@utils/validation/signUp'
 import { useFormik } from 'formik'
 import { useUserContext } from '@contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
 
-const SignUp = () => {
+const SignUp = ({ quote }) => {
   const { onSignUp } = useUserContext()
   const navigate = useNavigate()
 
@@ -22,7 +21,10 @@ const SignUp = () => {
     onSubmit: async ({ email, fullName, password }) => {
       const userInfo = {
         email,
-        fullName,
+        fullName: JSON.stringify({
+          quote: `『${quote}』`,
+          fullName,
+        }),
         password,
       }
       try {
@@ -51,6 +53,7 @@ const SignUp = () => {
         placeholder="닉네임을 입력해주세요"
         onChange={handleChange}
         value={values.fullName}
+        style={{ marginTop: 10 }}
       />
       {errors.fullName && <ErrorText> {errors.fullName}</ErrorText>}
       <Input
@@ -59,6 +62,7 @@ const SignUp = () => {
         placeholder="비밀번호를 입력해주세요"
         onChange={handleChange}
         value={values.password}
+        style={{ marginTop: 10 }}
       />
       {errors.password && <ErrorText> {errors.password}</ErrorText>}
       <Input
@@ -67,6 +71,7 @@ const SignUp = () => {
         placeholder="비밀번호를 다시 입력해주세요"
         onChange={handleChange}
         value={values.passwordConfirm}
+        style={{ marginTop: 10 }}
       />
       {errors.passwordConfirm && <ErrorText> {errors.passwordConfirm}</ErrorText>}
       <SubmitButton>회원가입</SubmitButton>

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
 import Bookmark from './Bookmark'
-import CommentForm from './CommentForm'
 import CommentList from './CommentList'
 import PostContents from './PostContents'
 import PostHeader from './PostHeader'
@@ -122,7 +121,6 @@ const Post = ({ post, handleRerenderPost, ...props }) => {
         <PostHeader author={author} createdAt={createdAt} />
         <PostContents title={title} image={image} />
         <CommentList comments={comments} />
-        <CommentForm />
       </PostContainer>
     </div>
   )

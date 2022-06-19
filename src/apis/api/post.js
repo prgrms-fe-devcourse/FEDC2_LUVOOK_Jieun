@@ -17,9 +17,13 @@ const getPostListInUser = async (userId, params) => {
   }
 }
 
-const createPost = async (post) => {
+const createPost = async ({ channelId, title }) => {
   try {
-    await authInstance.post(`/posts/create`, post)
+    return await authInstance.post(`/posts/create`, {
+      channelId,
+      image: null,
+      title,
+    })
   } catch (error) {
     console.error(error)
   }
@@ -73,7 +77,8 @@ const deleteLikeInPost = async (likeId) => {
 
 const createCommentInPost = async (commentInfo) => {
   try {
-    await authInstance.post(`/comments/create`, commentInfo)
+    const { data } = await authInstance.post(`/comments/create`, commentInfo)
+    return data
   } catch (error) {
     console.error(error)
   }
@@ -81,7 +86,12 @@ const createCommentInPost = async (commentInfo) => {
 
 const deleteCommentInPost = async (commentId) => {
   try {
-    await authInstance.delete(`/comments/delete`, commentId)
+    const { data } = await authInstance.delete(`/comments/delete`, {
+      data: {
+        id: commentId,
+      },
+    })
+    return data
   } catch (error) {
     console.error(error)
   }

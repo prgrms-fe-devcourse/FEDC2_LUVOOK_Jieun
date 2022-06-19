@@ -32,6 +32,7 @@ const Login = () => {
         placeholder="이메일을 입력해주세요"
         onChange={handleChange}
         value={values.email}
+        style={{ marginBottom: 10 }}
       />
       <Input
         type="password"

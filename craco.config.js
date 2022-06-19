@@ -8,6 +8,7 @@ module.exports = {
     alias: {
       '@apis': path.resolve(__dirname, 'src/apis'),
       '@components': path.resolve(__dirname, 'src/components'),
+      '@constants': path.resolve(__dirname, 'src/constants'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@images': path.resolve(__dirname, 'src/images'),
       '@contexts': path.resolve(__dirname, 'src/contexts'),

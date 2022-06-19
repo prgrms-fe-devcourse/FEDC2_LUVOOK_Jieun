@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { Image, Title, Button, Text } from '@components'
 import { Link } from 'react-router-dom'
-import NotFound from '../images/NotFound.jpg'
+import NotFound from '@images/NotFound.jpg'
 
 const NotFoundSection = styled.section`
   min-width: 100vw;
