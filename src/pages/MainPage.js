@@ -265,7 +265,7 @@ const MainPage = () => {
       </MainPageSection>
 
       <Modal visible={showPostModal} onClose={closePostModal}>
-        <Post post={post} />
+        <Post post={post} onClose={closePostModal} />
       </Modal>
 
       <Modal

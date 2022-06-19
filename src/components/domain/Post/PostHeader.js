@@ -12,7 +12,7 @@ const AuthorizedButtons = styled.div`
   justify-content: flex-end;
 `
 
-const PostHeader = ({ postId, author, createdAt }) => {
+const PostHeader = ({ postId, author, createdAt, onClose }) => {
   const { currentUserState, onAuth } = useUserContext()
   const [isLogin, setIsLogin] = useState(false)
   const isAuthorized = isLogin && currentUserState?.currentUser?._id === author._id
@@ -30,15 +30,18 @@ const PostHeader = ({ postId, author, createdAt }) => {
 
   const handleClickDeleteButton = async (e) => {
     e.preventDefault()
-
     if (!isAuthorized) {
       console.error('본인이 작성한 게시물이 아닙니다.')
       return
     }
-
-    // TODO
-    // 게시물을 삭제하면 자동으로 모달이 닫히게 만들어야 한다.
-    await deletePost(postId)
+    if (window.confirm('정말 게시물을 삭제할까요?')) {
+      try {
+        await deletePost(postId)
+      } catch (e) {
+        console.error('게시물 삭제에 실패했습니다.', e)
+      }
+      onClose && onClose()
+    }
   }
 
   return (

@@ -42,7 +42,7 @@ const defaultPostProps = {
   createdAt: '',
 }
 
-const Post = ({ post, ...props }) => {
+const Post = ({ post, onClose, ...props }) => {
   if (!post) return
 
   const {
@@ -59,7 +59,7 @@ const Post = ({ post, ...props }) => {
   return (
     <PostContainer>
       <Bookmark>북마크</Bookmark>
-      <PostHeader postId={postId} author={author} createdAt={createdAt} />
+      <PostHeader postId={postId} author={author} createdAt={createdAt} onClose={onClose} />
       <PostContents title={title} image={image} />
       <CommentList postId={postId} comments={comments} />
     </PostContainer>
