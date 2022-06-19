@@ -76,7 +76,11 @@ const createCommentInPost = async (commentInfo) => {
 
 const deleteCommentInPost = async (commentId) => {
   try {
-    const { data } = await authInstance.delete(`/comments/delete`, commentId)
+    const { data } = await authInstance.delete(`/comments/delete`, {
+      data: {
+        id: commentId,
+      },
+    })
     return data
   } catch (error) {
     console.error(error)
