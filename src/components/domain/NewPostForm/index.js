@@ -58,16 +58,20 @@ const NewPostForm = ({ showModal, onClose }) => {
       const submitData = async () => {
         const { channelName, bookImage, bookTitle, postQuote, postContent } = formData
         const channelId = channelList.filter((item) => item.name === channelName)[0]._id
-        await createPost({
-          title: JSON.stringify({
-            bookTitle,
-            bookImage,
-            postQuote,
-            postContent,
-          }),
-          channelId,
-        })
-        handleReset()
+        try {
+          await createPost({
+            title: JSON.stringify({
+              bookTitle,
+              bookImage,
+              postQuote,
+              postContent,
+            }),
+            channelId,
+          })
+          handleReset()
+        } catch (e) {
+          console.error('게시물 생성에 실패했습니다.')
+        }
       }
       onClose && onClose('SUBMIT', submitData)
     },

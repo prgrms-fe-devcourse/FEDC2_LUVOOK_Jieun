@@ -14,6 +14,8 @@ import {
 } from '@components'
 import { useState, useEffect, Fragment } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
+import { useUserContext } from '@contexts/UserContext'
+import { getItem } from '@utils/storage'
 
 const CONFIRM_MESSAGE = {
   CANCEL: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
@@ -97,6 +99,8 @@ const MainPageSelect = styled(Select)`
 `
 
 const MainPage = () => {
+  const { onAuth } = useUserContext()
+  const [isLogin, setIsLogin] = useState(false)
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(CATEGORY_ALL.name)
   const [searchedKeyword, setSearchedKeyword] = useState('')
@@ -106,9 +110,22 @@ const MainPage = () => {
   const [post, setPost] = useState(null)
   const [showNewPostFormModal, setShowNewPostFormModal] = useState(false)
 
+  const checkUserAuth = async () => {
+    if (getItem('jwt_token')) {
+      await onAuth()
+      setIsLogin(true)
+    }
+  }
+
+  useEffect(() => {
+    checkUserAuth()
+  }, [])
+
   const handleClickNewPostButton = () => {
-    // TODO
-    // 로그인되지 않은 사용자라면 로그인화면으로 유도하거나 alert를 띄운다.
+    if (!isLogin) {
+      window.alert('로그인을 해주세요!') // 또는 로그인을 유도한다.
+      return
+    }
     setShowNewPostFormModal(true)
   }
 
