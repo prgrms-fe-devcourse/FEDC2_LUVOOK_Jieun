@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { SET_USER, RESET_USER, SET_LOADING } from './constants'
 import { login, logout, signUp, getAuthUser } from '@apis'
-import { setItem, removeItem } from '@utils/storage'
+import { getItem, setItem, removeItem } from '@utils/storage'
 
 const useActions = (dispatch) => {
   const onAuth = useCallback(async () => {
@@ -9,7 +9,10 @@ const useActions = (dispatch) => {
 
     const user = await getAuthUser()
 
-    dispatch({ type: SET_USER, payload: { user } })
+    if (user) {
+      const token = getItem('jwt_token')
+      dispatch({ type: SET_USER, payload: { user, token } })
+    }
   }, [dispatch])
 
   const onLogin = useCallback(

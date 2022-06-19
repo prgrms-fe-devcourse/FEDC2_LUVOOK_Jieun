@@ -51,15 +51,21 @@ const deletePost = async (postId) => {
 
 const createLikeInPost = async (postId) => {
   try {
-    await authInstance.post(`/likes/create`, postId)
+    const { data } = await authInstance.post(`/likes/create`, postId)
+    return data
   } catch (error) {
     console.error(error)
   }
 }
 
-const deleteLikeInPost = async (postId) => {
+const deleteLikeInPost = async (likeId) => {
   try {
-    await authInstance.delete(`/likes/delete`, postId)
+    const { data } = await authInstance.delete(`/likes/delete`, {
+      data: {
+        id: likeId,
+      },
+    })
+    return data
   } catch (error) {
     console.error(error)
   }
