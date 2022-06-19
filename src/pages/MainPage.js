@@ -106,6 +106,12 @@ const MainPage = () => {
   const [post, setPost] = useState(null)
   const [showNewPostFormModal, setShowNewPostFormModal] = useState(false)
 
+  const handleClickNewPostButton = () => {
+    // TODO
+    // 로그인되지 않은 사용자라면 로그인화면으로 유도하거나 alert를 띄운다.
+    setShowNewPostFormModal(true)
+  }
+
   const closePostModal = () => {
     setShowPostModal(false)
     setPost(null)
@@ -210,7 +216,7 @@ const MainPage = () => {
     <Fragment>
       <Header />
       <Banner />
-      <Button onClick={() => setShowNewPostFormModal(true)}>새로운 글 작성하기</Button>
+      <Button onClick={handleClickNewPostButton}>새로운 글 작성하기</Button>
       <MainPageSection>
         <MainPageNav
           navbarListStyle={{
