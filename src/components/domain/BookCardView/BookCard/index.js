@@ -44,6 +44,7 @@ const LikeBookmark = styled(Icon)`
 `
 
 const NamePlate = styled.div`
+  width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,6 +70,10 @@ const NamePlate = styled.div`
     #dedede 84%,
     #a1a1a1
   );
+  border-radius: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const BookCard = ({ post, handleOnClick }) => {

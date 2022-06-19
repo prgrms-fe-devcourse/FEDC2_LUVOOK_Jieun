@@ -7,6 +7,18 @@ import UserBox from './UserBox'
 const AuthorizedButtons = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
+  flex: 0;
+  height: 60px;
+
+  Button {
+    border-radius: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: 2px solid #3f51b5;
+    color: #3f51b5;
+    margin-left: 8px;
+  }
 `
 
 const PostHeader = ({ author, createdAt }) => {
