@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getItem } from '@utils/storage'
+import { interceptors } from './interceptors'
 
 const { REACT_APP_BASE_URL } = process.env
 
@@ -8,14 +8,9 @@ const baseAPI = (url, options) => {
 }
 
 const authAPI = (url, options) => {
-  const token = getItem('jwt_token')
-  return axios.create({
-    baseURL: url,
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-    ...options,
-  })
+  const instance = axios.create({ baseURL: url, ...options })
+  interceptors(instance)
+  return instance
 }
 
 export const baseInstance = baseAPI(REACT_APP_BASE_URL)
