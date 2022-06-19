@@ -15,6 +15,11 @@ import {
 import { useState, useEffect, Fragment } from 'react'
 import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
 
+const CONFIRM_MESSAGE = {
+  CANCEL: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
+  SUBMIT: '글을 작성할까요?',
+}
+
 const CATEGORY_ALL = { id: 0, name: 'ALL' }
 
 const SEARCH_TYPE = {
@@ -101,18 +106,22 @@ const MainPage = () => {
   const [post, setPost] = useState(null)
   const [showNewPostFormModal, setShowNewPostFormModal] = useState(false)
 
+  const handleClickNewPostButton = () => {
+    // TODO
+    // 로그인되지 않은 사용자라면 로그인화면으로 유도하거나 alert를 띄운다.
+    setShowNewPostFormModal(true)
+  }
+
   const closePostModal = () => {
     setShowPostModal(false)
     setPost(null)
   }
 
-  const closeNewPostFormModal = (type = 'cancel') => {
-    const messageMap = {
-      cancel: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
-      submit: '글을 작성할까요?',
-    }
-
-    if (window.confirm(messageMap[type])) {
+  const closeNewPostFormModal = async (action = 'CANCEL', callbackFn) => {
+    if (window.confirm(CONFIRM_MESSAGE[action])) {
+      if (callbackFn) {
+        await callbackFn()
+      }
       setShowNewPostFormModal(false)
     }
   }
@@ -207,7 +216,7 @@ const MainPage = () => {
     <Fragment>
       <Header />
       <Banner />
-      <Button onClick={() => setShowNewPostFormModal(true)}>새로운 글 작성하기</Button>
+      <Button onClick={handleClickNewPostButton}>새로운 글 작성하기</Button>
       <MainPageSection>
         <MainPageNav
           navbarListStyle={{
