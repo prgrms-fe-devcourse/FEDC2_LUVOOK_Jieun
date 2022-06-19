@@ -17,28 +17,31 @@ const UserElement = styled.div`
   color: white;
   list-style: none;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  a {
-    text-decoration: none;
-    color: #ffffff;
-    li {
-      padding: 7px;
-    }
-    li:hover {
-      cursor: pointer;
-    }
+  text-decoration: none;
+  color: #ffffff;
+
+  li {
+    padding: 7px;
+  }
+  li:hover {
+    cursor: pointer;
   }
 `
 
 const User = () => {
   const [isLogin, setIsLogin] = useState(false)
   const [userPop, setUserPop] = useState(false)
-  const { onLogout, onAuth } = useUserContext()
+  const { onLogout, onAuth, currentUserState } = useUserContext()
   const navigate = useNavigate()
+
+  const navigateMyPage = () => {
+    navigate(`/users/${currentUserState.currentUser.fullName}`)
+  }
 
   const logout = async () => {
     try {
       await onLogout()
-      navigate('/')
+      navigate('/login')
     } catch (e) {
       alert('로그아웃에 실패하였습니다.')
     }
@@ -62,12 +65,8 @@ const User = () => {
       <Avatar src={ProfileImage} size={40} id="user" onClick={() => setUserPop(true)} />
       <Popover show={userPop} targetId="user" onClose={() => setUserPop(false)}>
         <UserElement>
-          <Link to="/users/:username">
-            <li>마이 페이지</li>
-          </Link>
-          <Link to="/login">
-            <li onClick={logout}>로그아웃</li>
-          </Link>
+          <li onClick={navigateMyPage}>마이 페이지</li>
+          <li onClick={logout}>로그아웃</li>
         </UserElement>
       </Popover>
     </div>
