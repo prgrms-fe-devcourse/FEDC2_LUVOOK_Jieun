@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { SET_USER, RESET_USER, SET_LOADING } from './constants'
-import { login, logout, signUp, getAuthUser } from '@apis'
-import { setItem, removeItem } from '@utils/storage'
+import { login, logout, signUp, getAuthUser, updateUserName } from '@apis'
+import { getItem, setItem, removeItem } from '@utils/storage'
 
 const useActions = (dispatch) => {
   const onAuth = useCallback(async () => {
@@ -45,11 +45,22 @@ const useActions = (dispatch) => {
     [dispatch]
   )
 
+  const onUpdateUserInfo = useCallback(
+    async (userInfo) => {
+      const user = await updateUserName(userInfo)
+      const token = getItem('jwt_token')
+
+      dispatch({ type: SET_USER, payload: { user, token } })
+    },
+    [dispatch]
+  )
+
   return {
     onAuth,
     onLogin,
     onLogout,
     onSignUp,
+    onUpdateUserInfo,
   }
 }
 

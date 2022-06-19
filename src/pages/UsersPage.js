@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import { Header, Avatar, Icon } from '@components'
+import { useState } from 'react'
+import { Header, Avatar, UserEditForm } from '@components'
 import styled from '@emotion/styled'
-import { getUserInfo, updateUserProfileImg, updateUserName, updateUserPassword } from '@apis'
+import { useUserContext } from '@contexts/UserContext'
 
 const UserPageContainer = styled.div`
   width: 100%;
@@ -31,39 +31,14 @@ const Profile = styled.div`
   }
 `
 
-const ProfileEdit = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 24px;
-  width: 22%;
-  .user-name {
-    border: solid 1px black;
-    position: relative;
-    bottom: 50px;
-  }
-  > input {
-    width: 50%;
-    height: 3vh;
-    position: relative;
-    bottom: 72px;
-    font-size: 24px;
-    background-color: #f3f3f3;
-    text-align: center;
-    border: solid 1px gray;
-    border-radius: 7px;
-  }
-`
-
 const UserContent = styled.div`
   display: flex;
   width: 60%;
-  height: 19vh;
-  padding: 0 20px;
+  height: 156px;
   background-color: #ffeadb;
   font-size: 24px;
   margin-top: 10px;
+  padding: 20px 20px 0 20px;
   color: #637373;
   white-space: normal;
   text-overflow: ellipsis;
@@ -79,121 +54,31 @@ const UserContent = styled.div`
     vertical-align: top;
     white-space: normal;
     font-size: 24px;
-    padding: 22px 0;
   }
   > textarea:focus {
     outline: none;
   }
 `
 
-const UserEditButton = styled.button`
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  color: #a5a3af;
-  cursor: pointer;
-  position: relative;
-  bottom: 120px;
-  left: 490px;
-`
-
-const PasswordEditButton = styled.button`
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  color: #a5a3af;
-  cursor: pointer;
-  position: relative;
-  bottom: 142px;
-  left: 350px;
-`
-
-const dummy = {
-  id: '1',
-  fullName: {
-    fullName: '김태욱',
-    quote:
-      '나는 피아노 앞에서 실제 노래를 부르는 것보다 머릿속으로 음악연습을 더 많이 한다. 가수라면 음악을 볼 수 있어야 하기 때문이다.',
-  },
-}
-
-const UserEdit = ({ onChange }) => {
-  const [userId, setUserId] = useState(dummy.id)
-  const [user, setUser] = useState(dummy.fullName)
-
-  const handleNameChange = (e) => {
-    setUser({ ...user, fullName: e.target.value })
-    onChange({ ...user })
-  }
-  const handleQuoteChange = (e) => {
-    setUser({ ...user, quote: e.target.value })
-    onChange({ ...user })
-  }
-
-  return (
-    <UserInfoContainer key={user.id}>
-      <ProfileEdit>
-        <Avatar src={'https://picsum.photos/200'} size={196} />
-        <input type="text" value={user.fullName} onChange={handleNameChange} maxlength="12" />
-      </ProfileEdit>
-      <UserContent>
-        <textarea
-          type="textarea"
-          value={user.quote}
-          onChange={handleQuoteChange}
-          autoFocus
-          maxlength="300"
-        />
-      </UserContent>
-    </UserInfoContainer>
-  )
-}
-
 const UsersPage = () => {
-  const [user, setUser] = useState(dummy.fullName)
   const [isUser, setIsUser] = useState(false)
-  const [isNameEdit, setIsNameEdit] = useState(dummy.fullName.fullName)
-  const [isQuoteEdit, setIsQuoteEdit] = useState(dummy.fullName.quote)
-  const clickedToggle = () => {
-    setIsUser((isUser) => !isUser)
-  }
-  const handleChange = (e) => {
-    setIsNameEdit(e.target.value)
-    setIsQuoteEdit(e.target.value)
-  }
+  const { currentUserState } = useUserContext()
+  const { fullName, quote } = currentUserState.currentUser
 
   return (
     <UserPageContainer>
       <Header />
-      {isUser ? (
-        <UserEdit onChange={({ fullName, quote }) => setUser({ fullName, quote })} />
+      {!isUser ? (
+        <UserEditForm />
       ) : (
-        <UserInfoContainer key={user.id}>
+        <UserInfoContainer>
           <Profile>
             <Avatar src={'https://picsum.photos/200'} size={196} />
-            <p className="user-name" value={isNameEdit}>
-              {user.fullName}
-            </p>
+            <p className="user-name">{fullName}</p>
           </Profile>
-          <UserContent>
-            <p value={isQuoteEdit}>{user.quote}</p>
-          </UserContent>
+          <UserContent>{quote}</UserContent>
         </UserInfoContainer>
       )}
-      <UserEditButton onClick={clickedToggle} onChange={handleChange}>
-        {!isUser ? (
-          <Icon name={'tool'} size={20} rotate={'270'} />
-        ) : (
-          <Icon name={'save'} size={20} />
-        )}
-        {!isUser ? '회원 정보 수정' : '변경사항 저장'}
-      </UserEditButton>
-      <PasswordEditButton>
-        <Icon name={'feather'} size={20} />
-        비밀번호 변경
-      </PasswordEditButton>
     </UserPageContainer>
   )
 }
