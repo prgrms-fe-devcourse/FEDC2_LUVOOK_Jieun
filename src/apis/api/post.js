@@ -67,7 +67,8 @@ const deleteLikeInPost = async (postId) => {
 
 const createCommentInPost = async (commentInfo) => {
   try {
-    await authInstance.post(`/comments/create`, commentInfo)
+    const { data } = await authInstance.post(`/comments/create`, commentInfo)
+    return data
   } catch (error) {
     console.error(error)
   }
@@ -75,7 +76,8 @@ const createCommentInPost = async (commentInfo) => {
 
 const deleteCommentInPost = async (commentId) => {
   try {
-    await authInstance.delete(`/comments/delete`, commentId)
+    const { data } = await authInstance.delete(`/comments/delete`, commentId)
+    return data
   } catch (error) {
     console.error(error)
   }
