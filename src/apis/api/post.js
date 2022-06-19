@@ -43,7 +43,12 @@ const updatePost = async (post) => {
 
 const deletePost = async (postId) => {
   try {
-    await authInstance.delete(`/posts/delete`, postId)
+    const { data } = await authInstance.delete(`/posts/delete`, {
+      data: {
+        id: postId,
+      },
+    })
+    return data
   } catch (error) {
     console.error(error)
   }

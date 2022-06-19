@@ -59,7 +59,7 @@ const Post = ({ post, ...props }) => {
   return (
     <PostContainer>
       <Bookmark>북마크</Bookmark>
-      <PostHeader author={author} createdAt={createdAt} />
+      <PostHeader postId={postId} author={author} createdAt={createdAt} />
       <PostContents title={title} image={image} />
       <CommentList postId={postId} comments={comments} />
     </PostContainer>
