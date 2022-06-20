@@ -190,12 +190,12 @@ const MainPage = () => {
     const searchedBookResult = searchedResult.filter((result) => !result.role)
 
     if (categoryName === CATEGORY_ALL.name) {
-      setPostList(parseListTitle(searchedBookResult).sort(sortByLatest))
+      setPostList(searchByType(parseListTitle(searchedBookResult).sort(sortByLatest)))
       return
     } else {
-      const { _id } = await getChannelInfo(categoryName)
-      const filteredResult = searchedBookResult.filter((result) => result.channel === _id)
-      setPostList(parseListTitle(filteredResult))
+      const channelId = allCategories.find((category) => category.name === categoryName).id
+      const filteredResult = searchedBookResult.filter((result) => result.channel === channelId)
+      setPostList(searchByType(parseListTitle(filteredResult)))
     }
   }
 
