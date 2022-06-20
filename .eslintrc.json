@@ -17,8 +17,5 @@
         "import/no-anonymous-default-export": "off"
       }
     }
-  ],
-  "rules": {
-    "no-alert": "warn"
-  }
+  ]
 }
