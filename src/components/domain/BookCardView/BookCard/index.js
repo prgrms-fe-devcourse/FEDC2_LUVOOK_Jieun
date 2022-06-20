@@ -71,10 +71,6 @@ const NamePlate = styled.div`
     #a1a1a1
   );
   border-radius: 5px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  direction: ltr;
   text-align: center;
 `
 
@@ -91,11 +87,16 @@ const BookCard = ({ post, handleOnClick }) => {
           <LikeBookmark name="bookmark" color="yellow" size={18} />
           <Text block>{post.likes.length}</Text>
         </BookmarkContainer>
-        {/*  TODO: 이 부분은 글쓰기 기능 구현 후 다시 구현 필요 */}
-        {post.title.postQuote || post.title}
+        {post.title.postQuote.length > 40
+          ? post.title.postQuote.substr(0, 40) + '...'
+          : post.title.postQuote}
       </Card>
 
-      <NamePlate>{post.title.bookTitle || post.title}</NamePlate>
+      <NamePlate>
+        {post.title.bookTitle.length > 12
+          ? post.title.bookTitle.substr(0, 12) + '...'
+          : post.title.bookTitle}
+      </NamePlate>
     </CardContainer>
   )
 }
