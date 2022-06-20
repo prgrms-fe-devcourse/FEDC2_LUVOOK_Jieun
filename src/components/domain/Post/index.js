@@ -4,9 +4,8 @@ import CommentList from './CommentList'
 import PostContents from './PostContents'
 import PostHeader from './PostHeader'
 import { createLikeInPost, deleteLikeInPost } from '@apis'
-import { useEffect, useState, useCallback, Fragment } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useUserContext } from '@contexts/UserContext'
-import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 // TODO
 // utils로 옮겨야 할 것 같다.
@@ -17,12 +16,34 @@ export const formatTime = (unFormattedTime) => {
   return `${day} ${time}`
 }
 
-const PostContainer = styled.article`
+const Container = styled.div`
+  padding-top: 24px;
+`
+
+const PostContainer = styled.div`
   position: relative;
   width: 780px;
   max-height: 85vh;
-  padding: 16px;
+  padding: 0 32px 16px;
   overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(116, 55, 55, 0.6);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(116, 55, 55, 0.5);
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+  }
+`
+
+const Section = styled.section`
+  padding: 16px;
 `
 
 const defaultPostProps = {
@@ -102,7 +123,7 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   }
 
   return (
-    <Fragment>
+    <Container>
       <Bookmark handleClick={handleLiked} active={isLikeActive} />
       <PostContainer>
         <PostHeader
@@ -114,10 +135,14 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
             handleRerenderPost()
           }}
         />
-        <PostContents titleObj={titleObj} />
-        <CommentList comments={comments} />
+        <Section>
+          <PostContents titleObj={titleObj} />
+        </Section>
+        <Section>
+          <CommentList comments={comments} />
+        </Section>
       </PostContainer>
-    </Fragment>
+    </Container>
   )
 }
 

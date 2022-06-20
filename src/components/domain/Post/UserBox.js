@@ -17,7 +17,7 @@ const UserBox = ({ children, userId, image, tag = 'div', avatarSize, ...props })
   return (
     <Tag style={{ ...defaultStyle, ...props.style }} {...props}>
       <Link to={`/users/${userId}`}>
-        <Avatar size={avatarSize} src={image} />
+        <Avatar size={avatarSize} src={image} style={{ marginRight: '8px' }} />
       </Link>
       <div>{children}</div>
     </Tag>
