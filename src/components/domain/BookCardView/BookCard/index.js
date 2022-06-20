@@ -1,9 +1,7 @@
 import styled from '@emotion/styled'
 import { Text, Icon } from '@components'
 import PropTypes from 'prop-types'
-
-// TODO: Image 컴포넌트와 동일한 상수, 후에 분리
-const PLACEHOLDER_IMAGE_SRC = 'https://via.placeholder.com/200?text=LUVOOK'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 const CardContainer = styled.div`
   width: fit-content;
@@ -21,7 +19,7 @@ const Card = styled.div`
   width: 167px;
   height: 200px;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url(${(post) => post.image || PLACEHOLDER_IMAGE_SRC});
+    url(${(post) => post.image || LUVOOOK_LOGO});
   text-align: center;
   color: white;
   cursor: pointer;

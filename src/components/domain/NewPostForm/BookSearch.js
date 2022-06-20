@@ -3,8 +3,7 @@ import { Input, Button, Title, Image } from '@components'
 import { Fragment, useEffect, useState } from 'react'
 import { getBookList } from '@utils/api/getBookList'
 import uuid from 'react-uuid'
-
-const DEFAULT_IMAGE_URL = 'https://via.placeholder.com/200?text=LUVOOK'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 const BookSearchContainer = styled.div`
   display: flex;
@@ -32,7 +31,7 @@ const BookList = styled.ul`
 
 const initialState = {
   selectedBookTitle: '',
-  selectedBookThumbnail: DEFAULT_IMAGE_URL,
+  selectedBookThumbnail: LUVOOOK_LOGO,
   keyword: '',
   searchedBookList: [],
 }
