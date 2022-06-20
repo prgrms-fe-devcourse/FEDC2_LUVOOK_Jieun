@@ -97,6 +97,7 @@ const MainPageSelect = styled(Select)`
 `
 
 const MainPage = () => {
+  const [isRerender, setIsRerender] = useState(true)
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(CATEGORY_ALL.name)
   const [searchedKeyword, setSearchedKeyword] = useState('')
@@ -161,12 +162,16 @@ const MainPage = () => {
   }
 
   useEffect(() => {
+    if (!isRerender) return
+
     if (categoryName === 'ALL') {
       getAllPost()
     } else {
       getChannelPost(categoryName)
     }
-  }, [categoryName])
+
+    setIsRerender(false)
+  }, [categoryName, isRerender])
 
   useEffect(() => {
     getAllChannels()
@@ -226,7 +231,10 @@ const MainPage = () => {
           }}
           activeItemStyle={{ ...activeItemStyle }}
           items={allCategories}
-          handleClick={(category) => setCategoryName(category.name)}
+          handleClick={(category) => {
+            setCategoryName(category.name)
+            setIsRerender(true)
+          }}
           style={{ margin: '0 200px' }}
         />
         <SearchBar>
@@ -265,7 +273,12 @@ const MainPage = () => {
       </MainPageSection>
 
       <Modal visible={showPostModal} onClose={closePostModal}>
-        <Post post={post} />
+        <Post
+          post={post}
+          handleRerenderPost={() => {
+            setIsRerender(true)
+          }}
+        />
       </Modal>
 
       <Modal
