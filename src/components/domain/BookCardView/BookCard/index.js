@@ -27,6 +27,8 @@ const Card = styled.div`
   cursor: pointer;
   // TODO: constant에 선언된 회색으로 변경
   box-shadow: 0 0 1rem rgba(33, 33, 33, 0.5);
+  background-size: cover;
+  background-repeat: no-repeat;
 `
 
 const BookmarkContainer = styled.div`
@@ -80,7 +82,7 @@ const BookCard = ({ post, handleOnClick }) => {
   return (
     <CardContainer>
       <Card
-        image={post.image}
+        image={post.title.bookImage || PLACEHOLDER_IMAGE_SRC}
         onClick={() => {
           handleOnClick(post)
         }}
