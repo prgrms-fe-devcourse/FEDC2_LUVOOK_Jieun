@@ -2,6 +2,7 @@ export { login, logout, signUp, getAuthUser } from './api/auth'
 export { getChannelInfo, getChannelList } from './api/channel'
 export { getNotificationList, createNotification } from './api/notification'
 export {
+  getAllPosts,
   getPostListInChannel,
   getPostListInUser,
   createPost,

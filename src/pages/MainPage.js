@@ -13,7 +13,13 @@ import {
   Icon,
 } from '@components'
 import { useState, useEffect, Fragment } from 'react'
-import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
+import {
+  getAllPosts,
+  getChannelList,
+  getPostListInChannel,
+  getChannelInfo,
+  getSearchedBookList,
+} from '@apis'
 
 const CONFIRM_MESSAGE = {
   CANCEL: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
@@ -97,6 +103,7 @@ const MainPageSelect = styled(Select)`
 `
 
 const MainPage = () => {
+  const [isRerender, setIsRerender] = useState(true)
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(CATEGORY_ALL.name)
   const [searchedKeyword, setSearchedKeyword] = useState('')
@@ -134,11 +141,7 @@ const MainPage = () => {
   }
 
   const getAllPost = async () => {
-    // TODO: 후에 API 준비가 완료되면 로직 교체
-    const channelList = await getChannelList()
-    const totalPostList = (
-      await Promise.all(channelList.map(async (channel) => await getPostListInChannel(channel._id)))
-    ).flat()
+    const totalPostList = await getAllPosts()
 
     totalPostList.sort(sortByLatest)
     setPostList(parseListTitle(totalPostList))
@@ -161,12 +164,16 @@ const MainPage = () => {
   }
 
   useEffect(() => {
+    if (!isRerender) return
+
     if (categoryName === 'ALL') {
       getAllPost()
     } else {
       getChannelPost(categoryName)
     }
-  }, [categoryName])
+
+    setIsRerender(false)
+  }, [categoryName, isRerender])
 
   useEffect(() => {
     getAllChannels()
@@ -226,7 +233,10 @@ const MainPage = () => {
           }}
           activeItemStyle={{ ...activeItemStyle }}
           items={allCategories}
-          handleClick={(category) => setCategoryName(category.name)}
+          handleClick={(category) => {
+            setCategoryName(category.name)
+            setIsRerender(true)
+          }}
           style={{ margin: '0 200px' }}
         />
         <SearchBar>
@@ -265,7 +275,13 @@ const MainPage = () => {
       </MainPageSection>
 
       <Modal visible={showPostModal} onClose={closePostModal}>
-        <Post post={post} onClose={closePostModal} />
+        <Post
+          post={post}
+          onClose={closePostModal}
+          handleRerenderPost={() => {
+            setIsRerender(true)
+          }}
+        />
       </Modal>
 
       <Modal
