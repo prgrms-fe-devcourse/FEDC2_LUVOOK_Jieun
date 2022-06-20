@@ -73,9 +73,12 @@ const NamePlate = styled.div`
     #a1a1a1
   );
   border-radius: 5px;
-  white-space: nowrap;
-  overflow: hidden;
+  display: block;
   text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: center;
 `
 
 const BookCard = ({ post, handleOnClick }) => {
@@ -95,9 +98,7 @@ const BookCard = ({ post, handleOnClick }) => {
         <Text>{post.title.postQuote || post.title} </Text>
       </Card>
 
-      <NamePlate>
-        <Text>{post.title.bookTitle || post.title}</Text>
-      </NamePlate>
+      <NamePlate>{post.title.bookTitle || post.title}</NamePlate>
     </CardContainer>
   )
 }
