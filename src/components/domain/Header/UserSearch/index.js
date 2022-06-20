@@ -31,7 +31,7 @@ const UserSearch = () => {
       return searchedUserList.map((user) => {
         return {
           id: user._id,
-          fullName: JSON.parse(user.fullName),
+          fullName: JSON.parse(user.fullName).fullName,
         }
       })
     } catch (e) {
@@ -48,7 +48,7 @@ const UserSearch = () => {
 
     if (userName.length > 0) {
       const userList = await getSearchedUserList(userName)
-      const result = parseUserFullName(userList)
+      const result = parseUserFullName(userList).filter((user) => user.fullName.includes(userName))
 
       setSearchedUserList(result)
     }
@@ -73,13 +73,11 @@ const UserSearch = () => {
       </UserSearchInput>
 
       {searchedUserList?.map((user) => {
-        const { fullName, quote } = user.fullName
-
         return (
           <Fragment key={user.id}>
             <UserSearchResult>
               <Link to={`/users/${user.id}`}>
-                <p>{fullName}</p>
+                <p>{user.fullName}</p>
               </Link>
             </UserSearchResult>
           </Fragment>
