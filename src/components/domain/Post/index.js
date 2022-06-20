@@ -4,7 +4,7 @@ import CommentList from './CommentList'
 import PostContents from './PostContents'
 import PostHeader from './PostHeader'
 import { createLikeInPost, deleteLikeInPost } from '@apis'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, Fragment } from 'react'
 import { useUserContext } from '@contexts/UserContext'
 import LUVOOOK_LOGO from '@images/luvook_default.png'
 
@@ -29,17 +29,9 @@ const defaultPostProps = {
   likes: [],
   comments: [],
   _id: 'default',
-  image: LUVOOOK_LOGO,
-  title: {
-    bookTitle: '',
-    postContent: '',
-    postQuote: '',
-  },
+  title: null,
   channel: '',
-  author: {
-    image: '',
-    fullName: '',
-  },
+  author: null,
   createdAt: '',
 }
 
@@ -81,8 +73,7 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
     likes,
     comments,
     _id: postId,
-    image,
-    title,
+    title: titleObj,
     channel,
     author,
     createdAt,
@@ -111,10 +102,8 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   }
 
   return (
-    <div>
-      <Bookmark handleClick={handleLiked} active={isLikeActive}>
-        북마크
-      </Bookmark>
+    <Fragment>
+      <Bookmark handleClick={handleLiked} active={isLikeActive} />
       <PostContainer>
         <PostHeader
           postId={postId}
@@ -125,10 +114,10 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
             handleRerenderPost()
           }}
         />
-        <PostContents title={title} image={image} />
+        <PostContents titleObj={titleObj} />
         <CommentList comments={comments} />
       </PostContainer>
-    </div>
+    </Fragment>
   )
 }
 

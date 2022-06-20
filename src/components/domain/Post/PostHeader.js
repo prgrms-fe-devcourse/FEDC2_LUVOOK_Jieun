@@ -56,10 +56,13 @@ const PostHeader = ({ postId, author, createdAt, onClose }) => {
     }
   }
 
+  const { fullName: unParsedFullName, _id: userId } = author
+  const { fullName, quote } = { fullName: unParsedFullName, ...JSON.parse(unParsedFullName) }
+
   return (
     <Fragment>
-      <UserBox image={author.image}>
-        <Text block>{author.fullName}</Text>
+      <UserBox userId={userId}>
+        <Text block>{fullName}</Text>
         <Text block>{formatTime(createdAt)}</Text>
       </UserBox>
       {isAuthorized && (
