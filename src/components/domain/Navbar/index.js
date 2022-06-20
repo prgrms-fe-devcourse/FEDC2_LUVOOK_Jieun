@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import uuid from 'react-uuid'
 
 const NavbarWrapper = styled.nav`
   display: flex;
@@ -43,8 +42,9 @@ const Navbar = ({
           index === currentActiveIndex ? (
             <NavbarActiveItem
               style={{ ...activeItemStyle }}
-              key={item.id ? item.id : uuid()}
+              key={item.id}
               onClick={() => {
+                console.log('active', item)
                 setCurrentActiveIndex(index)
                 handleClick(item)
               }}
@@ -54,8 +54,9 @@ const Navbar = ({
           ) : (
             <NavbarItem
               style={{ ...navbarItemStyle }}
-              key={item.id ? item.id : uuid()}
+              key={item.id}
               onClick={() => {
+                console.log('clicked', item)
                 setCurrentActiveIndex(index)
                 handleClick(item)
               }}

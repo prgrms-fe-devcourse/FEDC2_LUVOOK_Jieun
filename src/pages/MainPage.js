@@ -122,6 +122,7 @@ const MainPage = () => {
   const closePostModal = () => {
     setShowPostModal(false)
     setPost(null)
+    // setIsRerender(true)
   }
 
   const closeNewPostFormModal = async (action = 'CANCEL', callbackFn) => {
@@ -142,7 +143,6 @@ const MainPage = () => {
 
   const getAllPost = async () => {
     const totalPostList = await getAllPosts()
-
     totalPostList.sort(sortByLatest)
     setPostList(parseListTitle(totalPostList))
   }
