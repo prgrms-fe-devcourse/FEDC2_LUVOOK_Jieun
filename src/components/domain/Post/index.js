@@ -89,15 +89,15 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   } = { ...defaultPostProps, ...post }
 
   const onPostLike = async () => {
-    const data = await createLikeInPost({ postId: postId })
     setIsLikeActive(true)
+    const data = await createLikeInPost({ postId: postId })
     setCurrentUserLikeInfo({ userId: data.user, likeId: data._id })
   }
 
   const onPostLikeDelete = async ({ userId, likeId }) => {
-    await deleteLikeInPost(likeId)
     setIsLikeActive(false)
     setCurrentUserLikeInfo({})
+    await deleteLikeInPost(likeId)
   }
 
   const handleLiked = () => {
