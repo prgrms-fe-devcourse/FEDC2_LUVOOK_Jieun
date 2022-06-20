@@ -119,6 +119,7 @@ const UserSearch = ({ showModal, onClose, closeOnClick }) => {
       <UserSearchInput>
         <Icon className="searchbar-icon" name={'search'} size={15} color={'black'} />
         <Input
+          style={{ width: '370px', border: 'none' }}
           className="searchbar-text"
           placeholder="찾으시는 사용자가 있나요?"
           value={keyword}
