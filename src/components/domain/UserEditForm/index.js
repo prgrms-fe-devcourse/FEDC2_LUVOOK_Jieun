@@ -3,6 +3,7 @@ import { Avatar, Icon } from '@components'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
 import { useFormik } from 'formik'
+import uuid from 'react-uuid'
 
 const UserPageContainer = styled.div`
   width: 100%;
@@ -121,7 +122,7 @@ const UserEditForm = () => {
     onSubmit: async ({ fullName, quote }) => {
       const userInfo = {
         fullName: JSON.stringify({ fullName, quote }),
-        username: '',
+        username: uuid(),
       }
       try {
         await onUpdateUserInfo(userInfo)
