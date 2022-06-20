@@ -20,6 +20,7 @@ import {
   getChannelInfo,
   getSearchedBookList,
 } from '@apis'
+import { parseListTitle } from '@utils/common'
 
 const CONFIRM_MESSAGE = {
   CANCEL: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
@@ -64,21 +65,6 @@ const sortByLatest = (post1, post2) => {
   return Date.parse(post2.createdAt) - Date.parse(post1.createdAt)
 }
 
-const parseListTitle = (postList) => {
-  try {
-    return postList.map((post) => {
-      return {
-        ...post,
-        title: JSON.parse(post.title),
-      }
-    })
-  } catch (e) {
-    // TODO: 현재 api 데이터의 title이 JSON.stringify 형태가 아니기 때문에,
-    // 오류가 발생하므로, try-catch 사용
-    return postList
-  }
-}
-
 const MainPageSection = styled.section`
   margin-top: 32px;
 `
@@ -103,7 +89,7 @@ const MainPageSelect = styled(Select)`
 `
 
 const MainPage = () => {
-  const [isRerender, setIsRerender] = useState(true)
+  const [isRerender, setIsRerender] = useState(false)
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(CATEGORY_ALL.name)
   const [searchedKeyword, setSearchedKeyword] = useState('')
@@ -145,6 +131,7 @@ const MainPage = () => {
     const totalPostList = await getAllPosts()
     totalPostList.sort(sortByLatest)
     setPostList(parseListTitle(totalPostList))
+    console.log(postList)
   }
 
   const getChannelPost = async (channelName) => {
