@@ -44,7 +44,6 @@ const Navbar = ({
               style={{ ...activeItemStyle }}
               key={item.id}
               onClick={() => {
-                console.log('active', item)
                 setCurrentActiveIndex(index)
                 handleClick(item)
               }}
@@ -56,7 +55,6 @@ const Navbar = ({
               style={{ ...navbarItemStyle }}
               key={item.id}
               onClick={() => {
-                console.log('clicked', item)
                 setCurrentActiveIndex(index)
                 handleClick(item)
               }}
