@@ -53,7 +53,7 @@ const Banner = () => {
     setInterval(() => {
       quoteRef.current = (quoteRef.current + 1) % quotes.length
       setQuoteIdx(quoteRef.current)
-    }, 8000)
+    }, 10000)
   }, [])
 
   return (
