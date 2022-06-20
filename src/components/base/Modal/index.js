@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import ReactDOM from 'react-dom'
 import { useEffect, useMemo } from 'react'
 import { useClickAway } from '@hooks'
+import { Icon } from '@components'
 
 const BackgroundDim = styled.div`
   box-sizing: border-box;
@@ -30,21 +31,13 @@ const ModalContainer = styled.div`
   border-radius: 8px;
 `
 
-// Todo
-// 1. 버튼 안에 'X'를 아이콘으로 변경
-// 2. 임시로 최소 스타일링만 해놓았습니다, color같은 부분은 추후 디자인할때 다시 수정하면 좋을 것 같아요.
-const ModalCloseButton = styled.button`
+const ModalCloseButton = styled.div`
   z-index: 1;
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background-color: #fafafa;
-  border: 0.5px solid gray;
+  top: 4px;
+  right: 4px;
   border-radius: 4px;
   cursor: pointer;
-  &:hover {
-    background-color: gray;
-  }
 `
 
 const Modal = ({
@@ -84,7 +77,11 @@ const Modal = ({
         {...props}
         style={{ ...props.style, ...containerStyle }}
       >
-        {hasCloseButton && <ModalCloseButton onClick={onClose}>X</ModalCloseButton>}
+        {hasCloseButton && (
+          <ModalCloseButton onClick={onClose}>
+            <Icon name="x" size={24} />
+          </ModalCloseButton>
+        )}
         {children}
       </ModalContainer>
     </BackgroundDim>,
