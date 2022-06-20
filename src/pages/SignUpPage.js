@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useUserContext } from '@contexts/UserContext'
-import { SignUp as SignUpForm, Image, Title, Text, Input } from '@components'
+import { SignUp as SignUpForm, Image, Title, Text, Input, Icon } from '@components'
 import { getItem } from '@utils/storage'
 import styled from '@emotion/styled'
 import QuoteBackgroundImage from '@images/signup_quote_background.png'
@@ -54,10 +54,14 @@ const SignUpPage = () => {
   const { onAuth } = useUserContext()
   const signUpRef = useRef()
 
+  const onScrollSignUpSection = () => {
+    signUpRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   const onChangeQuote = (e) => {
     if (e.key === 'Enter') {
       setQuote(e.target.value)
-      signUpRef.current?.scrollIntoView({ behavior: 'smooth' })
+      onScrollSignUpSection()
     }
   }
 
@@ -91,6 +95,12 @@ const SignUpPage = () => {
             <WatchFirstText>일단 구경할래요</WatchFirstText>
           </Link>
         </QuoteSection>
+        <Icon
+          name={'chevrons-down'}
+          size={50}
+          style={{ position: 'absolute', bottom: '0', marginBottom: '20px', cursor: 'pointer' }}
+          onClick={onScrollSignUpSection}
+        />
       </QuoteContainer>
       <SignUpMainContainer ref={signUpRef}>
         <SignUpFormContainer>
