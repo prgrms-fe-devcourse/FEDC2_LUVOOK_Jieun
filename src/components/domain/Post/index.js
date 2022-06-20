@@ -6,9 +6,7 @@ import PostHeader from './PostHeader'
 import { createLikeInPost, deleteLikeInPost } from '@apis'
 import { useEffect, useState, useCallback } from 'react'
 import { useUserContext } from '@contexts/UserContext'
-
-//TODO 상수로 옮겨야 한다.
-const PLACEHOLDER_IMAGE_SRC = 'https://via.placeholder.com/200?text=LUVOOK'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 // TODO
 // utils로 옮겨야 할 것 같다.
@@ -31,7 +29,7 @@ const defaultPostProps = {
   likes: [],
   comments: [],
   _id: 'default',
-  image: PLACEHOLDER_IMAGE_SRC,
+  image: LUVOOOK_LOGO,
   title: {
     bookTitle: '',
     postContent: '',

@@ -67,7 +67,7 @@ const UserInfo = ({ userInfo }) => {
   return (
     <UserInfoContainer>
       <Profile>
-        <Avatar src={'https://picsum.photos/200'} size={196} />
+        <Avatar size={196} />
         <p className="user-name">{fullName.fullName}</p>
       </Profile>
       <UserContent>{fullName.quote}</UserContent>
