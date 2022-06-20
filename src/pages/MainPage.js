@@ -277,6 +277,7 @@ const MainPage = () => {
       <Modal visible={showPostModal} onClose={closePostModal}>
         <Post
           post={post}
+          onClose={closePostModal}
           handleRerenderPost={() => {
             setIsRerender(true)
           }}

@@ -1,8 +1,11 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { Text, Button } from '@components'
 import { formatTime } from './index'
 import UserBox from './UserBox'
+import { useUserContext } from '@contexts/UserContext'
+import { getItem } from '@utils/storage'
+import { deletePost } from '@apis'
 
 const AuthorizedButtons = styled.div`
   display: flex;
@@ -21,21 +24,50 @@ const AuthorizedButtons = styled.div`
   }
 `
 
-const PostHeader = ({ author, createdAt }) => {
-  // TODO
-  // AuthorizedButtons 컴포넌트는 게시물작성자와 접속한 유저가 동일할 때만 보여줘야한다.
-  const { image, fullName } = author
+const PostHeader = ({ postId, author, createdAt, onClose }) => {
+  const { currentUserState, onAuth } = useUserContext()
+  const [isLogin, setIsLogin] = useState(false)
+  const isAuthorized = isLogin && currentUserState?.currentUser?._id === author._id
+
+  const checkUserAuth = async () => {
+    if (getItem('jwt_token')) {
+      await onAuth()
+      setIsLogin(true)
+    }
+  }
+
+  useEffect(() => {
+    checkUserAuth()
+  }, [])
+
+  const handleClickDeleteButton = async (e) => {
+    e.preventDefault()
+    if (!isAuthorized) {
+      console.error('본인이 작성한 게시물이 아닙니다.')
+      return
+    }
+    if (window.confirm('정말 게시물을 삭제할까요?')) {
+      try {
+        await deletePost(postId)
+      } catch (e) {
+        console.error('게시물 삭제에 실패했습니다.', e)
+      }
+      onClose && onClose()
+    }
+  }
 
   return (
     <Fragment>
-      <UserBox image={image}>
-        <Text block>{fullName}</Text>
+      <UserBox image={author.image}>
+        <Text block>{author.fullName}</Text>
         <Text block>{formatTime(createdAt)}</Text>
       </UserBox>
-      <AuthorizedButtons>
-        <Button>수정</Button>
-        <Button>삭제</Button>
-      </AuthorizedButtons>
+      {isAuthorized && (
+        <AuthorizedButtons>
+          <Button>수정</Button>
+          <Button onClick={handleClickDeleteButton}>삭제</Button>
+        </AuthorizedButtons>
+      )}
     </Fragment>
   )
 }
