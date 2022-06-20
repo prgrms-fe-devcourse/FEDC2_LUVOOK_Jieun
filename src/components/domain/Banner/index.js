@@ -9,6 +9,7 @@ const BannerContainer = styled.div`
   height: 50px;
   overflow: hidden;
   margin-top: 30px;
+
   .banner-content {
     width: 100%;
     display: flex;
@@ -16,8 +17,9 @@ const BannerContainer = styled.div`
     align-items: center;
     list-style: none;
     border: solid 1px #ffffff;
+
     .banner-title {
-      color: #743737;
+      color: var(--color-primary);
       font-size: 36px;
       font-weight: bold;
     }
@@ -41,20 +43,17 @@ const quotes = [
     id: uuidv4(),
     quote: '『영감이 오는 것을 기다리고 있을 수는 없다. - 런던』',
   },
-  {
-    id: uuidv4(),
-    quote: '『의욕만 있으면 이런 노력만으로도 얼마든지 많은 생각을 찾을 수 있다. - 수스』',
-  },
 ]
 
 const Banner = () => {
   const [quoteIdx, setQuoteIdx] = useState(0)
   const quoteRef = useRef(0)
+
   useEffect(() => {
     setInterval(() => {
       quoteRef.current = (quoteRef.current + 1) % quotes.length
       setQuoteIdx(quoteRef.current)
-    }, 10000)
+    }, 8000)
   }, [])
 
   return (
@@ -63,9 +62,7 @@ const Banner = () => {
         {quotes.map(({ id, quote }) => {
           return (
             <li className="banner-content" key={id}>
-              <div>
-                <div className="banner-title">{quote}</div>
-              </div>
+              <div className="banner-title">{quote}</div>
             </li>
           )
         })}
