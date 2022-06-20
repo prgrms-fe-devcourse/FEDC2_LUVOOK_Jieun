@@ -34,17 +34,17 @@ const SignUpMainContainer = styled.section`
 
 const SignUpFormContainer = styled.div``
 
-const WatchFirstText = ({ children }) => {
-  const watchFirstTextStyle = {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    color: '#743737',
-    float: 'right',
-    cursor: 'pointer',
-  }
+const WatchFirstText = styled(Text)`
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-primary);
+  float: right;
+  cursor: pointer;
 
-  return <Text style={watchFirstTextStyle}>{children}</Text>
-}
+  &:hover {
+    color: white;
+  }
+`
 
 const SignUpPage = () => {
   const [quote, setQuote] = useState(

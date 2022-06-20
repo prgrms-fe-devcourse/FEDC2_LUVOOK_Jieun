@@ -19,7 +19,7 @@ const SignUpTextStyle = styled(Text)`
   color: var(--color-primary-light);
   cursor: pointer;
 
-  &:focus {
+  &:hover {
     color: var(--color-primary);
   }
 `
