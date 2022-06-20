@@ -108,12 +108,11 @@ const PasswordEditButton = styled.button`
 const UserEditForm = () => {
   const [isEdit, setIsEdit] = useState(false)
   const { onUpdateUserInfo, currentUserState } = useUserContext()
+  const { fullName, quote } = JSON.parse(currentUserState.currentUser.fullName)
 
   const clickedToggle = () => {
     setIsEdit((isEdit) => !isEdit)
   }
-
-  const { fullName, quote } = JSON.parse(currentUserState.currentUser.fullName)
 
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
