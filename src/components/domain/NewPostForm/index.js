@@ -50,7 +50,7 @@ const BookSearchContainer = styled.div`
 const Textarea = styled.textarea`
   resize: none;
   width: 100%;
-  padding: 6px 8px;
+  padding: 8px;
   border: 1px solid ${({ invalid }) => (invalid ? 'red' : PRIMARY_COLOR)};
   border-radius: 4px;
   box-sizing: border-box;

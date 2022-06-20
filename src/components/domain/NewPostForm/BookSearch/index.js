@@ -42,7 +42,6 @@ const BookSearch = ({ showModal, onChange }) => {
   }
 
   const handleClickSearchButton = async (e) => {
-    console.log(e.target)
     e.preventDefault()
     if (!state.keyword) return
     const { documents } = await getBookList(state.keyword)
