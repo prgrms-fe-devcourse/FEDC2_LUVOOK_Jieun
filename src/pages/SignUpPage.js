@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useUserContext } from '@contexts/UserContext'
 import { SignUp as SignUpForm, Image, Title, Text, Input } from '@components'
@@ -8,7 +8,9 @@ import QuoteBackgroundImage from '@images/signup_quote_background.png'
 import SignUpBackgroundImage from '@images/signup_background.jpeg'
 import LuvookLogo from '@images/luvook_transparent_medium.png'
 
-const QuoteWrappper = styled.section`
+const SignUpWrapper = styled.div``
+
+const QuoteContainer = styled.section`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -45,13 +47,17 @@ const WatchFirstText = ({ children }) => {
 }
 
 const SignUpPage = () => {
-  const [quote, setQuote] = useState('')
+  const [quote, setQuote] = useState(
+    '너의 장미꽃이 그토록 소중한 것은 그 꽃을 위해 네가 공들인 그 시간 때문이야 - 어린 왕자'
+  )
   const navigate = useNavigate()
   const { onAuth } = useUserContext()
+  const signUpRef = useRef()
 
   const onChangeQuote = (e) => {
     if (e.key === 'Enter') {
       setQuote(e.target.value)
+      signUpRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -67,8 +73,8 @@ const SignUpPage = () => {
   }, [])
 
   return (
-    <Fragment>
-      <QuoteWrappper>
+    <SignUpWrapper>
+      <QuoteContainer>
         <QuoteSection>
           <Text style={{ fontSize: '48px', fontWeight: 'bold', color: '#743737' }}>
             좋아하는 책의 문구을 입력해주세요.
@@ -77,16 +83,16 @@ const SignUpPage = () => {
             block
             type="text"
             name="quote"
-            placeholder="문구를 입력해주세요."
+            placeholder="ex) '너의 장미꽃이 그토록 소중한 것은 그 꽃을 위해 네가 공들인 그 시간 때문이야 - 어린 왕자'"
             style={{ marginTop: 20, marginBottom: 10 }}
-            onChange={onChangeQuote}
+            onKeyPress={onChangeQuote}
           />
           <Link to="/">
             <WatchFirstText>일단 구경할래요</WatchFirstText>
           </Link>
         </QuoteSection>
-      </QuoteWrappper>
-      <SignUpMainContainer>
+      </QuoteContainer>
+      <SignUpMainContainer ref={signUpRef}>
         <SignUpFormContainer>
           <Image src={LuvookLogo} width="400px" />
           <Title level={1} strong color="#743737">
@@ -96,7 +102,7 @@ const SignUpPage = () => {
         </SignUpFormContainer>
         <Image src={SignUpBackgroundImage} width="100%" height="100vh" mode="cover" />
       </SignUpMainContainer>
-    </Fragment>
+    </SignUpWrapper>
   )
 }
 
