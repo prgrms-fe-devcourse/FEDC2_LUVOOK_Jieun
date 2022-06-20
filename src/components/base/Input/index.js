@@ -19,6 +19,11 @@ const StyledInput = styled.input`
   border: 1px solid ${({ invalid }) => (invalid ? 'red' : PRIMARY_COLOR)};
   border-radius: 4px;
   box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border: 2px solid #743737;
+  }
 `
 
 const Input = ({

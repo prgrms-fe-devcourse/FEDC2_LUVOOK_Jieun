@@ -9,7 +9,10 @@ const useActions = (dispatch) => {
 
     const user = await getAuthUser()
 
-    dispatch({ type: SET_USER, payload: { user } })
+    if (user) {
+      const token = getItem('jwt_token')
+      dispatch({ type: SET_USER, payload: { user, token } })
+    }
   }, [dispatch])
 
   const onLogin = useCallback(

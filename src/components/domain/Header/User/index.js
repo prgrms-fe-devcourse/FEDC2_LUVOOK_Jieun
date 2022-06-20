@@ -1,8 +1,10 @@
-import { useState } from 'react'
-import { Popover, Avatar } from '@components'
+import { useState, useEffect } from 'react'
+import { Popover, Avatar, SubmitButton } from '@components'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
+import { getItem } from '@utils/storage'
+import ProfileImage from '@images/profile_default.png'
 
 const UserElement = styled.div`
   position: absolute;
@@ -15,22 +17,26 @@ const UserElement = styled.div`
   color: white;
   list-style: none;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  a {
-    text-decoration: none;
-    color: #ffffff;
-    li {
-      padding: 7px;
-    }
-    li:hover {
-      cursor: pointer;
-    }
+  text-decoration: none;
+  color: #ffffff;
+
+  li {
+    padding: 7px;
+  }
+  li:hover {
+    cursor: pointer;
   }
 `
 
 const User = () => {
+  const [isLogin, setIsLogin] = useState(false)
   const [userPop, setUserPop] = useState(false)
-  const { onLogout } = useUserContext()
+  const { onLogout, onAuth, currentUserState } = useUserContext()
   const navigate = useNavigate()
+
+  const navigateMyPage = () => {
+    navigate(`/users/${currentUserState.currentUser.fullName}`)
+  }
 
   const logout = async () => {
     try {
@@ -41,25 +47,33 @@ const User = () => {
     }
   }
 
-  return (
+  const checkUserAuth = async () => {
+    if (getItem('jwt_token')) {
+      await onAuth()
+      setIsLogin(true)
+    } else {
+      setIsLogin(false)
+    }
+  }
+
+  useEffect(() => {
+    checkUserAuth()
+  }, [])
+
+  return isLogin ? (
     <div>
-      <Avatar
-        src={'https://picsum.photos/200'}
-        size={40}
-        id="user"
-        onClick={() => setUserPop(true)}
-      />
+      <Avatar src={ProfileImage} size={40} id="user" onClick={() => setUserPop(true)} />
       <Popover show={userPop} targetId="user" onClose={() => setUserPop(false)}>
         <UserElement>
-          <Link to="/users/:username">
-            <li>마이 페이지</li>
-          </Link>
-          <Link to="/login">
-            <li onClick={logout}>로그아웃</li>
-          </Link>
+          <li onClick={navigateMyPage}>마이 페이지</li>
+          <li onClick={logout}>로그아웃</li>
         </UserElement>
       </Popover>
     </div>
+  ) : (
+    <SubmitButton isLoginButton type="button" onClick={() => navigate('/login')}>
+      로그인
+    </SubmitButton>
   )
 }
 
