@@ -3,6 +3,7 @@ import { Avatar, Icon } from '@components'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
 import { useFormik } from 'formik'
+import uuid from 'react-uuid'
 
 const UserPageContainer = styled.div`
   width: 100%;
@@ -107,12 +108,11 @@ const PasswordEditButton = styled.button`
 const UserEditForm = () => {
   const [isEdit, setIsEdit] = useState(false)
   const { onUpdateUserInfo, currentUserState } = useUserContext()
+  const { fullName, quote } = JSON.parse(currentUserState.currentUser.fullName)
 
   const clickedToggle = () => {
     setIsEdit((isEdit) => !isEdit)
   }
-
-  const { fullName, quote } = JSON.parse(currentUserState.currentUser.fullName)
 
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
@@ -121,7 +121,7 @@ const UserEditForm = () => {
     onSubmit: async ({ fullName, quote }) => {
       const userInfo = {
         fullName: JSON.stringify({ fullName, quote }),
-        username: '',
+        username: uuid(),
       }
       try {
         await onUpdateUserInfo(userInfo)
