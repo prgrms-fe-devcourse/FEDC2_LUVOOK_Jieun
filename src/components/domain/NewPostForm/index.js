@@ -6,10 +6,7 @@ import { useFormik } from 'formik'
 import { getChannelList } from '@apis/api/channel'
 import { createPost } from '@apis/api/post'
 import BookSearch from './BookSearch'
-
-// TODO
-// utils로 옮겨야 한다.
-const DEFAULT_IMAGE_URL = 'https://via.placeholder.com/200?text=LUVOOK'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 const PRIMARY_COLOR = '#743737'
 
@@ -37,7 +34,7 @@ const SubmitButtons = styled.div`
 
 const initialValues = {
   channelName: '',
-  bookImage: DEFAULT_IMAGE_URL,
+  bookImage: LUVOOOK_LOGO,
   bookTitle: '',
   postQuote: '',
   postContent: '',
