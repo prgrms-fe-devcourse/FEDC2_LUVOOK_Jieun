@@ -74,7 +74,7 @@ const Header = () => {
         <HeaderNav>
           <div className="user-search">
             <Modal hasCloseButton={false} visible={showModal} onClose={() => setShowModal(false)}>
-              <UserSearch />
+              <UserSearch showModal={showModal} />
             </Modal>
             <button onClick={() => setShowModal(true)}>
               Search for Users

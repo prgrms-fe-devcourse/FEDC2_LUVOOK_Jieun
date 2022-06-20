@@ -1,9 +1,9 @@
-import { useState, Fragment } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import styled from '@emotion/styled'
 import { getSearchedUserList } from '@apis'
 import { Input, Icon, Avatar } from '@components'
 import { Link } from 'react-router-dom'
-import { useClickAway } from '@hooks'
+import { useDebounce, useClickAway } from '@hooks'
 import ProfileImage from '@images/profile_default.png'
 
 const UserSearchContainer = styled.div`
@@ -13,27 +13,44 @@ const UserSearchContainer = styled.div`
   flex-direction: column;
   align-items: center;
   .user-result-container {
-    width: 60%;
+    width: 90%;
     height: 420px;
     overflow-y: scroll;
-  }
-  .user-result-container::-webkit-scrollbar {
-    width: 5px;
-  }
-  .user-result-container::-webkit-scrollbar-thumb {
-    height: 30%;
-    background: #d9d9d9;
-    border-radius: 5px;
+    border-bottom: solid 1px #e1e1e1;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: #d9d9d9;
+      border-radius: 5px;
+    }
   }
 `
 
 const UserSearchInput = styled.div`
-  width: 60%;
+  width: 90%;
   height: 40px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   background-color: #f6f6f6;
+  border-radius: 8px;
+  color: #e1e1e1;
+  .searchbar-icon {
+    margin-left: 4%;
+    margin-bottom: 4px;
+  }
+  .searchbar-text {
+    height: 40px;
+    max-width: 800px;
+    background-color: #f6f6f6;
+    margin-left: 6.5%;
+    border: none;
+    outline: none;
+    color: #a5a3af;
+    font-size: 16px;
+  }
 `
 
 const UserSearchResult = styled.div`
@@ -41,26 +58,44 @@ const UserSearchResult = styled.div`
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: black;
-    font-weight: bold;
-    padding: 8px 10px;
+    color: #a5a3af;
+    padding: 8px 0px;
     overflow-x: hidden;
+    border-bottom: solid 1px #e1e1e1;
     .user-avatar {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
     }
     .user-name {
       margin-left: 4%;
+      font-size: 16px;
     }
   }
 `
 
-const UserSearch = (onClose, closeOnClick) => {
+const UserSearch = ({ showModal, onClose, closeOnClick }) => {
+  const [keyword, setKeyword] = useState('')
   const [searchedUserList, setSearchedUserList] = useState([])
 
-  const onClickModalWrapper = useClickAway(() => {
-    closeOnClick && onClose && onClose()
-  })
+  useDebounce(
+    async () => {
+      if (keyword === '') {
+        setSearchedUserList([])
+        return
+      }
+
+      const userList = await getSearchedUserList(keyword)
+      const result = parseUserFullName(userList).filter((user) => user.fullName.includes(keyword))
+      setSearchedUserList([...result])
+    },
+    200,
+    [keyword]
+  )
+
+  useEffect(() => {
+    setKeyword('')
+    setSearchedUserList([])
+  }, [showModal])
 
   const parseUserFullName = (searchedUserList) => {
     try {
@@ -75,37 +110,20 @@ const UserSearch = (onClose, closeOnClick) => {
     }
   }
 
-  const updateChange = async (e) => {
-    const userName = e.target.value
-    if (!userName) {
-      setSearchedUserList([])
-      return
-    }
-
-    if (userName.length > 0) {
-      const userList = await getSearchedUserList(userName)
-      const result = parseUserFullName(userList).filter((user) => user.fullName.includes(userName))
-
-      setSearchedUserList(result)
-    }
-  }
+  const onClickModalWrapper = useClickAway(() => {
+    closeOnClick && onClose && onClose()
+  })
 
   return (
     <UserSearchContainer>
       <UserSearchInput>
-        <Icon name={'search'} size={20} />
+        <Icon className="searchbar-icon" name={'search'} size={15} color={'black'} />
         <Input
+          className="searchbar-text"
           placeholder="찾으시는 사용자가 있나요?"
-          style={{
-            width: '100%',
-            height: '40px',
-            maxWidth: '800px',
-            background: '#F6F6F6',
-            border: 'none',
-            outline: 'none',
-          }}
-          onChange={updateChange}
-        ></Input>
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
       </UserSearchInput>
       <div className="user-result-container">
         {searchedUserList?.map((user) => {
@@ -113,7 +131,7 @@ const UserSearch = (onClose, closeOnClick) => {
             <Fragment key={user.id}>
               <UserSearchResult onClick={onClickModalWrapper}>
                 <Link to={`/users/${user.id}`} className="another-user">
-                  <Avatar src={ProfileImage} size={40} className="user-avatar" />
+                  <Avatar src={ProfileImage} size={36} className="user-avatar" />
                   <p className="user-name">{user.fullName}</p>
                 </Link>
               </UserSearchResult>
