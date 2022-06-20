@@ -11,6 +11,7 @@ import {
   Post,
   Navbar,
   Icon,
+  Footer,
 } from '@components'
 import { useState, useEffect, Fragment } from 'react'
 import { useUserContext } from '@contexts/UserContext'
@@ -311,6 +312,7 @@ const MainPage = () => {
       >
         <NewPostForm showModal={showNewPostFormModal} onClose={closeNewPostFormModal} />
       </Modal>
+      <Footer />
     </Fragment>
   )
 }
