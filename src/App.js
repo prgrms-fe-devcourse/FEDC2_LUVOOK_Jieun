@@ -10,7 +10,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up/*" element={<SignUpPage />} />
-        <Route path="/users/:username" element={<UsersPage />} />
+        <Route path="/users/:userId" element={<UsersPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </UserContextProvider>

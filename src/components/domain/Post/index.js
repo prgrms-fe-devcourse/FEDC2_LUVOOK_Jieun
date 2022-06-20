@@ -45,7 +45,7 @@ const defaultPostProps = {
   createdAt: '',
 }
 
-const Post = ({ post, handleRerenderPost, ...props }) => {
+const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   const [isLikeActive, setIsLikeActive] = useState(false)
   const [currentUserLikeInfo, setCurrentUserLikeInfo] = useState({})
   const { currentUserState } = useUserContext()

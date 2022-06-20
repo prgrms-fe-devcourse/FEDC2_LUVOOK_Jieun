@@ -1,7 +1,10 @@
-import { useState } from 'react'
-import { Header, Avatar, UserEditForm } from '@components'
+import { useState, useEffect } from 'react'
+import { Header, UserEditForm, UserInfo } from '@components'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
+import { getItem } from '@utils/storage'
+import { useLocation } from 'react-router-dom'
+import { getUserInfo } from '@apis'
 
 const UserPageContainer = styled.div`
   width: 100%;
@@ -10,75 +13,41 @@ const UserPageContainer = styled.div`
   align-items: center;
 `
 
-const UserInfoContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  width: 89%;
-  height: 34vh;
-  max-width: 1280px;
-  margin-top: 40px;
-`
-const Profile = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 24px;
-  width: 22%;
-  .user-name {
-    position: relative;
-    bottom: 50px;
-  }
-`
-
-const UserContent = styled.div`
-  display: flex;
-  width: 60%;
-  height: 156px;
-  background-color: #ffeadb;
-  font-size: 24px;
-  margin-top: 10px;
-  padding: 20px 20px 0 20px;
-  color: #637373;
-  white-space: normal;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  word-break: break-all;
-
-  > textarea {
-    width: 100%;
-    height: 17vh;
-    background-color: transparent;
-    border: none;
-    text-align: left;
-    vertical-align: top;
-    white-space: normal;
-    font-size: 24px;
-  }
-  > textarea:focus {
-    outline: none;
-  }
-`
-
 const UsersPage = () => {
-  const [isUser, setIsUser] = useState(false)
-  const { currentUserState } = useUserContext()
-  const { fullName, quote } = currentUserState.currentUser
+  const location = useLocation()
+  const { currentUserState, onAuth } = useUserContext()
+  const [userInfo, setUserInfo] = useState()
+  const [isMyPage, setIsMyPage] = useState(false)
+
+  const getOtherUserInfo = async (userId) => {
+    const userInfo = await getUserInfo(userId)
+    setUserInfo(userInfo)
+  }
+
+  const checkUserAuth = async () => {
+    if (getItem('jwt_token')) {
+      await onAuth()
+    }
+  }
+
+  const checkUserIsMyPage = (currentRouteUserId) => {
+    checkUserAuth()
+
+    const currentUserId = currentUserState.currentUser._id
+    setIsMyPage(currentUserId === currentRouteUserId)
+  }
+
+  useEffect(() => {
+    const currentRouteUserId = location.pathname.split('/')[2]
+
+    checkUserIsMyPage(currentRouteUserId)
+    getOtherUserInfo(currentRouteUserId)
+  }, [location])
 
   return (
     <UserPageContainer>
       <Header />
-      {!isUser ? (
-        <UserEditForm />
-      ) : (
-        <UserInfoContainer>
-          <Profile>
-            <Avatar src={'https://picsum.photos/200'} size={196} />
-            <p className="user-name">{fullName}</p>
-          </Profile>
-          <UserContent>{quote}</UserContent>
-        </UserInfoContainer>
-      )}
+      {isMyPage ? <UserEditForm /> : <UserInfo userInfo={userInfo} />}
     </UserPageContainer>
   )
 }
