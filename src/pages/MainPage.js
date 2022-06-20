@@ -13,7 +13,13 @@ import {
   Icon,
 } from '@components'
 import { useState, useEffect, Fragment } from 'react'
-import { getChannelList, getPostListInChannel, getChannelInfo, getSearchedBookList } from '@apis'
+import {
+  getAllPosts,
+  getChannelList,
+  getPostListInChannel,
+  getChannelInfo,
+  getSearchedBookList,
+} from '@apis'
 
 const CONFIRM_MESSAGE = {
   CANCEL: '작성중인 글이 저장되지 않습니다. 글 작성을 취소할까요?',
@@ -135,11 +141,7 @@ const MainPage = () => {
   }
 
   const getAllPost = async () => {
-    // TODO: 후에 API 준비가 완료되면 로직 교체
-    const channelList = await getChannelList()
-    const totalPostList = (
-      await Promise.all(channelList.map(async (channel) => await getPostListInChannel(channel._id)))
-    ).flat()
+    const totalPostList = await getAllPosts()
 
     totalPostList.sort(sortByLatest)
     setPostList(parseListTitle(totalPostList))

@@ -1,5 +1,14 @@
 import { baseInstance, authInstance } from '../utils/instance'
 
+const getAllPosts = async () => {
+  try {
+    const { data } = await baseInstance.get(`/posts`)
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const getPostListInChannel = async (channelId, params) => {
   try {
     const { data } = await baseInstance.get(`/posts/channel/${channelId}`, { params })
@@ -98,6 +107,7 @@ const deleteCommentInPost = async (commentId) => {
 }
 
 export {
+  getAllPosts,
   getPostListInChannel,
   getPostListInUser,
   createPost,
