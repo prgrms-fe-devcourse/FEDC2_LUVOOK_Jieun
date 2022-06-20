@@ -130,6 +130,7 @@ const MainPage = () => {
         await callbackFn()
       }
       setShowNewPostFormModal(false)
+      setIsRerender(true)
     }
   }
 
@@ -142,7 +143,6 @@ const MainPage = () => {
 
   const getAllPost = async () => {
     const totalPostList = await getAllPosts()
-
     totalPostList.sort(sortByLatest)
     setPostList(parseListTitle(totalPostList))
   }
@@ -286,7 +286,9 @@ const MainPage = () => {
 
       <Modal
         visible={showNewPostFormModal}
-        onClose={() => closeNewPostFormModal()}
+        onClose={() => {
+          closeNewPostFormModal()
+        }}
         closeOnClickOutside={false}
       >
         <NewPostForm showModal={showNewPostFormModal} onClose={closeNewPostFormModal} />
