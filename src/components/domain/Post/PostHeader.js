@@ -38,6 +38,7 @@ const PostHeader = ({ postId, author, createdAt, onClose }) => {
 
   useEffect(() => {
     checkUserAuth()
+    // eslint-disable-next-line
   }, [])
 
   const handleClickDeleteButton = async (e) => {

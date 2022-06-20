@@ -37,6 +37,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     checkUserAuthAndRoute()
+    // eslint-disable-next-line
   }, [])
 
   return (

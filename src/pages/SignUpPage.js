@@ -74,6 +74,7 @@ const SignUpPage = () => {
 
   useEffect(() => {
     checkUserAuthAndRoute()
+    // eslint-disable-next-line
   }, [])
 
   return (

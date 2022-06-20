@@ -1,4 +1,4 @@
-import { baseInstance, authInstance } from '../utils/instance'
+import { baseInstance } from '../utils/instance'
 
 const getChannelInfo = async (channelName) => {
   try {

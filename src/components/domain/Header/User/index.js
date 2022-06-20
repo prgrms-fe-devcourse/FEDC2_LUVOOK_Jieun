@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Popover, Avatar, SubmitButton } from '@components'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
 import { getItem } from '@utils/storage'
-import ProfileImage from '@images/profile_default.png'
 
 const UserElement = styled.div`
   position: absolute;
@@ -60,11 +59,12 @@ const User = () => {
 
   useEffect(() => {
     checkUserAuth()
+    // eslint-disable-next-line
   }, [])
 
   return isLogin ? (
     <div>
-      <Avatar src={ProfileImage} size={40} id="user" onClick={() => setUserPop(true)} />
+      <Avatar size={40} id="user" onClick={() => setUserPop(true)} />
       <Popover show={userPop} targetId="user" onClose={() => setUserPop(false)}>
         <UserElement>
           <li onClick={navigateMyPage}>마이 페이지</li>
