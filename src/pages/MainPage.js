@@ -122,7 +122,6 @@ const MainPage = () => {
   const closePostModal = () => {
     setShowPostModal(false)
     setPost(null)
-    // setIsRerender(true)
   }
 
   const closeNewPostFormModal = async (action = 'CANCEL', callbackFn) => {
@@ -131,6 +130,7 @@ const MainPage = () => {
         await callbackFn()
       }
       setShowNewPostFormModal(false)
+      setIsRerender(true)
     }
   }
 
@@ -286,7 +286,9 @@ const MainPage = () => {
 
       <Modal
         visible={showNewPostFormModal}
-        onClose={() => closeNewPostFormModal()}
+        onClose={() => {
+          closeNewPostFormModal()
+        }}
         closeOnClickOutside={false}
       >
         <NewPostForm showModal={showNewPostFormModal} onClose={closeNewPostFormModal} />

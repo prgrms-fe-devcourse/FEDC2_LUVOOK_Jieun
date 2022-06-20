@@ -118,7 +118,15 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
         북마크
       </Bookmark>
       <PostContainer>
-        <PostHeader postId={postId} author={author} createdAt={createdAt} onClose={onClose} />
+        <PostHeader
+          postId={postId}
+          author={author}
+          createdAt={createdAt}
+          onClose={() => {
+            onClose()
+            handleRerenderPost()
+          }}
+        />
         <PostContents title={title} image={image} />
         <CommentList comments={comments} />
       </PostContainer>
