@@ -39,6 +39,7 @@ const CommentList = ({ postId, comments }) => {
 
   useEffect(() => {
     checkUserAuth()
+    // eslint-disable-next-line
   }, [])
 
   const deleteComment = async (commentId) => {
@@ -81,7 +82,7 @@ const CommentList = ({ postId, comments }) => {
           <UserBox tag="li" avatarSize={40} key={_id}>
             <Text block>
               {author.fullName} <Text size="small">{formatTime(createdAt)}</Text>
-              {isLogin && currentUserState.currentUser._id == author._id && (
+              {isLogin && currentUserState.currentUser._id === author._id && (
                 <Text style={DeleteTextStyle} onClick={() => deleteComment(_id)}>
                   삭제
                 </Text>

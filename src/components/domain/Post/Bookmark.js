@@ -1,5 +1,4 @@
 import styled from '@emotion/styled'
-import { useEffect, useState } from 'react'
 import BookmarkAfter from '@images/Bookmark_after.png'
 import BookmarkDefault from '@images/Bookmark_default.png'
 

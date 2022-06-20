@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useUserContext } from '@contexts/UserContext'
 import { Login as LoginForm, Image, Title, Text } from '@components'
@@ -28,6 +28,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     checkUserAuthAndRoute()
+    // eslint-disable-next-line
   }, [])
 
   return (
