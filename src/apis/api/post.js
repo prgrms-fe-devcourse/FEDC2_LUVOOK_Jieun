@@ -40,7 +40,8 @@ const createPost = async ({ channelId, title }) => {
 
 const readPost = async (postId) => {
   try {
-    await baseInstance.get(`/posts/${postId}`)
+    const { data } = await baseInstance.get(`/posts/${postId}`)
+    return data
   } catch (error) {
     console.error(error)
   }

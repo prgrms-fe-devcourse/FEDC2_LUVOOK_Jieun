@@ -1,10 +1,20 @@
-import { useState, useEffect } from 'react'
-import { Header, UserEditForm, UserInfo } from '@components'
+import { useState, useEffect, Fragment } from 'react'
+import {
+  Header,
+  UserEditForm,
+  UserInfo,
+  BookListSlider,
+  Title,
+  Icon,
+  Modal,
+  Post,
+} from '@components'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
 import { getItem } from '@utils/storage'
 import { useLocation } from 'react-router-dom'
-import { getUserInfo } from '@apis'
+import { getUserInfo, readPost } from '@apis'
+import { parseListTitle } from '@utils/common'
 
 const UserPageContainer = styled.div`
   width: 100%;
@@ -13,11 +23,72 @@ const UserPageContainer = styled.div`
   align-items: center;
 `
 
+const SliderWrapper = styled.div``
+
+const DividerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`
+
+const NameHighLight = styled.span`
+  color: black;
+`
+const SectionDivider = styled.div`
+  width: 1200px;
+  height: 1px;
+  background-color: #a5a3af;
+`
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+`
+
+const PostSectionHeader = styled.header`
+  width: 1200px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 30px;
+`
 const UsersPage = () => {
   const location = useLocation()
   const { currentUserState, onAuth } = useUserContext()
   const [userInfo, setUserInfo] = useState()
   const [isMyPage, setIsMyPage] = useState(false)
+  const [likePostList, setLikePostList] = useState([])
+  const [writtenPostList, setWrittenPostList] = useState([])
+
+  const [showPostModal, setShowPostModal] = useState(false)
+  const [post, setPost] = useState(null)
+
+  const closePostModal = () => {
+    setShowPostModal(false)
+    setPost(null)
+  }
+
+  const handleClickPost = (post) => {
+    setPost(post)
+    setShowPostModal(true)
+  }
+
+  const getLikePostList = async (userInfo) => {
+    const userLikeList = await Promise.all(
+      userInfo.likes.map(async ({ post }) => await readPost(post))
+    )
+    setLikePostList(parseListTitle(userLikeList))
+  }
+
+  const getWrittenPostList = async (userInfo) => {
+    const userWrittenList = await Promise.all(
+      userInfo.posts.map(async (post) => await readPost(post))
+    )
+    setWrittenPostList(parseListTitle(userWrittenList))
+  }
 
   const getOtherUserInfo = async (userId) => {
     const userInfo = await getUserInfo(userId)
@@ -32,23 +103,81 @@ const UsersPage = () => {
 
   const checkUserIsMyPage = (currentRouteUserId) => {
     checkUserAuth()
-
     const currentUserId = currentUserState.currentUser._id
     setIsMyPage(currentUserId === currentRouteUserId)
   }
 
   useEffect(() => {
     const currentRouteUserId = location.pathname.split('/')[2]
-
     checkUserIsMyPage(currentRouteUserId)
     getOtherUserInfo(currentRouteUserId)
   }, [location])
 
+  useEffect(() => {
+    if (userInfo) {
+      getLikePostList(userInfo)
+      getWrittenPostList(userInfo)
+    } else {
+      setLikePostList([])
+      setWrittenPostList([])
+    }
+  }, [userInfo])
+
   return (
-    <UserPageContainer>
-      <Header />
-      {isMyPage ? <UserEditForm /> : <UserInfo userInfo={userInfo} />}
-    </UserPageContainer>
+    <Fragment>
+      <UserPageContainer>
+        <Header />
+        {isMyPage ? <UserEditForm /> : <UserInfo userInfo={userInfo} />}
+      </UserPageContainer>
+
+      <DividerWrapper>
+        <SectionDivider />
+      </DividerWrapper>
+
+      <HeaderWrapper>
+        <PostSectionHeader>
+          <Icon name="feather" size="40" />
+          <Title style={{ marginLeft: '10px', color: '#a5a3af' }}>
+            <NameHighLight>{userInfo && JSON.parse(userInfo.fullName).fullName}</NameHighLight>님이
+            작성한 게시물
+          </Title>
+        </PostSectionHeader>
+      </HeaderWrapper>
+
+      <SliderWrapper>
+        <BookListSlider
+          style={{ width: '1200px' }}
+          posts={writtenPostList}
+          handleClick={handleClickPost}
+          grid={{ fill: 'row', rows: 1 }}
+        />
+      </SliderWrapper>
+
+      <DividerWrapper style={{ marginTop: '30px' }}>
+        <SectionDivider />
+      </DividerWrapper>
+      <HeaderWrapper>
+        <PostSectionHeader>
+          <Icon name="bookmark" size="40" />
+          <Title style={{ marginLeft: '10px', color: '#a5a3af' }}>
+            <NameHighLight>{userInfo && JSON.parse(userInfo.fullName).fullName}</NameHighLight>님이
+            좋아요한 게시물
+          </Title>
+        </PostSectionHeader>
+      </HeaderWrapper>
+      <SliderWrapper>
+        <BookListSlider
+          style={{ width: '1200px' }}
+          posts={likePostList}
+          handleClick={handleClickPost}
+          grid={{ fill: 'row', rows: 1 }}
+        />
+      </SliderWrapper>
+
+      <Modal visible={showPostModal} onClose={closePostModal}>
+        <Post post={post} onClose={closePostModal} />
+      </Modal>
+    </Fragment>
   )
 }
 
