@@ -27,6 +27,8 @@ const Card = styled.div`
   box-shadow: 0 0 1rem rgba(33, 33, 33, 0.5);
   background-size: cover;
   background-repeat: no-repeat;
+  padding: 10px;
+  box-sizing: border-box;
 `
 
 const BookmarkContainer = styled.div`
@@ -52,7 +54,7 @@ const NamePlate = styled.div`
   padding: 5px 10px;
   text-decoration: none;
   font-weight: bold;
-  text-shadow: 1px 1px 0 #ffffff;
+  /* text-shadow: 1px 1px 0 #ffffff;
   box-shadow: 2px 2px 0.5em rgba(122, 122, 122, 0.55), inset 1px 1px 0 rgba(255, 255, 255, 0.9),
     inset -1px -1px 0 rgba(0, 0, 0, 0.34);
   border: 1px solid #dedede;
@@ -70,7 +72,15 @@ const NamePlate = styled.div`
     #dedede 84%,
     #a1a1a1
   );
-  border-radius: 5px;
+  border-radius: 5px; */
+  // background: rgba(234, 220, 199);
+  // background-image: url(https://st3.depositphotos.com/5273971/i/600/depositphotos_347264798-stock-photo-vitage-paper-texture-old-brown.jpg);
+
+  background-color: white;
+  border: 1px solid #dedede;
+  box-shadow: 0 3px 12px alpha(black, 0.2);
+  // filter: saturate(70%) contrast(85%);
+
   text-align: center;
 `
 
