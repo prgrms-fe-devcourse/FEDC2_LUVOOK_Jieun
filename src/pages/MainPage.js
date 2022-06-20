@@ -126,6 +126,7 @@ const MainPage = () => {
 
   useEffect(() => {
     checkUserAuth()
+    // eslint-disable-next-line
   }, [])
 
   const handleClickNewPostButton = () => {

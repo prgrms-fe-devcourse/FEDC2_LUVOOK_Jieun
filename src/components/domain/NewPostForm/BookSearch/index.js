@@ -59,6 +59,7 @@ const BookSearch = ({ showModal, onChange }) => {
 
   useEffect(() => {
     onChange({ bookTitle: state.selectedBookTitle, bookImage: state.selectedBookThumbnail })
+    // eslint-disable-next-line
   }, [state])
 
   return (

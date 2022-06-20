@@ -78,12 +78,12 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   if (!post) return
 
   const {
-    likes,
+    // likes,
     comments,
     _id: postId,
     image,
     title,
-    channel,
+    // channel,
     author,
     createdAt,
   } = { ...defaultPostProps, ...post }

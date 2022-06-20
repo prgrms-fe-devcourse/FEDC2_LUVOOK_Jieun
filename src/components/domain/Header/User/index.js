@@ -59,6 +59,7 @@ const User = () => {
 
   useEffect(() => {
     checkUserAuth()
+    // eslint-disable-next-line
   }, [])
 
   return isLogin ? (
