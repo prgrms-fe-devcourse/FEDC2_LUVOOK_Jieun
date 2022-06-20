@@ -35,7 +35,9 @@ const User = () => {
   const navigate = useNavigate()
 
   const navigateMyPage = () => {
-    navigate(`/users/${currentUserState.currentUser.fullName}`)
+    const userInfo = currentUserState.currentUser
+
+    navigate(`/users/${userInfo._id}`)
   }
 
   const logout = async () => {
