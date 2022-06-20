@@ -1,5 +1,9 @@
 # 📚 지금 당신에게 필요한 책, <러북>
 
+[LUVOOK 사이트](https://luvook.netlify.app/)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2b16f0ce-620b-46c0-b0f1-54840aa820cf/deploy-status)](https://app.netlify.com/sites/luvook/deploys)
+
 ## 🙋🏻 팀원 소개
 
 <table>
