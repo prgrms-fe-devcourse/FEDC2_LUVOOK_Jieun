@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { Modal, Icon } from '@components'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
-import Notification from './Notification'
-import Badge from './Badge'
 import User from './User'
 import UserSearch from './UserSearch'
 
@@ -35,13 +33,13 @@ const Logo = styled.button`
 `
 
 const HeaderNav = styled.div`
-  width: 30%;
+  width: 20%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   .user-search {
-    width: 70%;
+    width: 80%;
     > button {
       width: 100%;
       height: 50px;
@@ -55,7 +53,6 @@ const HeaderNav = styled.div`
       border-radius: 25px;
       border: solid #743737;
       padding: 0 10px 0 20px;
-      margin-bottom: 1px;
       cursor: pointer;
     }
   }
@@ -84,9 +81,6 @@ const Header = () => {
               <Icon name={'search'} size={35} />
             </button>
           </div>
-          <Badge count={0} maxCount={99} showZero={false}>
-            <Notification />
-          </Badge>
           <User />
         </HeaderNav>
       </HeaderContainer>

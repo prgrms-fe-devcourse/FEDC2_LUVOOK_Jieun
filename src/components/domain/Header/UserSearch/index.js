@@ -1,8 +1,10 @@
 import { useState, Fragment } from 'react'
 import styled from '@emotion/styled'
 import { getSearchedUserList } from '@apis'
-import { Input, Icon } from '@components'
+import { Input, Icon, Avatar } from '@components'
 import { Link } from 'react-router-dom'
+import { useClickAway } from '@hooks'
+import ProfileImage from '@images/profile_default.png'
 
 const UserSearchContainer = styled.div`
   width: 480px;
@@ -10,6 +12,19 @@ const UserSearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  .user-result-container {
+    width: 60%;
+    height: 420px;
+    overflow-y: scroll;
+  }
+  .user-result-container::-webkit-scrollbar {
+    width: 5px;
+  }
+  .user-result-container::-webkit-scrollbar-thumb {
+    height: 30%;
+    background: #d9d9d9;
+    border-radius: 5px;
+  }
 `
 
 const UserSearchInput = styled.div`
@@ -21,10 +36,31 @@ const UserSearchInput = styled.div`
   background-color: #f6f6f6;
 `
 
-const UserSearchResult = styled.div``
+const UserSearchResult = styled.div`
+  .another-user {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 8px 10px;
+    overflow-x: hidden;
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+    }
+    .user-name {
+      margin-left: 4%;
+    }
+  }
+`
 
-const UserSearch = () => {
+const UserSearch = (onClose, closeOnClick) => {
   const [searchedUserList, setSearchedUserList] = useState([])
+
+  const onClickModalWrapper = useClickAway(() => {
+    closeOnClick && onClose && onClose()
+  })
 
   const parseUserFullName = (searchedUserList) => {
     try {
@@ -71,18 +107,20 @@ const UserSearch = () => {
           onChange={updateChange}
         ></Input>
       </UserSearchInput>
-
-      {searchedUserList?.map((user) => {
-        return (
-          <Fragment key={user.id}>
-            <UserSearchResult>
-              <Link to={`/users/${user.id}`}>
-                <p>{user.fullName}</p>
-              </Link>
-            </UserSearchResult>
-          </Fragment>
-        )
-      })}
+      <div className="user-result-container">
+        {searchedUserList?.map((user) => {
+          return (
+            <Fragment key={user.id}>
+              <UserSearchResult onClick={onClickModalWrapper}>
+                <Link to={`/users/${user.id}`} className="another-user">
+                  <Avatar src={ProfileImage} size={40} className="user-avatar" />
+                  <p className="user-name">{user.fullName}</p>
+                </Link>
+              </UserSearchResult>
+            </Fragment>
+          )
+        })}
+      </div>
     </UserSearchContainer>
   )
 }
