@@ -2,10 +2,7 @@ import styled from '@emotion/styled'
 import { useEffect, useState } from 'react'
 import ImageComponent from '../Image'
 import PropTypes from 'prop-types'
-
-// TODO
-// 여기에는 Avatar 디폴트 이미지가 들어가야 합니다. 임시로 url을 넣어놓았습니다.
-const DEFAULT_AVATAR_IMG_URL = 'https://pic.onlinewebfonts.com/svg/img_312847.png'
+import ProfileImage from '@images/profile_default.png'
 
 const ShapeToCssValue = {
   circle: '50%',
@@ -16,7 +13,6 @@ const ShapeToCssValue = {
 const AvatarWrapper = styled.div`
   position: relative;
   display: inline-block;
-  border: 1px solid #dadada;
   border-radius: ${({ shape }) => ShapeToCssValue[shape]};
   background-color: #eee;
   overflow: hidden;
@@ -28,7 +24,7 @@ const AvatarWrapper = styled.div`
 const Avatar = ({
   lazy,
   threshold,
-  src = DEFAULT_AVATAR_IMG_URL,
+  src = ProfileImage,
   size = 70,
   shape = 'circle',
   placeholder,

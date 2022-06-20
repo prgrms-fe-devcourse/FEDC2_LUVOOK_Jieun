@@ -26,14 +26,32 @@ const UserSearchResult = styled.div``
 const UserSearch = () => {
   const [searchedUserList, setSearchedUserList] = useState([])
 
+  const parseUserFullName = (searchedUserList) => {
+    try {
+      return searchedUserList.map((user) => {
+        return {
+          id: user._id,
+          fullName: JSON.parse(user.fullName).fullName,
+        }
+      })
+    } catch (e) {
+      return searchedUserList
+    }
+  }
+
   const updateChange = async (e) => {
     const userName = e.target.value
     if (!userName) {
       setSearchedUserList([])
       return
     }
-    const userList = await getSearchedUserList(userName)
-    setSearchedUserList(userList)
+
+    if (userName.length > 0) {
+      const userList = await getSearchedUserList(userName)
+      const result = parseUserFullName(userList).filter((user) => user.fullName.includes(userName))
+
+      setSearchedUserList(result)
+    }
   }
 
   return (
@@ -54,12 +72,12 @@ const UserSearch = () => {
         ></Input>
       </UserSearchInput>
 
-      {searchedUserList?.map((item) => {
+      {searchedUserList?.map((user) => {
         return (
-          <Fragment key={item._id}>
+          <Fragment key={user.id}>
             <UserSearchResult>
-              <Link to={`/users/${item.fullName}`}>
-                <p>{item.fullName}</p>
+              <Link to={`/users/${user.id}`}>
+                <p>{user.fullName}</p>
               </Link>
             </UserSearchResult>
           </Fragment>

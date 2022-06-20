@@ -6,10 +6,7 @@ import { useFormik } from 'formik'
 import { getChannelList, createPost } from '@apis'
 import BookSearch from './BookSearch'
 import Label from './Label'
-
-// TODO
-// utils로 옮겨야 한다.
-const DEFAULT_IMAGE_URL = 'https://via.placeholder.com/200?text=LUVOOK'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 const PRIMARY_COLOR = '#743737'
 
@@ -76,7 +73,7 @@ const SubmitButton = styled(Button)`
 
 const initialValues = {
   channelName: '',
-  bookImage: DEFAULT_IMAGE_URL,
+  bookImage: LUVOOOK_LOGO,
   bookTitle: '',
   postQuote: '',
   postContent: '',
@@ -186,7 +183,9 @@ const NewPostForm = ({ showModal, onClose }) => {
         </Section>
 
         <Section style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <SubmitButton onClick={handleSubmit}>글 작성하기</SubmitButton>
+          <SubmitButton type="submit" onClick={handleSubmit}>
+            글 작성하기
+          </SubmitButton>
           <SubmitButton onClick={handleCancel}>취소</SubmitButton>
         </Section>
       </Form>

@@ -2,7 +2,8 @@ import { baseInstance, authInstance } from '../utils/instance'
 
 const getUserInfo = async (userId) => {
   try {
-    await baseInstance.get(`/users/${userId}`)
+    const { data } = await baseInstance.get(`/users/${userId}`)
+    return data
   } catch (error) {
     console.log(error)
   }
@@ -10,7 +11,8 @@ const getUserInfo = async (userId) => {
 
 const updateUserProfileImg = async (imageInfo) => {
   try {
-    await authInstance.post(`/users/upload-photo`, imageInfo)
+    const { data } = await authInstance.post(`/users/upload-photo`, imageInfo)
+    return data
   } catch (error) {
     console.error(error)
   }
@@ -18,7 +20,8 @@ const updateUserProfileImg = async (imageInfo) => {
 
 const updateUserName = async (userName) => {
   try {
-    await authInstance.put(`/settings/update-user`, userName)
+    const { data } = await authInstance.put(`/settings/update-user`, userName)
+    return data
   } catch (error) {
     console.error(error)
   }
@@ -26,7 +29,8 @@ const updateUserName = async (userName) => {
 
 const updateUserPassword = async (userPassword) => {
   try {
-    await authInstance.put(`/settings/update-password`, userPassword)
+    const { data } = await authInstance.put(`/settings/update-password`, userPassword)
+    return data
   } catch (error) {
     console.error(error)
   }

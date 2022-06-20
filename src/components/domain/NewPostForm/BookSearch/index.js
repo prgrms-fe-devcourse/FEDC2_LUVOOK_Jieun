@@ -3,8 +3,7 @@ import { Input, Button, Icon } from '@components'
 import { useEffect, useState } from 'react'
 import { getBookList } from '@utils/api/getBookList'
 import BookList from './BookList'
-
-const DEFAULT_IMAGE_URL = 'https://via.placeholder.com/200?text=LUVOOK'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 const Container = styled.div`
   height: 200px;
@@ -29,7 +28,7 @@ const SearchButton = styled(Button)`
 
 const initialState = {
   selectedBookTitle: '',
-  selectedBookThumbnail: DEFAULT_IMAGE_URL,
+  selectedBookThumbnail: LUVOOOK_LOGO,
   keyword: '',
   searchedBookList: [],
 }

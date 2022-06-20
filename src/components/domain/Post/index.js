@@ -3,9 +3,10 @@ import Bookmark from './Bookmark'
 import CommentList from './CommentList'
 import PostContents from './PostContents'
 import PostHeader from './PostHeader'
-
-//TODO 상수로 옮겨야 한다.
-const PLACEHOLDER_IMAGE_SRC = 'https://via.placeholder.com/200?text=LUVOOK'
+import { createLikeInPost, deleteLikeInPost } from '@apis'
+import { useEffect, useState, useCallback } from 'react'
+import { useUserContext } from '@contexts/UserContext'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 // TODO
 // utils로 옮겨야 할 것 같다.
@@ -28,7 +29,7 @@ const defaultPostProps = {
   likes: [],
   comments: [],
   _id: 'default',
-  image: PLACEHOLDER_IMAGE_SRC,
+  image: LUVOOOK_LOGO,
   title: {
     bookTitle: '',
     postContent: '',
@@ -42,7 +43,38 @@ const defaultPostProps = {
   createdAt: '',
 }
 
-const Post = ({ post, ...props }) => {
+const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
+  const [isLikeActive, setIsLikeActive] = useState(false)
+  const [currentUserLikeInfo, setCurrentUserLikeInfo] = useState({})
+  const { currentUserState } = useUserContext()
+  const { currentUser } = currentUserState
+
+  const getCurrentUserLikePost = useCallback(() => {
+    if (!post) return []
+
+    const postLikeUsers = post.likes.map((like) => {
+      return { userId: like.user, likeId: like._id }
+    })
+
+    return postLikeUsers.filter((like) => like.userId === currentUser._id)
+  }, [currentUser._id, post])
+
+  useEffect(() => {
+    if (!currentUser._id) {
+      setIsLikeActive(false)
+      return
+    }
+
+    const currentUserLikePost = getCurrentUserLikePost()
+    if (currentUserLikePost.length > 0) {
+      setIsLikeActive(true)
+      setCurrentUserLikeInfo(currentUserLikePost[0])
+    } else {
+      setIsLikeActive(false)
+      setCurrentUserLikeInfo({})
+    }
+  }, [currentUser, getCurrentUserLikePost, post])
+
   if (!post) return
 
   const {
@@ -56,13 +88,47 @@ const Post = ({ post, ...props }) => {
     createdAt,
   } = { ...defaultPostProps, ...post }
 
+  const onPostLike = async () => {
+    const data = await createLikeInPost({ postId: postId })
+    setIsLikeActive(true)
+    setCurrentUserLikeInfo({ userId: data.user, likeId: data._id })
+  }
+
+  const onPostLikeDelete = async ({ userId, likeId }) => {
+    await deleteLikeInPost(likeId)
+    setIsLikeActive(false)
+    setCurrentUserLikeInfo({})
+  }
+
+  const handleLiked = () => {
+    if (!currentUser._id) {
+      alert('로그인 해주세요')
+      return
+    }
+
+    isLikeActive ? onPostLikeDelete(currentUserLikeInfo) : onPostLike()
+    handleRerenderPost()
+  }
+
   return (
-    <PostContainer>
-      <Bookmark>북마크</Bookmark>
-      <PostHeader author={author} createdAt={createdAt} />
-      <PostContents title={title} image={image} />
-      <CommentList postId={postId} comments={comments} />
-    </PostContainer>
+    <div>
+      <Bookmark handleClick={handleLiked} active={isLikeActive}>
+        북마크
+      </Bookmark>
+      <PostContainer>
+        <PostHeader
+          postId={postId}
+          author={author}
+          createdAt={createdAt}
+          onClose={() => {
+            onClose()
+            handleRerenderPost()
+          }}
+        />
+        <PostContents title={title} image={image} />
+        <CommentList comments={comments} />
+      </PostContainer>
+    </div>
   )
 }
 

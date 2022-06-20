@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import { useState, useRef, useEffect } from 'react'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 let observer = null
 const LOAD_IMG_EVENT_TYPE = 'loadImage'
-const PLAYCEHOLDER_SRC = 'https://via.placeholder.com/200?text=LUVOOK'
 
 const onIntersection = (entries, io) => {
   entries.forEach((entry) => {
@@ -17,7 +17,7 @@ const onIntersection = (entries, io) => {
 const Image = ({
   lazy,
   threshold = 0.3,
-  placeholder = PLAYCEHOLDER_SRC,
+  placeholder = LUVOOOK_LOGO,
   src,
   block,
   width,

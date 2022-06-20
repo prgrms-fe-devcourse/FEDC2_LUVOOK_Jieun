@@ -1,9 +1,7 @@
 import styled from '@emotion/styled'
 import { Text, Icon } from '@components'
 import PropTypes from 'prop-types'
-
-// TODO: Image 컴포넌트와 동일한 상수, 후에 분리
-const PLACEHOLDER_IMAGE_SRC = 'https://via.placeholder.com/200?text=LUVOOK'
+import LUVOOOK_LOGO from '@images/luvook_default.png'
 
 const CardContainer = styled.div`
   width: fit-content;
@@ -21,12 +19,14 @@ const Card = styled.div`
   width: 167px;
   height: 200px;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url(${(post) => post.image || PLACEHOLDER_IMAGE_SRC});
+    url(${(post) => post.image || LUVOOOK_LOGO});
   text-align: center;
   color: white;
   cursor: pointer;
   // TODO: constant에 선언된 회색으로 변경
   box-shadow: 0 0 1rem rgba(33, 33, 33, 0.5);
+  background-size: cover;
+  background-repeat: no-repeat;
 `
 
 const BookmarkContainer = styled.div`
@@ -44,6 +44,7 @@ const LikeBookmark = styled(Icon)`
 `
 
 const NamePlate = styled.div`
+  width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,13 +70,19 @@ const NamePlate = styled.div`
     #dedede 84%,
     #a1a1a1
   );
+  border-radius: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: center;
 `
 
 const BookCard = ({ post, handleOnClick }) => {
   return (
     <CardContainer>
       <Card
-        image={post.image}
+        image={post.title.bookImage || LUVOOOK_LOGO}
         onClick={() => {
           handleOnClick(post)
         }}
@@ -85,12 +92,10 @@ const BookCard = ({ post, handleOnClick }) => {
           <Text block>{post.likes.length}</Text>
         </BookmarkContainer>
         {/*  TODO: 이 부분은 글쓰기 기능 구현 후 다시 구현 필요 */}
-        <Text>{post.title.postQuote || post.title} </Text>
+        {post.title.postQuote || post.title}
       </Card>
 
-      <NamePlate>
-        <Text>{post.title.bookTitle || post.title}</Text>
-      </NamePlate>
+      <NamePlate>{post.title.bookTitle || post.title}</NamePlate>
     </CardContainer>
   )
 }
