@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useUserContext } from '@contexts/UserContext'
 import { SignUp as SignUpForm, Image, Title, Text, Input } from '@components'
 import { getItem } from '@utils/storage'
@@ -32,11 +32,28 @@ const SignUpMainContainer = styled.section`
 
 const SignUpFormContainer = styled.div``
 
+const WatchFirstText = ({ children }) => {
+  const watchFirstTextStyle = {
+    fontSize: '18px',
+    fontWeight: 'bold',
+    color: '#743737',
+    float: 'right',
+    cursor: 'pointer',
+  }
+
+  return <Text style={watchFirstTextStyle}>{children}</Text>
+}
+
 const SignUpPage = () => {
   const [quote, setQuote] = useState('')
-
   const navigate = useNavigate()
   const { onAuth } = useUserContext()
+
+  const onChangeQuote = (e) => {
+    if (e.key === 'Enter') {
+      setQuote(e.target.value)
+    }
+  }
 
   const checkUserAuthAndRoute = async () => {
     if (getItem('jwt_token')) {
@@ -61,9 +78,12 @@ const SignUpPage = () => {
             type="text"
             name="quote"
             placeholder="문구를 입력해주세요."
-            style={{ marginTop: 20 }}
-            onChange={(e) => setQuote(e.target.value)}
+            style={{ marginTop: 20, marginBottom: 10 }}
+            onChange={onChangeQuote}
           />
+          <Link to="/">
+            <WatchFirstText>일단 구경할래요</WatchFirstText>
+          </Link>
         </QuoteSection>
       </QuoteWrappper>
       <SignUpMainContainer>
