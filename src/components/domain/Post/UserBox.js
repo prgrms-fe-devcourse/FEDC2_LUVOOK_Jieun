@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Avatar } from '@components'
 
 const tagMap = {
@@ -5,7 +6,7 @@ const tagMap = {
   div: 'div',
 }
 
-const UserBox = ({ children, image, tag = 'div', avatarSize, ...props }) => {
+const UserBox = ({ children, userId, image, tag = 'div', avatarSize, ...props }) => {
   const Tag = tagMap[tag] || 'div'
   const defaultStyle = {
     display: 'flex',
@@ -15,7 +16,9 @@ const UserBox = ({ children, image, tag = 'div', avatarSize, ...props }) => {
 
   return (
     <Tag style={{ ...defaultStyle, ...props.style }} {...props}>
-      <Avatar size={avatarSize} src={image} />
+      <Link to={`/users/${userId}`}>
+        <Avatar size={avatarSize} src={image} />
+      </Link>
       <div>{children}</div>
     </Tag>
   )
