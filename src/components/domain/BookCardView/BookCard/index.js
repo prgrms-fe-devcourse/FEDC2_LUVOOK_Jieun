@@ -82,7 +82,7 @@ const BookCard = ({ post, handleOnClick }) => {
   return (
     <CardContainer>
       <Card
-        image={post.title.bookImage || PLACEHOLDER_IMAGE_SRC}
+        image={post.title.bookImage || LUVOOOK_LOGO}
         onClick={() => {
           handleOnClick(post)
         }}
