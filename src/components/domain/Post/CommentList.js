@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useRef, useEffect } from 'react'
 import { createCommentInPost, deleteCommentInPost } from '@apis/api/post'
 import { Input, Button, Text, Title, Icon } from '@components'
 import { useUserContext } from '@contexts/UserContext'
@@ -56,6 +56,15 @@ const CommentList = ({ post, comments, active, setPost }) => {
   const { currentUserState } = useUserContext()
   const [comment, setComment] = useState('')
   const [commentList, setCommentList] = useState(comments)
+  const scrollRef = useRef()
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [commentList])
+
+  const scrollToBottom = () => {
+    scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+  }
 
   const deleteComment = async (commentId) => {
     try {
@@ -88,6 +97,7 @@ const CommentList = ({ post, comments, active, setPost }) => {
 
       setComment('')
       setCommentList([...commentList, newComment])
+
       // setPost({
       //   ...post,
       //   comments: [...commentList, newComment],
@@ -140,7 +150,7 @@ const CommentList = ({ post, comments, active, setPost }) => {
         })}
       </CommentsContainer>
 
-      <CommentWriteContainer>
+      <CommentWriteContainer ref={scrollRef}>
         <Input
           block
           value={comment || ''}
