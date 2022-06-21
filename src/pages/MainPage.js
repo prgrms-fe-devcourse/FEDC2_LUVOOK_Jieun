@@ -40,7 +40,7 @@ const SEARCH_TYPE = {
 }
 
 const SearchBar = styled.div`
-  padding: 8px;
+  padding: 8px 0 8px 100px;
   display: flex;
   justify-content: center;
   margin-bottom: 24px;
@@ -54,16 +54,22 @@ const MainPageInput = styled(Input)`
 `
 
 const MainPageButton = styled(Button)`
-  width: 80px;
+  margin-left: ${({ ml }) => (ml ? ml : '4px')};
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
   border: none;
-  // TODO: 이 후 변수로 사용
+  border-radius: 4px;
   background-color: rgba(116, 55, 55, 0.7);
   color: white;
-  font-size: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  &:hover {
+    background-color: rgba(116, 55, 55, 0.9);
+  }
 `
+
 const sortByLatest = (post1, post2) => {
   return Date.parse(post2.createdAt) - Date.parse(post1.createdAt)
 }
@@ -236,7 +242,6 @@ const MainPage = () => {
     <Fragment>
       <Header />
       <Banner />
-      <Button onClick={handleClickNewPostButton}>새로운 글 작성하기</Button>
       <MainPageSection>
         <MainPageNav
           navbarListStyle={{
@@ -252,6 +257,7 @@ const MainPage = () => {
           }}
           style={{ margin: '0 200px' }}
         />
+
         <SearchBar>
           <MainPageSelect
             data={Object.values(SEARCH_TYPE)}
@@ -274,6 +280,11 @@ const MainPage = () => {
           ></MainPageInput>
           <MainPageButton onClick={onSearch}>
             <Icon name="search" color="white" size={24} />
+          </MainPageButton>
+
+          <MainPageButton ml="40px" onClick={handleClickNewPostButton}>
+            <Icon name="feather" color="white" size={24} style={{ marginRight: '4px' }} />
+            <span>새 글 작성</span>
           </MainPageButton>
         </SearchBar>
 
