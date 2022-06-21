@@ -33,7 +33,7 @@ const Logo = styled.button`
 `
 
 const HeaderNav = styled.div`
-  width: 260px;
+  width: 270px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
