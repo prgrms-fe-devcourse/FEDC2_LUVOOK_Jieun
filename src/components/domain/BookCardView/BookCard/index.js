@@ -54,33 +54,11 @@ const NamePlate = styled.div`
   padding: 5px 10px;
   text-decoration: none;
   font-weight: bold;
-  /* text-shadow: 1px 1px 0 #ffffff;
-  box-shadow: 2px 2px 0.5em rgba(122, 122, 122, 0.55), inset 1px 1px 0 rgba(255, 255, 255, 0.9),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.34);
-  border: 1px solid #dedede;
-  background: linear-gradient(
-    -72deg,
-    #dedede,
-    #ffffff 16%,
-    #dedede 21%,
-    #ffffff 24%,
-    #dedede 36%,
-    #ffffff 45%,
-    #ffffff 60%,
-    #dedede 72%,
-    #ffffff 80%,
-    #dedede 84%,
-    #a1a1a1
-  );
-  border-radius: 5px; */
-  // background: rgba(234, 220, 199);
-  // background-image: url(https://st3.depositphotos.com/5273971/i/600/depositphotos_347264798-stock-photo-vitage-paper-texture-old-brown.jpg);
-
+  background-size: cover;
+  color: black;
   background-color: white;
   border: 1px solid #dedede;
   box-shadow: 0 3px 12px alpha(black, 0.2);
-  // filter: saturate(70%) contrast(85%);
-
   text-align: center;
 `
 

@@ -70,10 +70,14 @@ const sortByLatest = (post1, post2) => {
 
 const MainPageSection = styled.section`
   margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const MainPageNav = styled(Navbar)`
   font-size: 24px;
+  width: 1200px;
 `
 
 const SliderWrapper = styled.div`
@@ -150,7 +154,6 @@ const MainPage = () => {
     const totalPostList = await getAllPosts()
     totalPostList.sort(sortByLatest)
     setPostList(parseListTitle(totalPostList))
-    console.log(postList)
   }
 
   const getChannelPost = async (channelName) => {
