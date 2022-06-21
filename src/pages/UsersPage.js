@@ -8,6 +8,7 @@ import {
   Icon,
   Modal,
   Post,
+  Footer,
 } from '@components'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
@@ -88,7 +89,8 @@ const UsersPage = () => {
     const userLikeList = await Promise.all(
       userInfo.likes.map(async ({ post }) => await readPost(post))
     )
-    setLikePostList(parseListTitle(userLikeList))
+
+    setLikePostList(parseListTitle(userLikeList.reverse()))
   }
 
   const getWrittenPostList = async (userInfo) => {
@@ -150,7 +152,7 @@ const UsersPage = () => {
     }
 
     setIsRerender(false)
-  }, [isRerender])
+  }, [isRerender, userInfo])
 
   return (
     <Fragment>
@@ -169,7 +171,7 @@ const UsersPage = () => {
         </PostSectionHeader>
       </HeaderWrapper>
 
-      <SliderWrapper>
+      <SliderWrapper style={{ marginBottom: '15px' }}>
         {writtenPostList.length ? (
           <BookListSlider
             style={{ width: '1200px' }}
@@ -187,13 +189,13 @@ const UsersPage = () => {
           <Icon name="bookmark" size="40" />
           <Title style={{ marginLeft: '10px', color: '#808080' }}>
             <NameHighLight>{userInfo && JSON.parse(userInfo.fullName).fullName}</NameHighLight>님이
-            좋아요한 게시물
+            북마크한 게시물
           </Title>
         </PostSectionHeader>
       </HeaderWrapper>
 
       <SliderWrapper>
-        {writtenPostList.length ? (
+        {likePostList.length ? (
           <BookListSlider
             style={{ width: '1200px' }}
             posts={likePostList}
@@ -214,6 +216,7 @@ const UsersPage = () => {
           }}
         />
       </Modal>
+      <Footer />
     </Fragment>
   )
 }

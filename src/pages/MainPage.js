@@ -43,7 +43,7 @@ const SearchBar = styled.div`
   padding: 8px 0 8px 100px;
   display: flex;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 `
 
 const MainPageInput = styled(Input)`
@@ -86,9 +86,7 @@ const MainPageNav = styled(Navbar)`
   width: 1200px;
 `
 
-const SliderWrapper = styled.div`
-  background-size: cover;
-`
+const SliderWrapper = styled.div``
 
 const MainPageSelect = styled(Select)`
   width: 120px;
@@ -302,7 +300,7 @@ const MainPage = () => {
 
         <SliderWrapper>
           <BookListSlider
-            style={{ width: '1200px', height: '600px' }}
+            style={{ width: '1200px', height: '620px' }}
             posts={postList}
             grid={{ fill: 'row', rows: 2 }}
             handleClick={handleClickPost}
