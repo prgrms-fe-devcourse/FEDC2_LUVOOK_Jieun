@@ -6,6 +6,7 @@ import UserBox from './UserBox'
 import { useUserContext } from '@contexts/UserContext'
 import { getItem } from '@utils/storage'
 import { deletePost } from '@apis'
+import UserLink from './UserLink'
 
 const AuthorizedButtons = styled.div`
   margin: 8px 0;
@@ -67,7 +68,7 @@ const PostHeader = ({ postId, author, createdAt, onClose }) => {
     <Fragment>
       <UserBox userId={userId}>
         <Text block style={{ marginBottom: '4px' }}>
-          {fullName}
+          <UserLink userId={userId} username={fullName} />
         </Text>
         <Text size="small" block>
           {formatTime(createdAt)}
