@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { Text, Icon } from '@components'
 import PropTypes from 'prop-types'
 import LUVOOOK_LOGO from '@images/luvook_default.png'
+import WoodLight from '@images/WoodLight.jpg'
 
 const CardContainer = styled.div`
   width: fit-content;
@@ -55,11 +56,13 @@ const NamePlate = styled.div`
   text-decoration: none;
   font-weight: bold;
   background-size: cover;
-  color: black;
-  background-color: white;
+  color: white;
   border: 1px solid #dedede;
+  background-image: url(${WoodLight});
+  filter: darken(85%);
   box-shadow: 0 3px 12px alpha(black, 0.2);
   text-align: center;
+  border-radius: 5px;
 `
 
 const BookCard = ({ post, handleOnClick }) => {
