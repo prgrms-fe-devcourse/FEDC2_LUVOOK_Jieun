@@ -52,7 +52,7 @@ const CommentButton = styled(Button)`
   }
 `
 
-const CommentList = ({ post, comments, active, setPost }) => {
+const CommentList = ({ post, comments, active }) => {
   const { currentUserState } = useUserContext()
   const [comment, setComment] = useState('')
   const [commentList, setCommentList] = useState(comments)
@@ -72,10 +72,6 @@ const CommentList = ({ post, comments, active, setPost }) => {
 
       const newCommentList = commentList.filter((comment) => comment._id !== deletedComment._id)
       setCommentList(newCommentList)
-      // setPost({
-      //   ...post,
-      //   comments: newCommentList,
-      // })
     } catch (e) {
       console.error('댓글을 삭제하는데 실패했습니다.', e)
     }
@@ -97,11 +93,6 @@ const CommentList = ({ post, comments, active, setPost }) => {
 
       setComment('')
       setCommentList([...commentList, newComment])
-
-      // setPost({
-      //   ...post,
-      //   comments: [...commentList, newComment],
-      // })
     } catch (e) {
       console.error('댓글을 생성하는데 실패했습니다.', e)
     }

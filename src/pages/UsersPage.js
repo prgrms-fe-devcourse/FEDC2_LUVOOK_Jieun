@@ -187,7 +187,6 @@ const UsersPage = () => {
           handleRerenderPost={() => {
             setIsRerender(true)
           }}
-          setPost={setPost}
         />
       </Modal>
     </Fragment>

@@ -306,7 +306,6 @@ const MainPage = () => {
           handleRerenderPost={() => {
             setIsRerender(true)
           }}
-          setPost={setPost}
         />
       </Modal>
 
