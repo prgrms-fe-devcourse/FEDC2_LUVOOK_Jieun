@@ -293,7 +293,7 @@ const MainPage = () => {
           </MainPageButton>
 
           <MainPageButton ml="40px" onClick={handleClickNewPostButton}>
-            <Icon name="edit" color="white" size={24} style={{ marginRight: '4px' }} />
+            <Icon name="feather" color="white" size={24} style={{ marginRight: '4px' }} />
             <span>새 글 작성</span>
           </MainPageButton>
         </SearchBar>
