@@ -48,6 +48,7 @@ const defaultPostProps = {
 
 const Post = ({ post, onClose, handleRerenderPost, setPost, ...props }) => {
   const [isLikeActive, setIsLikeActive] = useState(false)
+  const [likeList, setLikeList] = useState([])
   const [isCommentActive, setIsCommentActive] = useState(false)
   const [currentUserLikeInfo, setCurrentUserLikeInfo] = useState({})
   const { currentUserState } = useUserContext()
@@ -56,6 +57,7 @@ const Post = ({ post, onClose, handleRerenderPost, setPost, ...props }) => {
   const getCurrentUserLikePost = useCallback(() => {
     if (!post) return []
 
+    setLikeList(post.likes)
     const postLikeUsers = post.likes.map((like) => {
       return { userId: like.user, likeId: like._id }
     })
@@ -97,12 +99,22 @@ const Post = ({ post, onClose, handleRerenderPost, setPost, ...props }) => {
     const data = await createLikeInPost({ postId: postId })
     setIsLikeActive(true)
     setCurrentUserLikeInfo({ userId: data.user, likeId: data._id })
+    setPost({
+      ...post,
+      likes: [...likeList, data],
+    })
   }
 
   const onPostLikeDelete = async ({ userId, likeId }) => {
-    await deleteLikeInPost(likeId)
+    const deletedLike = await deleteLikeInPost(likeId)
     setIsLikeActive(false)
     setCurrentUserLikeInfo({})
+
+    const deletedLikeList = likeList.filter((like) => like._id !== deletedLike._id)
+    setPost({
+      ...post,
+      likes: deletedLikeList,
+    })
   }
 
   const handleLiked = () => {
