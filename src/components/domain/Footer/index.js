@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Icon, Divider } from '@components'
+import { Divider } from '@components'
 
 const FooterContainer = styled.div`
   display: flex;
