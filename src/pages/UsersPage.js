@@ -72,6 +72,16 @@ const UsersPage = () => {
   const [showPostModal, setShowPostModal] = useState(false)
   const [post, setPost] = useState(null)
 
+  useEffect(() => {
+    if (showPostModal) {
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [showPostModal])
+
   const closePostModal = () => {
     setShowPostModal(false)
     setPost(null)
