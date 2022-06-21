@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { createCommentInPost, deleteCommentInPost } from '@apis/api/post'
 import { Input, Button, Text, Title, Icon } from '@components'
 import { useUserContext } from '@contexts/UserContext'
