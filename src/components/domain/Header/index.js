@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal, Icon } from '@components'
 import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
@@ -63,6 +63,16 @@ const HeaderNav = styled.div`
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false)
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [showModal])
 
   return (
     <HeaderMain>

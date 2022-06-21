@@ -46,7 +46,7 @@ const defaultPostProps = {
   createdAt: '',
 }
 
-const Post = ({ post, onClose, handleRerenderPost, setPost, ...props }) => {
+const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   const [isLikeActive, setIsLikeActive] = useState(false)
   const [likeList, setLikeList] = useState([])
   const [isCommentActive, setIsCommentActive] = useState(false)
@@ -99,22 +99,12 @@ const Post = ({ post, onClose, handleRerenderPost, setPost, ...props }) => {
     setIsLikeActive(true)
     const data = await createLikeInPost({ postId: postId })
     setCurrentUserLikeInfo({ userId: data.user, likeId: data._id })
-    setPost({
-      ...post,
-      likes: [...likeList, data],
-    })
   }
 
   const onPostLikeDelete = async ({ userId, likeId }) => {
-    const deletedLike = await deleteLikeInPost(likeId)
+    await deleteLikeInPost(likeId)
     setIsLikeActive(false)
     setCurrentUserLikeInfo({})
-
-    const deletedLikeList = likeList.filter((like) => like._id !== deletedLike._id)
-    setPost({
-      ...post,
-      likes: deletedLikeList,
-    })
   }
 
   const handleLiked = () => {
@@ -144,7 +134,7 @@ const Post = ({ post, onClose, handleRerenderPost, setPost, ...props }) => {
           <PostContents titleObj={titleObj} />
         </Section>
         <Section>
-          <CommentList post={post} comments={comments} active={isCommentActive} setPost={setPost} />
+          <CommentList post={post} comments={comments} active={isCommentActive} />
         </Section>
       </PostContainer>
     </Container>
