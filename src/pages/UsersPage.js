@@ -49,7 +49,9 @@ const UsersPage = () => {
   const { currentUserState, onAuth } = useUserContext()
   const [userInfo, setUserInfo] = useState()
   const [isMyPage, setIsMyPage] = useState(false)
+
   const [isRerender, setIsRerender] = useState(true)
+
   const [likePostList, setLikePostList] = useState([])
   const [writtenPostList, setWrittenPostList] = useState([])
 
@@ -109,6 +111,18 @@ const UsersPage = () => {
   }, [location])
 
   useEffect(() => {
+    if (userInfo) {
+      getLikePostList(userInfo)
+      getWrittenPostList(userInfo)
+    } else {
+      setLikePostList([])
+      setWrittenPostList([])
+    }
+
+    setIsRerender(false)
+  }, [userInfo])
+
+  useEffect(() => {
     if (!isRerender) return
 
     if (userInfo) {
@@ -120,7 +134,7 @@ const UsersPage = () => {
     }
 
     setIsRerender(false)
-  }, [userInfo, isRerender])
+  }, [isRerender])
 
   return (
     <Fragment>
