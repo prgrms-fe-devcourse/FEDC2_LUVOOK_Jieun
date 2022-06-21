@@ -6,7 +6,6 @@ import PostHeader from './PostHeader'
 import { createLikeInPost, deleteLikeInPost } from '@apis'
 import { useEffect, useState, useCallback } from 'react'
 import { useUserContext } from '@contexts/UserContext'
-import { formatTime } from '@utils/format'
 
 const Container = styled.div`
   padding-top: 24px;
@@ -43,7 +42,6 @@ const defaultPostProps = {
   comments: [],
   _id: 'default',
   title: null,
-  channel: '',
   author: null,
   createdAt: '',
 }
@@ -83,11 +81,10 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   if (!post) return
 
   const {
-    likes,
+    // likes,
     comments,
     _id: postId,
     title: titleObj,
-    channel,
     author,
     createdAt,
   } = { ...defaultPostProps, ...post }

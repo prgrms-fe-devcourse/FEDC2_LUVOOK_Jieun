@@ -18,6 +18,7 @@ const UserElement = styled.div`
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   text-decoration: none;
   color: #ffffff;
+  z-index: 1;
 
   li {
     padding: 7px;
@@ -59,6 +60,7 @@ const User = () => {
 
   useEffect(() => {
     checkUserAuth()
+    // eslint-disable-next-line
   }, [])
 
   return isLogin ? (

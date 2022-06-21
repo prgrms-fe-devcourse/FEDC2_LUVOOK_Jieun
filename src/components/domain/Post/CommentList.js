@@ -68,6 +68,7 @@ const CommentList = ({ postId, comments }) => {
 
   useEffect(() => {
     checkUserAuth()
+    // eslint-disable-next-line
   }, [])
 
   const deleteComment = async (commentId) => {

@@ -1,21 +1,29 @@
 import { Button } from '@components'
+import styled from '@emotion/styled'
+
+const SubmitButtonStyle = styled(Button)`
+  font-size: 16px;
+  height: 40px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: none;
+  background-color: var(--color-light-primary);
+  color: white;
+
+  &:hover {
+    background-color: var(--color-primary);
+  }
+`
 
 const SubmitButton = ({ children, onClick, isLoginButton }) => {
   const submitButtonStyle = {
-    fontSize: '16px',
-    height: '40px',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-    border: 'none',
-    backgroundColor: '#9e7373',
-    color: 'white',
     marginTop: isLoginButton ? 0 : '10px',
   }
 
   return (
-    <Button onClick={onClick} style={submitButtonStyle}>
+    <SubmitButtonStyle onClick={onClick} style={submitButtonStyle}>
       {children}
-    </Button>
+    </SubmitButtonStyle>
   )
 }
 

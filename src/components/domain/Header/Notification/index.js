@@ -24,7 +24,7 @@ const NotificationElement = styled.div`
 `
 
 const Notification = () => {
-  const [notifications, setNotifications] = useState([])
+  const notifications = []
   const [notificationPop, setNotificationPop] = useState(false)
   const [showPost, setShowPost] = useState(false)
   return (
@@ -39,7 +39,7 @@ const Notification = () => {
           <Modal visible={showPost} onClose={() => setShowPost(false)}>
             <h1>Post</h1>
           </Modal>
-          {notifications.map((comments) => (
+          {notifications?.map((comments) => (
             <button onClick={() => setShowPost(true)} key={comments._id}>
               {comments.comments}
             </button>

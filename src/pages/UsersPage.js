@@ -42,6 +42,7 @@ const UsersPage = () => {
 
     checkUserIsMyPage(currentRouteUserId)
     getOtherUserInfo(currentRouteUserId)
+    // eslint-disable-next-line
   }, [location])
 
   return (
