@@ -147,7 +147,7 @@ const Footer = () => {
         <FooterInfo>
           &copy; 2022.Bookings
           <Divider type="vertical" />
-          All Rights Reseved.
+          All Rights Reserved.
         </FooterInfo>
       </FooterBody>
     </FooterContainer>
