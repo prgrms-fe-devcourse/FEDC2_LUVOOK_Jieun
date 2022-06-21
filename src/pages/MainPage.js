@@ -302,7 +302,7 @@ const MainPage = () => {
 
         <SliderWrapper>
           <BookListSlider
-            style={{ width: '1200px', height: '520px' }}
+            style={{ width: '1200px', height: '600px' }}
             posts={postList}
             grid={{ fill: 'row', rows: 2 }}
             handleClick={handleClickPost}
