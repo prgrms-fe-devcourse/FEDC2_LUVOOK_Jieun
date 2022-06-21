@@ -48,7 +48,6 @@ const defaultPostProps = {
 
 const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   const [isLikeActive, setIsLikeActive] = useState(false)
-  const [likeList, setLikeList] = useState([])
   const [isCommentActive, setIsCommentActive] = useState(false)
   const [currentUserLikeInfo, setCurrentUserLikeInfo] = useState({})
   const { currentUserState } = useUserContext()
@@ -57,7 +56,6 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   const getCurrentUserLikePost = useCallback(() => {
     if (!post) return []
 
-    setLikeList(post.likes)
     const postLikeUsers = post.likes.map((like) => {
       return { userId: like.user, likeId: like._id }
     })
