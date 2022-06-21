@@ -22,6 +22,7 @@ import {
   getPostListInChannel,
   getChannelInfo,
   getSearchedBookList,
+  readPost,
 } from '@apis'
 import { parseListTitle } from '@utils/common'
 
@@ -190,6 +191,7 @@ const MainPage = () => {
 
   useEffect(() => {
     setIsRerender(true)
+    setPost(post)
   }, [post])
 
   useEffect(() => {
@@ -213,18 +215,23 @@ const MainPage = () => {
     setSearchedKeyword(e.target.value)
   }
 
-  const onSearch = async (e) => {
+  const getDetailPostList = async (posts) => {
+    const getDetailPostList = await Promise.all(posts.map(async ({ _id }) => await readPost(_id)))
+    setPostList(parseListTitle(getDetailPostList).sort(sortByLatest))
+  }
+
+  const onSearch = async () => {
     if (!searchedKeyword) return
     const searchedResult = await getSearchedBookList(searchedKeyword)
     const searchedBookResult = searchedResult.filter((result) => !result.role)
 
     if (categoryName === CATEGORY_ALL.name) {
-      setPostList(searchByType(parseListTitle(searchedBookResult).sort(sortByLatest)))
+      getDetailPostList(searchByType(parseListTitle(searchedBookResult)))
       return
     } else {
       const channelId = allCategories.find((category) => category.name === categoryName).id
       const filteredResult = searchedBookResult.filter((result) => result.channel === channelId)
-      setPostList(searchByType(parseListTitle(filteredResult)))
+      getDetailPostList(searchByType(parseListTitle(filteredResult)))
     }
   }
 

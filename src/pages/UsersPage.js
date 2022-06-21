@@ -66,12 +66,9 @@ const UsersPage = () => {
   const { currentUserState, onAuth } = useUserContext()
   const [userInfo, setUserInfo] = useState()
   const [isMyPage, setIsMyPage] = useState(false)
-
   const [isRerender, setIsRerender] = useState(true)
-
   const [likePostList, setLikePostList] = useState([])
   const [writtenPostList, setWrittenPostList] = useState([])
-
   const [showPostModal, setShowPostModal] = useState(false)
   const [post, setPost] = useState(null)
 
