@@ -21,24 +21,13 @@ const UserPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: -50px;
 `
 
 const SliderWrapper = styled.div``
 
-const DividerWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-
 const NameHighLight = styled.span`
   color: black;
-`
-const SectionDivider = styled.div`
-  width: 1200px;
-  height: 1px;
-  background-color: #a5a3af;
 `
 
 const HeaderWrapper = styled.div`
@@ -60,6 +49,7 @@ const UsersPage = () => {
   const { currentUserState, onAuth } = useUserContext()
   const [userInfo, setUserInfo] = useState()
   const [isMyPage, setIsMyPage] = useState(false)
+  const [isRerender, setIsRerender] = useState(true)
   const [likePostList, setLikePostList] = useState([])
   const [writtenPostList, setWrittenPostList] = useState([])
 
@@ -108,6 +98,10 @@ const UsersPage = () => {
   }
 
   useEffect(() => {
+    setIsRerender(true)
+  }, [post])
+
+  useEffect(() => {
     const currentRouteUserId = location.pathname.split('/')[2]
     checkUserIsMyPage(currentRouteUserId)
     getOtherUserInfo(currentRouteUserId)
@@ -115,6 +109,8 @@ const UsersPage = () => {
   }, [location])
 
   useEffect(() => {
+    if (!isRerender) return
+
     if (userInfo) {
       getLikePostList(userInfo)
       getWrittenPostList(userInfo)
@@ -122,7 +118,9 @@ const UsersPage = () => {
       setLikePostList([])
       setWrittenPostList([])
     }
-  }, [userInfo])
+
+    setIsRerender(false)
+  }, [userInfo, isRerender])
 
   return (
     <Fragment>
@@ -130,10 +128,6 @@ const UsersPage = () => {
         <Header />
         {isMyPage ? <UserEditForm /> : <UserInfo userInfo={userInfo} />}
       </UserPageContainer>
-
-      <DividerWrapper>
-        <SectionDivider />
-      </DividerWrapper>
 
       <HeaderWrapper>
         <PostSectionHeader>
@@ -154,9 +148,6 @@ const UsersPage = () => {
         />
       </SliderWrapper>
 
-      <DividerWrapper style={{ marginTop: '30px' }}>
-        <SectionDivider />
-      </DividerWrapper>
       <HeaderWrapper>
         <PostSectionHeader>
           <Icon name="bookmark" size="40" />
@@ -176,7 +167,14 @@ const UsersPage = () => {
       </SliderWrapper>
 
       <Modal visible={showPostModal} onClose={closePostModal}>
-        <Post post={post} onClose={closePostModal} />
+        <Post
+          post={post}
+          onClose={closePostModal}
+          handleRerenderPost={() => {
+            setIsRerender(true)
+          }}
+          setPost={setPost}
+        />
       </Modal>
     </Fragment>
   )
