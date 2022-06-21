@@ -10,6 +10,8 @@ const CardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 30px;
+  margin-top: 10px;
 `
 
 const Card = styled.div`
@@ -32,11 +34,11 @@ const Card = styled.div`
   background-repeat: no-repeat;
   padding: 10px;
   box-sizing: border-box;
-  transition: all 0.45s ease;
 
   &:hover {
-    transform: rotateY(-25deg);
-    box-shadow: 1px 1px 5px 5px rgba(#000, 0.2);
+    transition-duration: 0.5s;
+    transform: translateY(-5px);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 `
 
