@@ -110,14 +110,14 @@ const CommentList = ({ post, comments, active, setPost }) => {
 
       <CommentsContainer>
         {commentList?.map(({ _id, comment, author, createdAt }) => {
-          const { fullName: unParsedFullName, _id: userId } = author
+          const { fullName: unParsedFullName, _id: userId, image: userProfile } = author
           const { fullName } = {
             fullName: unParsedFullName,
             ...JSON.parse(unParsedFullName),
           }
           return (
             <List key={_id}>
-              <UserBox avatarSize={40} userId={userId}>
+              <UserBox avatarSize={40} userId={userId} image={userProfile}>
                 <Text block style={{ marginBottom: '4px' }}>
                   <UserLink userId={userId} username={fullName} />{' '}
                   <Text size="small">{formatTime(createdAt)}</Text>

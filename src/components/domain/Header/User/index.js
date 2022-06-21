@@ -65,7 +65,12 @@ const User = () => {
 
   return isLogin ? (
     <div>
-      <Avatar size={40} id="user" onClick={() => setUserPop(true)} />
+      <Avatar
+        size={40}
+        id="user"
+        onClick={() => setUserPop(true)}
+        src={currentUserState.currentUser.image}
+      />
       <Popover show={userPop} targetId="user" onClose={() => setUserPop(false)}>
         <UserElement>
           <li onClick={navigateMyPage}>마이 페이지</li>
