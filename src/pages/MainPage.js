@@ -120,6 +120,18 @@ const MainPage = () => {
     // eslint-disable-next-line
   }, [])
 
+  useEffect(() => {
+    if (showPostModal || showNewPostFormModal) {
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      if (!showPostModal || !showNewPostFormModal) {
+        document.body.style.overflow = 'auto'
+      }
+    }
+  }, [showPostModal, showNewPostFormModal])
+
   const handleClickNewPostButton = () => {
     if (!isLogin) {
       window.alert('로그인을 해주세요!') // 또는 로그인을 유도한다.
