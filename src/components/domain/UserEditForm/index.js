@@ -131,7 +131,7 @@ const UserEditForm = () => {
         {isEdit ? (
           <UserInfoContainer>
             <ProfileEdit>
-              <Avatar size={196} />
+              <Avatar size={196} src={currentUserState.currentUser.image} />
               <input
                 type="text"
                 name="fullName"
@@ -154,7 +154,7 @@ const UserEditForm = () => {
         ) : (
           <UserInfoContainer>
             <Profile>
-              <Avatar size={196} />
+              <Avatar size={196} src={currentUserState.currentUser.image} />
               <p className="user-name">{fullName}</p>
             </Profile>
             <UserContent>{quote}</UserContent>

@@ -67,7 +67,7 @@ const UserInfo = ({ userInfo }) => {
   return (
     <UserInfoContainer>
       <Profile>
-        <Avatar size={196} mode="fill" />
+        <Avatar size={196} mode="fill" src={userInfo?.image} />
         <p className="user-name">{fullName.fullName}</p>
       </Profile>
       <UserContent>{fullName.quote}</UserContent>

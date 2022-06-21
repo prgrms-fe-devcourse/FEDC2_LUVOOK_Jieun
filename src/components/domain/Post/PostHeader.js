@@ -61,12 +61,12 @@ const PostHeader = ({ postId, author, createdAt, onClose }) => {
     }
   }
 
-  const { fullName: unParsedFullName, _id: userId } = author
+  const { fullName: unParsedFullName, _id: userId, image: userImage } = author
   const { fullName } = { fullName: unParsedFullName, ...JSON.parse(unParsedFullName) }
 
   return (
     <Fragment>
-      <UserBox userId={userId}>
+      <UserBox userId={userId} image={userImage}>
         <Text block style={{ marginBottom: '4px' }}>
           <UserLink userId={userId} username={fullName} />
         </Text>

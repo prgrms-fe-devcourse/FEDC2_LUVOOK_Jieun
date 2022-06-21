@@ -103,6 +103,7 @@ const UserSearch = ({ showModal, onClose, closeOnClick }) => {
         return {
           id: user._id,
           fullName: JSON.parse(user.fullName).fullName,
+          image: user.image,
         }
       })
     } catch (e) {
@@ -132,7 +133,7 @@ const UserSearch = ({ showModal, onClose, closeOnClick }) => {
             <Fragment key={user.id}>
               <UserSearchResult onClick={() => onClickModalWrapper}>
                 <Link to={`/users/${user.id}`} className="another-user">
-                  <Avatar src={ProfileImage} size={36} className="user-avatar" />
+                  <Avatar src={user.image || ProfileImage} size={36} className="user-avatar" />
                   <p className="user-name">{user.fullName}</p>
                 </Link>
               </UserSearchResult>
