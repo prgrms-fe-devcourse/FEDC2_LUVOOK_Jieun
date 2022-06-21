@@ -75,13 +75,6 @@ const UsersPage = () => {
     setLikePostList(parseListTitle(userLikeList))
   }
 
-  const getWrittenPostList = async (userInfo) => {
-    const userWrittenList = await Promise.all(
-      userInfo.posts.map(async (post) => await readPost(post))
-    )
-    setWrittenPostList(parseListTitle(userWrittenList))
-  }
-
   const getOtherUserInfo = async (userId) => {
     const userInfo = await getUserInfo(userId)
     setUserInfo(userInfo)
@@ -113,7 +106,7 @@ const UsersPage = () => {
   useEffect(() => {
     if (userInfo) {
       getLikePostList(userInfo)
-      getWrittenPostList(userInfo)
+      setWrittenPostList(parseListTitle(userInfo.posts))
     } else {
       setLikePostList([])
       setWrittenPostList([])
@@ -127,7 +120,7 @@ const UsersPage = () => {
 
     if (userInfo) {
       getLikePostList(userInfo)
-      getWrittenPostList(userInfo)
+      setWrittenPostList(parseListTitle(userInfo.posts))
     } else {
       setLikePostList([])
       setWrittenPostList([])
@@ -142,7 +135,6 @@ const UsersPage = () => {
         <Header />
         {isMyPage ? <UserEditForm /> : <UserInfo userInfo={userInfo} />}
       </UserPageContainer>
-
       <HeaderWrapper>
         <PostSectionHeader>
           <Icon name="feather" size="40" />
@@ -152,16 +144,15 @@ const UsersPage = () => {
           </Title>
         </PostSectionHeader>
       </HeaderWrapper>
-
       <SliderWrapper>
         <BookListSlider
           style={{ width: '1200px' }}
           posts={writtenPostList}
-          handleClick={handleClickPost}
+          // handleClick={handleClickPost}
+          handleClick={(post) => console.log(post)}
           grid={{ fill: 'row', rows: 1 }}
         />
       </SliderWrapper>
-
       <HeaderWrapper>
         <PostSectionHeader>
           <Icon name="bookmark" size="40" />
@@ -175,11 +166,11 @@ const UsersPage = () => {
         <BookListSlider
           style={{ width: '1200px' }}
           posts={likePostList}
-          handleClick={handleClickPost}
+          // handleClick={handleClickPost}
+          handleClick={(post) => console.log(post)}
           grid={{ fill: 'row', rows: 1 }}
         />
       </SliderWrapper>
-
       <Modal visible={showPostModal} onClose={closePostModal}>
         <Post
           post={post}
