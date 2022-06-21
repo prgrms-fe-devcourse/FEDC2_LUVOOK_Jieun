@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Popover, Avatar, SubmitButton } from '@components'
 import { useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
