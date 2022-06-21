@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Popover, Avatar, SubmitButton } from '@components'
 import { useNavigate } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
-import { getItem } from '@utils/storage'
 
 const UserElement = styled.div`
   position: absolute;
@@ -29,9 +28,8 @@ const UserElement = styled.div`
 `
 
 const User = () => {
-  const [isLogin, setIsLogin] = useState(false)
   const [userPop, setUserPop] = useState(false)
-  const { onLogout, onAuth, currentUserState } = useUserContext()
+  const { onLogout, currentUserState } = useUserContext()
   const navigate = useNavigate()
 
   const navigateMyPage = () => {
@@ -49,21 +47,7 @@ const User = () => {
     }
   }
 
-  const checkUserAuth = async () => {
-    if (getItem('jwt_token')) {
-      await onAuth()
-      setIsLogin(true)
-    } else {
-      setIsLogin(false)
-    }
-  }
-
-  useEffect(() => {
-    checkUserAuth()
-    // eslint-disable-next-line
-  }, [])
-
-  return isLogin ? (
+  return currentUserState.currentUser._id ? (
     <div>
       <Avatar
         size={40}
