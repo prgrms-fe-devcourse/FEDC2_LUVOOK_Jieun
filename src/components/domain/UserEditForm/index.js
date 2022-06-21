@@ -16,7 +16,7 @@ const UserInfoContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 89%;
-  height: 314px;
+  height: 34vh;
   max-width: 1280px;
   margin-top: 40px;
 `
