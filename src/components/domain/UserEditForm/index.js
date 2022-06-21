@@ -83,22 +83,13 @@ const UserContent = styled.div`
 const EditButton = styled.div`
   display: flex;
   position: relative;
-  left: 450px;
+  left: 27%;
   bottom: 120px;
 `
 
 const UserEditButton = styled.button`
   display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  color: #a5a3af;
-  cursor: pointer;
-`
-
-const PasswordEditButton = styled.button`
-  display: flex;
-  align-items: center;
+  align-items: flex-start;
   background-color: transparent;
   border: none;
   color: #a5a3af;
@@ -169,10 +160,6 @@ const UserEditForm = () => {
           </UserInfoContainer>
         )}
         <EditButton>
-          <PasswordEditButton>
-            <Icon name={'feather'} size={20} />
-            비밀번호 변경
-          </PasswordEditButton>
           <UserEditButton onClick={clickedToggle} onChange={handleChange} onSubmit={handleSubmit}>
             {!isEdit ? (
               <Icon name={'tool'} size={20} rotate={'270'} />

@@ -6,9 +6,9 @@ const BannerContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 50px;
+  height: 55px;
   overflow: hidden;
-  margin-top: 30px;
+  margin-top: 10px;
 
   .banner-content {
     width: 100%;
@@ -16,7 +16,7 @@ const BannerContainer = styled.div`
     justify-content: center;
     align-items: center;
     list-style: none;
-    border: solid 1px #ffffff;
+    border: solid 1px transparent;
 
     .banner-title {
       color: var(--color-primary);
@@ -58,7 +58,7 @@ const Banner = () => {
 
   return (
     <BannerContainer>
-      <div className="banner" style={{ transform: `translateY(-${50 * quoteIdx}px)` }}>
+      <div className="banner" style={{ transform: `translateY(-${55 * quoteIdx}px)` }}>
         {quotes.map(({ id, quote }) => {
           return (
             <li className="banner-content" key={id}>
