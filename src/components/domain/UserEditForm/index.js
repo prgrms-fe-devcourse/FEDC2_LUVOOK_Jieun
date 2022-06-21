@@ -107,7 +107,8 @@ const UserEditForm = () => {
 
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: {
-      fullName: '',
+      fullName,
+      quote,
     },
     onSubmit: async ({ fullName, quote }) => {
       const userInfo = {
@@ -134,7 +135,7 @@ const UserEditForm = () => {
               <input
                 type="text"
                 name="fullName"
-                defaultValue={values.fullName}
+                value={values.fullName}
                 onChange={handleChange}
                 maxLength="12"
               />
