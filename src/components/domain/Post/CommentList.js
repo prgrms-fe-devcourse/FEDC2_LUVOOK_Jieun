@@ -58,14 +58,18 @@ const CommentList = ({ post, comments, active, setPost }) => {
   const [commentList, setCommentList] = useState(comments)
 
   const deleteComment = async (commentId) => {
-    const deletedComment = await deleteCommentInPost(commentId)
+    try {
+      const deletedComment = await deleteCommentInPost(commentId)
 
-    const newCommentList = commentList.filter((comment) => comment._id !== deletedComment._id)
-    setCommentList(newCommentList)
-    setPost({
-      ...post,
-      comments: newCommentList,
-    })
+      const newCommentList = commentList.filter((comment) => comment._id !== deletedComment._id)
+      setCommentList(newCommentList)
+      // setPost({
+      //   ...post,
+      //   comments: newCommentList,
+      // })
+    } catch (e) {
+      console.error('댓글을 삭제하는데 실패했습니다.', e)
+    }
   }
 
   const sendComment = async (e) => {
@@ -76,17 +80,21 @@ const CommentList = ({ post, comments, active, setPost }) => {
       return
     }
 
-    const newComment = await createCommentInPost({
-      comment,
-      postId: post._id,
-    })
+    try {
+      const newComment = await createCommentInPost({
+        comment,
+        postId: post._id,
+      })
 
-    setComment('')
-    setCommentList([...commentList, newComment])
-    setPost({
-      ...post,
-      comments: [...commentList, newComment],
-    })
+      setComment('')
+      setCommentList([...commentList, newComment])
+      // setPost({
+      //   ...post,
+      //   comments: [...commentList, newComment],
+      // })
+    } catch (e) {
+      console.error('댓글을 생성하는데 실패했습니다.', e)
+    }
   }
 
   const writeComment = (e) => {
