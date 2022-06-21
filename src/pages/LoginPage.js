@@ -1,5 +1,5 @@
-import { Fragment, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useUserContext } from '@contexts/UserContext'
 import { Login as LoginForm, Image, Title, Text } from '@components'
 import { getItem } from '@utils/storage'
@@ -15,6 +15,15 @@ const LoginPageContainer = styled.section`
 
 const LoginFormContainer = styled.div``
 
+const SignUpTextStyle = styled(Text)`
+  color: var(--color-primary-light);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+`
+
 const LoginPage = () => {
   const navigate = useNavigate()
   const { onAuth } = useUserContext()
@@ -28,6 +37,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     checkUserAuthAndRoute()
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -39,9 +49,9 @@ const LoginPage = () => {
           로그인
         </Title>
         <LoginForm />
-        <Link to="/sign-up">
-          <Text size="small">아이디가 없으신가요? 지금 가입하기</Text>
-        </Link>
+        <SignUpTextStyle size="small" onClick={() => navigate('/sign-up')}>
+          아이디가 없으신가요? 지금 가입하기
+        </SignUpTextStyle>
       </LoginFormContainer>
     </LoginPageContainer>
   )

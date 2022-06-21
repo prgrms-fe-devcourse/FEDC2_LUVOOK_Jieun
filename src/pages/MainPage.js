@@ -11,8 +11,11 @@ import {
   Post,
   Navbar,
   Icon,
+  Footer,
 } from '@components'
 import { useState, useEffect, Fragment } from 'react'
+import { useUserContext } from '@contexts/UserContext'
+import { getItem } from '@utils/storage'
 import {
   getAllPosts,
   getChannelList,
@@ -89,7 +92,9 @@ const MainPageSelect = styled(Select)`
 `
 
 const MainPage = () => {
-  const [isRerender, setIsRerender] = useState(false)
+  const { onAuth } = useUserContext()
+  const [isLogin, setIsLogin] = useState(false)
+  const [isRerender, setIsRerender] = useState(true)
   const [postList, setPostList] = useState([])
   const [categoryName, setCategoryName] = useState(CATEGORY_ALL.name)
   const [searchedKeyword, setSearchedKeyword] = useState('')
@@ -99,9 +104,23 @@ const MainPage = () => {
   const [post, setPost] = useState(null)
   const [showNewPostFormModal, setShowNewPostFormModal] = useState(false)
 
+  const checkUserAuth = async () => {
+    if (getItem('jwt_token')) {
+      await onAuth()
+      setIsLogin(true)
+    }
+  }
+
+  useEffect(() => {
+    checkUserAuth()
+    // eslint-disable-next-line
+  }, [])
+
   const handleClickNewPostButton = () => {
-    // TODO
-    // 로그인되지 않은 사용자라면 로그인화면으로 유도하거나 alert를 띄운다.
+    if (!isLogin) {
+      window.alert('로그인을 해주세요!') // 또는 로그인을 유도한다.
+      return
+    }
     setShowNewPostFormModal(true)
   }
 
@@ -151,6 +170,10 @@ const MainPage = () => {
   }
 
   useEffect(() => {
+    setIsRerender(true)
+  }, [post])
+
+  useEffect(() => {
     if (!isRerender) return
 
     if (categoryName === 'ALL') {
@@ -177,12 +200,12 @@ const MainPage = () => {
     const searchedBookResult = searchedResult.filter((result) => !result.role)
 
     if (categoryName === CATEGORY_ALL.name) {
-      setPostList(parseListTitle(searchedBookResult).sort(sortByLatest))
+      setPostList(searchByType(parseListTitle(searchedBookResult).sort(sortByLatest)))
       return
     } else {
-      const { _id } = await getChannelInfo(categoryName)
-      const filteredResult = searchedBookResult.filter((result) => result.channel === _id)
-      setPostList(parseListTitle(filteredResult))
+      const channelId = allCategories.find((category) => category.name === categoryName).id
+      const filteredResult = searchedBookResult.filter((result) => result.channel === channelId)
+      setPostList(searchByType(parseListTitle(filteredResult)))
     }
   }
 
@@ -268,6 +291,7 @@ const MainPage = () => {
           handleRerenderPost={() => {
             setIsRerender(true)
           }}
+          setPost={setPost}
         />
       </Modal>
 
@@ -280,6 +304,7 @@ const MainPage = () => {
       >
         <NewPostForm showModal={showNewPostFormModal} onClose={closeNewPostFormModal} />
       </Modal>
+      <Footer />
     </Fragment>
   )
 }

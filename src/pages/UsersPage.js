@@ -111,6 +111,7 @@ const UsersPage = () => {
     const currentRouteUserId = location.pathname.split('/')[2]
     checkUserIsMyPage(currentRouteUserId)
     getOtherUserInfo(currentRouteUserId)
+    // eslint-disable-next-line
   }, [location])
 
   useEffect(() => {

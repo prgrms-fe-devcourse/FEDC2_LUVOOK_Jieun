@@ -1,14 +1,16 @@
-import { Fragment, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState, useRef } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { useUserContext } from '@contexts/UserContext'
-import { SignUp as SignUpForm, Image, Title, Text, Input } from '@components'
+import { SignUp as SignUpForm, Image, Title, Text, Input, Icon } from '@components'
 import { getItem } from '@utils/storage'
 import styled from '@emotion/styled'
 import QuoteBackgroundImage from '@images/signup_quote_background.png'
 import SignUpBackgroundImage from '@images/signup_background.jpeg'
 import LuvookLogo from '@images/luvook_transparent_medium.png'
 
-const QuoteWrappper = styled.section`
+const SignUpWrapper = styled.div``
+
+const QuoteContainer = styled.section`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -32,11 +34,36 @@ const SignUpMainContainer = styled.section`
 
 const SignUpFormContainer = styled.div``
 
-const SignUpPage = () => {
-  const [quote, setQuote] = useState('')
+const WatchFirstText = styled(Text)`
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-primary);
+  float: right;
+  cursor: pointer;
 
+  &:hover {
+    color: white;
+  }
+`
+
+const SignUpPage = () => {
+  const [quote, setQuote] = useState(
+    '너의 장미꽃이 그토록 소중한 것은 그 꽃을 위해 네가 공들인 그 시간 때문이야 - 어린 왕자'
+  )
   const navigate = useNavigate()
   const { onAuth } = useUserContext()
+  const signUpRef = useRef()
+
+  const onScrollSignUpSection = () => {
+    signUpRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const onChangeQuote = (e) => {
+    if (e.key === 'Enter') {
+      setQuote(e.target.value)
+      onScrollSignUpSection()
+    }
+  }
 
   const checkUserAuthAndRoute = async () => {
     if (getItem('jwt_token')) {
@@ -47,11 +74,12 @@ const SignUpPage = () => {
 
   useEffect(() => {
     checkUserAuthAndRoute()
+    // eslint-disable-next-line
   }, [])
 
   return (
-    <Fragment>
-      <QuoteWrappper>
+    <SignUpWrapper>
+      <QuoteContainer>
         <QuoteSection>
           <Text style={{ fontSize: '48px', fontWeight: 'bold', color: '#743737' }}>
             좋아하는 책의 문구을 입력해주세요.
@@ -60,13 +88,22 @@ const SignUpPage = () => {
             block
             type="text"
             name="quote"
-            placeholder="문구를 입력해주세요."
-            style={{ marginTop: 20 }}
-            onChange={(e) => setQuote(e.target.value)}
+            placeholder="ex) '너의 장미꽃이 그토록 소중한 것은 그 꽃을 위해 네가 공들인 그 시간 때문이야 - 어린 왕자'"
+            style={{ marginTop: 20, marginBottom: 10 }}
+            onKeyPress={onChangeQuote}
           />
+          <Link to="/">
+            <WatchFirstText>일단 구경할래요</WatchFirstText>
+          </Link>
         </QuoteSection>
-      </QuoteWrappper>
-      <SignUpMainContainer>
+        <Icon
+          name={'chevrons-down'}
+          size={50}
+          style={{ position: 'absolute', bottom: '0', marginBottom: '20px', cursor: 'pointer' }}
+          onClick={onScrollSignUpSection}
+        />
+      </QuoteContainer>
+      <SignUpMainContainer ref={signUpRef}>
         <SignUpFormContainer>
           <Image src={LuvookLogo} width="400px" />
           <Title level={1} strong color="#743737">
@@ -76,7 +113,7 @@ const SignUpPage = () => {
         </SignUpFormContainer>
         <Image src={SignUpBackgroundImage} width="100%" height="100vh" mode="cover" />
       </SignUpMainContainer>
-    </Fragment>
+    </SignUpWrapper>
   )
 }
 
