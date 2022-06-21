@@ -13,6 +13,7 @@ module.exports = {
       '@images': path.resolve(__dirname, 'src/images'),
       '@contexts': path.resolve(__dirname, 'src/contexts'),
       '@pages': path.resolve(__dirname, 'src/pages'),
+      '@routes': path.resolve(__dirname, 'src/routes'),
       '@utils': path.resolve(__dirname, 'src/utils'),
     },
   },
