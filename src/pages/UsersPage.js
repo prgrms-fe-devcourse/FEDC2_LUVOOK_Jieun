@@ -8,6 +8,7 @@ import {
   Icon,
   Modal,
   Post,
+  Footer,
 } from '@components'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
@@ -169,7 +170,7 @@ const UsersPage = () => {
         </PostSectionHeader>
       </HeaderWrapper>
 
-      <SliderWrapper>
+      <SliderWrapper style={{ marginBottom: '15px' }}>
         {writtenPostList.length ? (
           <BookListSlider
             style={{ width: '1200px' }}
@@ -214,6 +215,7 @@ const UsersPage = () => {
           }}
         />
       </Modal>
+      <Footer />
     </Fragment>
   )
 }
