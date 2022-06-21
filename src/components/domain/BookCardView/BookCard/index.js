@@ -56,6 +56,7 @@ const LikeBookmark = styled(Icon)`
 
 const NamePlate = styled.div`
   width: 200px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
