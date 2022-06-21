@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'Batang_Bold';
+  font-display: fallback;
+
+  src: url('./Batang_Bold.ttf') format('truetype'), url('./Batang_Bold.woff') format('woff'),
+    url('./Batang_Bold.eot?iefix') format('embedded-opentype');
+}

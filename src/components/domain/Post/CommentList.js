@@ -1,10 +1,11 @@
 import styled from '@emotion/styled'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useRef, useEffect } from 'react'
 import { createCommentInPost, deleteCommentInPost } from '@apis/api/post'
 import { Input, Button, Text, Title, Icon } from '@components'
 import { useUserContext } from '@contexts/UserContext'
 import { formatTime } from '@utils/format'
 import UserBox from './UserBox'
+import UserLink from './UserLink'
 
 const CommentsContainer = styled.ul`
   margin: 0;
@@ -52,20 +53,29 @@ const CommentButton = styled(Button)`
   }
 `
 
-const CommentList = ({ post, comments, active, setPost }) => {
+const CommentList = ({ post, comments, active }) => {
   const { currentUserState } = useUserContext()
   const [comment, setComment] = useState('')
   const [commentList, setCommentList] = useState(comments)
+  const scrollRef = useRef()
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [commentList])
+
+  const scrollToBottom = () => {
+    scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+  }
 
   const deleteComment = async (commentId) => {
-    const deletedComment = await deleteCommentInPost(commentId)
+    try {
+      const deletedComment = await deleteCommentInPost(commentId)
 
-    const newCommentList = commentList.filter((comment) => comment._id !== deletedComment._id)
-    setCommentList(newCommentList)
-    setPost({
-      ...post,
-      comments: newCommentList,
-    })
+      const newCommentList = commentList.filter((comment) => comment._id !== deletedComment._id)
+      setCommentList(newCommentList)
+    } catch (e) {
+      console.error('댓글을 삭제하는데 실패했습니다.', e)
+    }
   }
 
   const sendComment = async (e) => {
@@ -76,17 +86,17 @@ const CommentList = ({ post, comments, active, setPost }) => {
       return
     }
 
-    const newComment = await createCommentInPost({
-      comment,
-      postId: post._id,
-    })
+    try {
+      const newComment = await createCommentInPost({
+        comment,
+        postId: post._id,
+      })
 
-    setComment('')
-    setCommentList([...commentList, newComment])
-    setPost({
-      ...post,
-      comments: [...commentList, newComment],
-    })
+      setComment('')
+      setCommentList([...commentList, newComment])
+    } catch (e) {
+      console.error('댓글을 생성하는데 실패했습니다.', e)
+    }
   }
 
   const writeComment = (e) => {
@@ -118,7 +128,8 @@ const CommentList = ({ post, comments, active, setPost }) => {
             <List key={_id}>
               <UserBox avatarSize={40} userId={userId}>
                 <Text block style={{ marginBottom: '4px' }}>
-                  {fullName} <Text size="small">{formatTime(createdAt)}</Text>
+                  <UserLink userId={userId} username={fullName} />{' '}
+                  <Text size="small">{formatTime(createdAt)}</Text>
                   {active && currentUserState.currentUser._id === author._id && (
                     <Text style={DeleteTextStyle} onClick={() => deleteComment(_id)}>
                       삭제
@@ -132,7 +143,7 @@ const CommentList = ({ post, comments, active, setPost }) => {
         })}
       </CommentsContainer>
 
-      <CommentWriteContainer>
+      <CommentWriteContainer ref={scrollRef}>
         <Input
           block
           value={comment || ''}

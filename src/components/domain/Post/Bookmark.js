@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import BookmarkAfter from '@images/Bookmark_after.png'
 import BookmarkDefault from '@images/Bookmark_default.png'
+import { Icon } from '@components'
 
 const DefaultBookmark = styled.button`
   position: absolute;
@@ -13,6 +14,11 @@ const DefaultBookmark = styled.button`
   background-color: transparent;
   background-image: url(${BookmarkDefault});
   cursor: pointer;
+  .bookmark-icon {
+    position: relative;
+    left: 40px;
+    top: 55px;
+  }
 `
 
 const ActiveBookmark = styled(DefaultBookmark)`
@@ -25,9 +31,7 @@ const Bookmark = ({ active, handleClick }) => {
     <ActiveBookmark onClick={handleClick} />
   ) : (
     <DefaultBookmark onClick={handleClick}>
-      클릭해서
-      <br />
-      북마크 하기
+      <Icon className="bookmark-icon" name={'mouse-pointer'} size={40} />
     </DefaultBookmark>
   )
 }

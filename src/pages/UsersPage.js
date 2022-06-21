@@ -24,7 +24,11 @@ const UserPageContainer = styled.div`
   margin-bottom: -50px;
 `
 
-const SliderWrapper = styled.div``
+const SliderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 const NameHighLight = styled.span`
   color: black;
@@ -44,12 +48,26 @@ const PostSectionHeader = styled.header`
   align-items: center;
   margin: 0 30px;
 `
+
+const HasNotPostHelper = styled.div`
+  width: 1200px;
+  height: 300px;
+  background-color: #e3cec6;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 32px;
+`
 const UsersPage = () => {
   const location = useLocation()
   const { currentUserState, onAuth } = useUserContext()
   const [userInfo, setUserInfo] = useState()
   const [isMyPage, setIsMyPage] = useState(false)
+
   const [isRerender, setIsRerender] = useState(true)
+
   const [likePostList, setLikePostList] = useState([])
   const [writtenPostList, setWrittenPostList] = useState([])
 
@@ -75,7 +93,7 @@ const UsersPage = () => {
 
   const getWrittenPostList = async (userInfo) => {
     const userWrittenList = await Promise.all(
-      userInfo.posts.map(async (post) => await readPost(post))
+      userInfo.posts.map(async ({ _id }) => await readPost(_id))
     )
     setWrittenPostList(parseListTitle(userWrittenList))
   }
@@ -109,6 +127,18 @@ const UsersPage = () => {
   }, [location])
 
   useEffect(() => {
+    if (userInfo) {
+      getLikePostList(userInfo)
+      getWrittenPostList(userInfo)
+    } else {
+      setLikePostList([])
+      setWrittenPostList([])
+    }
+
+    setIsRerender(false)
+  }, [userInfo])
+
+  useEffect(() => {
     if (!isRerender) return
 
     if (userInfo) {
@@ -120,7 +150,7 @@ const UsersPage = () => {
     }
 
     setIsRerender(false)
-  }, [userInfo, isRerender])
+  }, [isRerender])
 
   return (
     <Fragment>
@@ -132,7 +162,7 @@ const UsersPage = () => {
       <HeaderWrapper>
         <PostSectionHeader>
           <Icon name="feather" size="40" />
-          <Title style={{ marginLeft: '10px', color: '#a5a3af' }}>
+          <Title style={{ marginLeft: '10px', color: '#808080' }}>
             <NameHighLight>{userInfo && JSON.parse(userInfo.fullName).fullName}</NameHighLight>님이
             작성한 게시물
           </Title>
@@ -140,30 +170,39 @@ const UsersPage = () => {
       </HeaderWrapper>
 
       <SliderWrapper>
-        <BookListSlider
-          style={{ width: '1200px' }}
-          posts={writtenPostList}
-          handleClick={handleClickPost}
-          grid={{ fill: 'row', rows: 1 }}
-        />
+        {writtenPostList.length ? (
+          <BookListSlider
+            style={{ width: '1200px' }}
+            posts={writtenPostList}
+            handleClick={handleClickPost}
+            grid={{ fill: 'row', rows: 1 }}
+          />
+        ) : (
+          <HasNotPostHelper>작성한 게시물이 없습니다.</HasNotPostHelper>
+        )}
       </SliderWrapper>
 
       <HeaderWrapper>
         <PostSectionHeader>
           <Icon name="bookmark" size="40" />
-          <Title style={{ marginLeft: '10px', color: '#a5a3af' }}>
+          <Title style={{ marginLeft: '10px', color: '#808080' }}>
             <NameHighLight>{userInfo && JSON.parse(userInfo.fullName).fullName}</NameHighLight>님이
             좋아요한 게시물
           </Title>
         </PostSectionHeader>
       </HeaderWrapper>
+
       <SliderWrapper>
-        <BookListSlider
-          style={{ width: '1200px' }}
-          posts={likePostList}
-          handleClick={handleClickPost}
-          grid={{ fill: 'row', rows: 1 }}
-        />
+        {writtenPostList.length ? (
+          <BookListSlider
+            style={{ width: '1200px' }}
+            posts={likePostList}
+            handleClick={handleClickPost}
+            grid={{ fill: 'row', rows: 1 }}
+          />
+        ) : (
+          <HasNotPostHelper>북마크 한 게시물이 없습니다.</HasNotPostHelper>
+        )}
       </SliderWrapper>
 
       <Modal visible={showPostModal} onClose={closePostModal}>
@@ -173,7 +212,6 @@ const UsersPage = () => {
           handleRerenderPost={() => {
             setIsRerender(true)
           }}
-          setPost={setPost}
         />
       </Modal>
     </Fragment>
