@@ -139,7 +139,7 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
           <PostContents titleObj={titleObj} />
         </Section>
         <Section>
-          <CommentList comments={comments} />
+          <CommentList postId={postId} comments={comments} />
         </Section>
       </PostContainer>
     </Container>
