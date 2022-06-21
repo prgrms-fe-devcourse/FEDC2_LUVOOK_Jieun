@@ -135,6 +135,7 @@ const UsersPage = () => {
     }
 
     setIsRerender(false)
+    // eslint-disable-next-line
   }, [isRerender])
 
   return (
