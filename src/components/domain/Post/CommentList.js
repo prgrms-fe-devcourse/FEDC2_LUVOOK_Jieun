@@ -4,7 +4,7 @@ import { createCommentInPost, deleteCommentInPost } from '@apis/api/post'
 import { Input, Button, Text, Title, Icon } from '@components'
 import { useUserContext } from '@contexts/UserContext'
 import { getItem } from '@utils/storage'
-import { formatTime } from './index'
+import { formatTime } from '@utils/format'
 import UserBox from './UserBox'
 
 const CommentsContainer = styled.ul`

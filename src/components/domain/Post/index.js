@@ -6,15 +6,7 @@ import PostHeader from './PostHeader'
 import { createLikeInPost, deleteLikeInPost } from '@apis'
 import { useEffect, useState, useCallback } from 'react'
 import { useUserContext } from '@contexts/UserContext'
-
-// TODO
-// utils로 옮겨야 할 것 같다.
-export const formatTime = (unFormattedTime) => {
-  const date = new Date(unFormattedTime)
-  const day = date.toLocaleDateString()
-  const time = date.toTimeString().slice(0, 5)
-  return `${day} ${time}`
-}
+import { formatTime } from '@utils/format'
 
 const Container = styled.div`
   padding-top: 24px;

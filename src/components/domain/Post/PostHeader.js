@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import { Text, Button } from '@components'
-import { formatTime } from './index'
+import { formatTime } from '@utils/format'
 import UserBox from './UserBox'
 import { useUserContext } from '@contexts/UserContext'
 import { getItem } from '@utils/storage'
