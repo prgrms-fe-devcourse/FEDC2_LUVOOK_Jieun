@@ -130,7 +130,7 @@ const UserSearch = ({ showModal, onClose, closeOnClick }) => {
         {searchedUserList?.map((user) => {
           return (
             <Fragment key={user.id}>
-              <UserSearchResult onClick={onClickModalWrapper}>
+              <UserSearchResult onClick={() => onClickModalWrapper}>
                 <Link to={`/users/${user.id}`} className="another-user">
                   <Avatar src={ProfileImage} size={36} className="user-avatar" />
                   <p className="user-name">{user.fullName}</p>
