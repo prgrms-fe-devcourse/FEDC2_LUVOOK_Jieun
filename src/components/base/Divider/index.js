@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const Line = styled.hr`
   border: none;
-  background-color: #743737;
+  background-color: #ffffff;
 
   &.vertical {
     position: relative;

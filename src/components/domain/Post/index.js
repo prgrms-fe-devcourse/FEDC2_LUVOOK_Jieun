@@ -6,45 +6,50 @@ import PostHeader from './PostHeader'
 import { createLikeInPost, deleteLikeInPost } from '@apis'
 import { useEffect, useState, useCallback } from 'react'
 import { useUserContext } from '@contexts/UserContext'
-import LUVOOOK_LOGO from '@images/luvook_default.png'
 
-// TODO
-// utils로 옮겨야 할 것 같다.
-export const formatTime = (unFormattedTime) => {
-  const date = new Date(unFormattedTime)
-  const day = date.toLocaleDateString()
-  const time = date.toTimeString().slice(0, 5)
-  return `${day} ${time}`
-}
+const Container = styled.div`
+  padding-top: 24px;
+`
 
-const PostContainer = styled.article`
+const PostContainer = styled.div`
   position: relative;
   width: 780px;
   max-height: 85vh;
-  padding: 16px;
+  padding: 0 32px 16px;
   overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(116, 55, 55, 0.6);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(116, 55, 55, 0.5);
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+  }
+`
+
+const Section = styled.section`
+  padding: 16px;
 `
 
 const defaultPostProps = {
   likes: [],
   comments: [],
   _id: 'default',
-  image: LUVOOOK_LOGO,
-  title: {
-    bookTitle: '',
-    postContent: '',
-    postQuote: '',
-  },
-  channel: '',
-  author: {
-    image: '',
-    fullName: '',
-  },
+  title: null,
+  author: null,
   createdAt: '',
 }
 
-const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
+const Post = ({ post, onClose, handleRerenderPost, setPost, ...props }) => {
   const [isLikeActive, setIsLikeActive] = useState(false)
+  const [likeList, setLikeList] = useState([])
+  const [isCommentActive, setIsCommentActive] = useState(false)
   const [currentUserLikeInfo, setCurrentUserLikeInfo] = useState({})
   const { currentUserState } = useUserContext()
   const { currentUser } = currentUserState
@@ -52,6 +57,7 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   const getCurrentUserLikePost = useCallback(() => {
     if (!post) return []
 
+    setLikeList(post.likes)
     const postLikeUsers = post.likes.map((like) => {
       return { userId: like.user, likeId: like._id }
     })
@@ -62,6 +68,7 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   useEffect(() => {
     if (!currentUser._id) {
       setIsLikeActive(false)
+      setIsCommentActive(false)
       return
     }
 
@@ -73,6 +80,8 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
       setIsLikeActive(false)
       setCurrentUserLikeInfo({})
     }
+
+    setIsCommentActive(true)
   }, [currentUser, getCurrentUserLikePost, post])
 
   if (!post) return
@@ -81,23 +90,31 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
     // likes,
     comments,
     _id: postId,
-    image,
-    title,
-    // channel,
+    title: titleObj,
     author,
     createdAt,
   } = { ...defaultPostProps, ...post }
 
   const onPostLike = async () => {
-    const data = await createLikeInPost({ postId: postId })
     setIsLikeActive(true)
+    const data = await createLikeInPost({ postId: postId })
     setCurrentUserLikeInfo({ userId: data.user, likeId: data._id })
+    setPost({
+      ...post,
+      likes: [...likeList, data],
+    })
   }
 
   const onPostLikeDelete = async ({ userId, likeId }) => {
-    await deleteLikeInPost(likeId)
+    const deletedLike = await deleteLikeInPost(likeId)
     setIsLikeActive(false)
     setCurrentUserLikeInfo({})
+
+    const deletedLikeList = likeList.filter((like) => like._id !== deletedLike._id)
+    setPost({
+      ...post,
+      likes: deletedLikeList,
+    })
   }
 
   const handleLiked = () => {
@@ -111,10 +128,8 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   }
 
   return (
-    <div>
-      <Bookmark handleClick={handleLiked} active={isLikeActive}>
-        북마크
-      </Bookmark>
+    <Container>
+      <Bookmark handleClick={handleLiked} active={isLikeActive} />
       <PostContainer>
         <PostHeader
           postId={postId}
@@ -125,10 +140,14 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
             handleRerenderPost()
           }}
         />
-        <PostContents title={title} image={image} />
-        <CommentList comments={comments} />
+        <Section>
+          <PostContents titleObj={titleObj} />
+        </Section>
+        <Section>
+          <CommentList post={post} comments={comments} active={isCommentActive} setPost={setPost} />
+        </Section>
       </PostContainer>
-    </div>
+    </Container>
   )
 }
 

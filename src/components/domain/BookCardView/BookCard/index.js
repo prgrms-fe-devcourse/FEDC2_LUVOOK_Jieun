@@ -27,6 +27,8 @@ const Card = styled.div`
   box-shadow: 0 0 1rem rgba(33, 33, 33, 0.5);
   background-size: cover;
   background-repeat: no-repeat;
+  padding: 10px;
+  box-sizing: border-box;
 `
 
 const BookmarkContainer = styled.div`
@@ -52,29 +54,11 @@ const NamePlate = styled.div`
   padding: 5px 10px;
   text-decoration: none;
   font-weight: bold;
-  text-shadow: 1px 1px 0 #ffffff;
-  box-shadow: 2px 2px 0.5em rgba(122, 122, 122, 0.55), inset 1px 1px 0 rgba(255, 255, 255, 0.9),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.34);
+  background-size: cover;
+  color: black;
+  background-color: white;
   border: 1px solid #dedede;
-  background: linear-gradient(
-    -72deg,
-    #dedede,
-    #ffffff 16%,
-    #dedede 21%,
-    #ffffff 24%,
-    #dedede 36%,
-    #ffffff 45%,
-    #ffffff 60%,
-    #dedede 72%,
-    #ffffff 80%,
-    #dedede 84%,
-    #a1a1a1
-  );
-  border-radius: 5px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  direction: ltr;
+  box-shadow: 0 3px 12px alpha(black, 0.2);
   text-align: center;
 `
 
@@ -91,11 +75,16 @@ const BookCard = ({ post, handleOnClick }) => {
           <LikeBookmark name="bookmark" color="yellow" size={18} />
           <Text block>{post.likes.length}</Text>
         </BookmarkContainer>
-        {/*  TODO: 이 부분은 글쓰기 기능 구현 후 다시 구현 필요 */}
-        {post.title.postQuote || post.title}
+        {post.title.postQuote.length > 40
+          ? post.title.postQuote.substr(0, 40) + '...'
+          : post.title.postQuote}
       </Card>
 
-      <NamePlate>{post.title.bookTitle || post.title}</NamePlate>
+      <NamePlate>
+        {post.title.bookTitle.length > 12
+          ? post.title.bookTitle.substr(0, 12) + '...'
+          : post.title.bookTitle}
+      </NamePlate>
     </CardContainer>
   )
 }
