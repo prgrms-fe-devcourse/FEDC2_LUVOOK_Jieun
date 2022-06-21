@@ -8,7 +8,7 @@ import 'swiper/css/grid'
 import { BookCard } from '@components'
 import { Navigation, Grid } from 'swiper'
 
-import React from 'react'
+import React, { Fragment } from 'react'
 
 const slideContextCenterStyle = {
   width: 'fit-content',
@@ -34,7 +34,7 @@ const BookListSlider = ({
   ...props
 }) => {
   return (
-    <>
+    <Fragment>
       <Swiper
         style={{
           ...swiperStyle,
@@ -62,7 +62,7 @@ const BookListSlider = ({
           )
         })}
       </Swiper>
-    </>
+    </Fragment>
   )
 }
 
