@@ -5,6 +5,7 @@ import { Input, Button, Text, Title, Icon } from '@components'
 import { useUserContext } from '@contexts/UserContext'
 import { formatTime } from '@utils/format'
 import UserBox from './UserBox'
+import UserLink from './UserLink'
 
 const CommentsContainer = styled.ul`
   margin: 0;
@@ -118,7 +119,8 @@ const CommentList = ({ post, comments, active, setPost }) => {
             <List key={_id}>
               <UserBox avatarSize={40} userId={userId}>
                 <Text block style={{ marginBottom: '4px' }}>
-                  {fullName} <Text size="small">{formatTime(createdAt)}</Text>
+                  <UserLink userId={userId} username={fullName} />{' '}
+                  <Text size="small">{formatTime(createdAt)}</Text>
                   {active && currentUserState.currentUser._id === author._id && (
                     <Text style={DeleteTextStyle} onClick={() => deleteComment(_id)}>
                       삭제
