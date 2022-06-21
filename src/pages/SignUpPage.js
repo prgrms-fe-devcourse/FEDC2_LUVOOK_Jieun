@@ -22,7 +22,7 @@ const QuoteContainer = styled.section`
 `
 
 const QuoteSection = styled.div`
-  width: 670px;
+  width: 730px;
   text-align: center;
 `
 
