@@ -182,6 +182,10 @@ const MainPage = () => {
   }
 
   useEffect(() => {
+    setIsRerender(true)
+  }, [post])
+
+  useEffect(() => {
     if (!isRerender) return
 
     if (categoryName === 'ALL') {
@@ -299,6 +303,7 @@ const MainPage = () => {
           handleRerenderPost={() => {
             setIsRerender(true)
           }}
+          setPost={setPost}
         />
       </Modal>
 

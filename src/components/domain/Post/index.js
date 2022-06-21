@@ -46,8 +46,9 @@ const defaultPostProps = {
   createdAt: '',
 }
 
-const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
+const Post = ({ post, onClose, handleRerenderPost, setPost, ...props }) => {
   const [isLikeActive, setIsLikeActive] = useState(false)
+  const [isCommentActive, setIsCommentActive] = useState(false)
   const [currentUserLikeInfo, setCurrentUserLikeInfo] = useState({})
   const { currentUserState } = useUserContext()
   const { currentUser } = currentUserState
@@ -65,6 +66,7 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
   useEffect(() => {
     if (!currentUser._id) {
       setIsLikeActive(false)
+      setIsCommentActive(false)
       return
     }
 
@@ -76,6 +78,8 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
       setIsLikeActive(false)
       setCurrentUserLikeInfo({})
     }
+
+    setIsCommentActive(true)
   }, [currentUser, getCurrentUserLikePost, post])
 
   if (!post) return
@@ -128,7 +132,7 @@ const Post = ({ post, onClose, handleRerenderPost, ...props }) => {
           <PostContents titleObj={titleObj} />
         </Section>
         <Section>
-          <CommentList postId={postId} comments={comments} />
+          <CommentList post={post} comments={comments} active={isCommentActive} setPost={setPost} />
         </Section>
       </PostContainer>
     </Container>

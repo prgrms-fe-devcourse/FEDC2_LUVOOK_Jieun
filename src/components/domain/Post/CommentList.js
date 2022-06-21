@@ -3,7 +3,6 @@ import { Fragment, useEffect, useState } from 'react'
 import { createCommentInPost, deleteCommentInPost } from '@apis/api/post'
 import { Input, Button, Text, Title, Icon } from '@components'
 import { useUserContext } from '@contexts/UserContext'
-import { getItem } from '@utils/storage'
 import { formatTime } from '@utils/format'
 import UserBox from './UserBox'
 
@@ -53,46 +52,41 @@ const CommentButton = styled(Button)`
   }
 `
 
-const CommentList = ({ postId, comments }) => {
-  const { currentUserState, onAuth } = useUserContext()
-  const [isLogin, setIsLogin] = useState(false)
+const CommentList = ({ post, comments, active, setPost }) => {
+  const { currentUserState } = useUserContext()
   const [comment, setComment] = useState('')
   const [commentList, setCommentList] = useState(comments)
-
-  const checkUserAuth = async () => {
-    if (getItem('jwt_token')) {
-      await onAuth()
-      setIsLogin(true)
-    }
-  }
-
-  useEffect(() => {
-    checkUserAuth()
-    // eslint-disable-next-line
-  }, [])
 
   const deleteComment = async (commentId) => {
     const deletedComment = await deleteCommentInPost(commentId)
 
     const newCommentList = commentList.filter((comment) => comment._id !== deletedComment._id)
     setCommentList(newCommentList)
+    setPost({
+      ...post,
+      comments: newCommentList,
+    })
   }
 
   const sendComment = async (e) => {
     e.preventDefault()
 
-    if (!isLogin) {
+    if (!active) {
       alert('로그인한 사용자만 이용 가능합니다.')
       return
     }
 
     const newComment = await createCommentInPost({
       comment,
-      postId,
+      postId: post._id,
     })
 
-    setCommentList([...commentList, newComment])
     setComment('')
+    setCommentList([...commentList, newComment])
+    setPost({
+      ...post,
+      comments: [...commentList, newComment],
+    })
   }
 
   const writeComment = (e) => {
@@ -125,7 +119,7 @@ const CommentList = ({ postId, comments }) => {
               <UserBox avatarSize={40} userId={userId}>
                 <Text block style={{ marginBottom: '4px' }}>
                   {fullName} <Text size="small">{formatTime(createdAt)}</Text>
-                  {isLogin && currentUserState.currentUser._id === author._id && (
+                  {active && currentUserState.currentUser._id === author._id && (
                     <Text style={DeleteTextStyle} onClick={() => deleteComment(_id)}>
                       삭제
                     </Text>
