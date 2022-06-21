@@ -89,7 +89,8 @@ const UsersPage = () => {
     const userLikeList = await Promise.all(
       userInfo.likes.map(async ({ post }) => await readPost(post))
     )
-    setLikePostList(parseListTitle(userLikeList))
+
+    setLikePostList(parseListTitle(userLikeList.reverse()))
   }
 
   const getWrittenPostList = async (userInfo) => {
@@ -188,7 +189,7 @@ const UsersPage = () => {
           <Icon name="bookmark" size="40" />
           <Title style={{ marginLeft: '10px', color: '#808080' }}>
             <NameHighLight>{userInfo && JSON.parse(userInfo.fullName).fullName}</NameHighLight>님이
-            좋아요한 게시물
+            북마크한 게시물
           </Title>
         </PostSectionHeader>
       </HeaderWrapper>
