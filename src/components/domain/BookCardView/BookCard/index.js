@@ -14,22 +14,30 @@ const CardContainer = styled.div`
 
 const Card = styled.div`
   position: relative;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 167px;
-  height: 200px;
+  width: 160px;
+  height: 220px;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url(${(post) => post.image || LUVOOOK_LOGO});
   text-align: center;
   color: white;
   cursor: pointer;
-  // TODO: constant에 선언된 회색으로 변경
-  box-shadow: 0 0 1rem rgba(33, 33, 33, 0.5);
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
+    0 5px 5px -3px rgba(0, 0, 0, 0.2);
   background-size: cover;
   background-repeat: no-repeat;
   padding: 10px;
   box-sizing: border-box;
+  transition: box-shadow 0.3s linear;
+
+  &:hover {
+    transform: rotateY(-25deg);
+    box-shadow: 1px 1px 5px 5px rgba(#000, 0.2);
+  }
 `
 
 const BookmarkContainer = styled.div`
