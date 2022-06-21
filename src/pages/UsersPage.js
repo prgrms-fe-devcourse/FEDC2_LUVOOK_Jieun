@@ -151,7 +151,7 @@ const UsersPage = () => {
     }
 
     setIsRerender(false)
-  }, [isRerender])
+  }, [isRerender, userInfo])
 
   return (
     <Fragment>
