@@ -32,7 +32,7 @@ const Card = styled.div`
   background-repeat: no-repeat;
   padding: 10px;
   box-sizing: border-box;
-  transition: box-shadow 0.3s linear;
+  transition: all 0.45s ease;
 
   &:hover {
     transform: rotateY(-25deg);
