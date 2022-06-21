@@ -194,7 +194,7 @@ const UsersPage = () => {
       </HeaderWrapper>
 
       <SliderWrapper>
-        {writtenPostList.length ? (
+        {likePostList.length ? (
           <BookListSlider
             style={{ width: '1200px' }}
             posts={likePostList}
