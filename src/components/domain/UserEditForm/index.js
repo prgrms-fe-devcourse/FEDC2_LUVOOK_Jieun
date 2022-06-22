@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { Avatar, Icon } from '@components'
 import styled from '@emotion/styled'
 import { useUserContext } from '@contexts/UserContext'
@@ -130,47 +130,61 @@ const UserEditForm = () => {
     <form onSubmit={handleSubmit} style={{ width: '100%' }}>
       <UserPageContainer>
         {isEdit ? (
-          <UserInfoContainer>
-            <ProfileEdit>
-              <Avatar size={196} src={currentUserState.currentUser.image} />
-              <input
-                type="text"
-                name="fullName"
-                value={values.fullName}
+          <Fragment>
+            <UserInfoContainer>
+              <ProfileEdit>
+                <Avatar size={196} src={currentUserState.currentUser.image} />
+                <input
+                  type="text"
+                  name="fullName"
+                  value={values.fullName}
+                  onChange={handleChange}
+                  maxLength="12"
+                />
+              </ProfileEdit>
+              <UserContent>
+                <textarea
+                  type="textarea"
+                  name="quote"
+                  value={values.quote}
+                  onChange={handleChange}
+                  autoFocus
+                  maxLength="300"
+                />
+              </UserContent>
+            </UserInfoContainer>
+            <EditButton>
+              <UserEditButton
+                onClick={clickedToggle}
                 onChange={handleChange}
-                maxLength="12"
-              />
-            </ProfileEdit>
-            <UserContent>
-              <textarea
-                type="textarea"
-                name="quote"
-                value={values.quote}
-                onChange={handleChange}
-                autoFocus
-                maxLength="300"
-              />
-            </UserContent>
-          </UserInfoContainer>
+                onSubmit={handleSubmit}
+              >
+                <Icon name={'save'} size={20} />
+                '변경사항 저장'
+              </UserEditButton>
+            </EditButton>
+          </Fragment>
         ) : (
-          <UserInfoContainer>
-            <Profile>
-              <Avatar size={196} src={currentUserState.currentUser.image} />
-              <p className="user-name">{fullName}</p>
-            </Profile>
-            <UserContent>{quote}</UserContent>
-          </UserInfoContainer>
+          <Fragment>
+            <UserInfoContainer>
+              <Profile>
+                <Avatar size={196} src={currentUserState.currentUser.image} />
+                <p className="user-name">{fullName}</p>
+              </Profile>
+              <UserContent>{quote}</UserContent>
+            </UserInfoContainer>
+            <EditButton>
+              <UserEditButton
+                onClick={clickedToggle}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+              >
+                <Icon name={'tool'} size={20} rotate={'270'} />
+                '회원 정보 수정'
+              </UserEditButton>
+            </EditButton>
+          </Fragment>
         )}
-        <EditButton>
-          <UserEditButton onClick={clickedToggle} onChange={handleChange} onSubmit={handleSubmit}>
-            {!isEdit ? (
-              <Icon name={'tool'} size={20} rotate={'270'} />
-            ) : (
-              <Icon name={'save'} size={20} />
-            )}
-            {!isEdit ? '회원 정보 수정' : '변경사항 저장'}
-          </UserEditButton>
-        </EditButton>
       </UserPageContainer>
     </form>
   )
