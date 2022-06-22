@@ -83,7 +83,6 @@ const UsersPage = () => {
   }, [showPostModal])
 
   const closePostModal = () => {
-    setIsRerender(true)
     setShowPostModal(false)
     setPost(null)
   }
