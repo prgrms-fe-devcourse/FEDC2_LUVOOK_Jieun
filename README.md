@@ -121,6 +121,10 @@
 
 <div align="center">
 
+### [자세한 개발 문화는 Github Wiki를 참고하세요!](https://github.com/prgrms-fe-devcourse/FEDC2_LUVOOK_Jieun/wiki)
+
+<br />
+
 ### 개발
 
 <table>
