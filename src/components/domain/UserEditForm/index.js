@@ -84,7 +84,7 @@ const UserContent = styled.div`
 const EditButton = styled.div`
   display: flex;
   position: relative;
-  left: 27%;
+  left: 34%;
   bottom: 120px;
 `
 
