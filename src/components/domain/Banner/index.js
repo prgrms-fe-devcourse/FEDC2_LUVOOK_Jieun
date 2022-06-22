@@ -12,11 +12,11 @@ const BannerContainer = styled.div`
 
   .banner-content {
     width: 100%;
+    height: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
     list-style: none;
-    border: solid 1px transparent;
 
     .banner-title {
       color: var(--color-primary);
