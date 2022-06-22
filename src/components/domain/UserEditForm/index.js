@@ -16,7 +16,6 @@ const UserInfoContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 89%;
-  height: 34vh;
   max-width: 1280px;
   margin-top: 40px;
 `
@@ -27,6 +26,7 @@ const Profile = styled.div`
   align-items: center;
   font-size: 24px;
   width: 22%;
+  height: 315px;
   .user-name {
     margin-bottom: 70px;
   }
