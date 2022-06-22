@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import styled from '@emotion/styled'
 import User from './User'
 import UserSearch from './UserSearch'
+import { useLocation } from 'react-router-dom'
 
 const HeaderMain = styled.div`
   width: 100%;
@@ -63,6 +64,12 @@ const HeaderNav = styled.div`
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false)
+  const location = useLocation()
+
+  useEffect(() => {
+    setShowModal(false)
+    window.scrollTo(0, 0)
+  }, [location])
 
   useEffect(() => {
     if (showModal) {

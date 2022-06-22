@@ -83,6 +83,7 @@ const UsersPage = () => {
   }, [showPostModal])
 
   const closePostModal = () => {
+    setIsRerender(true)
     setShowPostModal(false)
     setPost(null)
   }
@@ -104,7 +105,8 @@ const UsersPage = () => {
     const userWrittenList = await Promise.all(
       userInfo.posts.map(async ({ _id }) => await readPost(_id))
     )
-    setWrittenPostList(parseListTitle(userWrittenList))
+
+    setWrittenPostList(parseListTitle(userWrittenList.filter((post) => post !== '')))
   }
 
   const getOtherUserInfo = async (userId) => {
@@ -132,6 +134,11 @@ const UsersPage = () => {
     const currentRouteUserId = location.pathname.split('/')[2]
     checkUserIsMyPage(currentRouteUserId)
     getOtherUserInfo(currentRouteUserId)
+
+    return () => {
+      setShowPostModal(false)
+      window.scrollTo(0, 0)
+    }
     // eslint-disable-next-line
   }, [location])
 
