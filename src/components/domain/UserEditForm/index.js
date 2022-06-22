@@ -39,6 +39,7 @@ const ProfileEdit = styled.div`
   align-items: center;
   font-size: 24px;
   width: 22%;
+  height: 315px;
   > input {
     width: 50%;
     height: 3vh;
@@ -67,7 +68,7 @@ const UserContent = styled.div`
 
   > textarea {
     width: 100%;
-    height: 17vh;
+    height: 156px;
     background-color: transparent;
     border: none;
     text-align: left;
